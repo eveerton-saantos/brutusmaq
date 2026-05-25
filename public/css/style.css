@@ -365,6 +365,89 @@ p {
     border-radius: 1rem;
 }
 
+.newsletter-section {
+    background: #1d1d1d;
+    padding: 5rem 2rem;
+}
+
+.newsletter-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.newsletter-copy span {
+    display: inline-block;
+    color: var(--secondary-color);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+.newsletter-copy h2 {
+    margin: 0;
+    font-size: clamp(2rem, 3vw, 3rem);
+    line-height: 1.05;
+    color: var(--text-color);
+}
+
+.newsletter-copy p {
+    margin: 1.25rem 0 0;
+    color: var(--accent-color);
+    max-width: 560px;
+    line-height: 1.8;
+}
+
+.newsletter-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem;
+}
+
+.newsletter-form input {
+    width: 100%;
+    padding: 1.2rem 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.95rem;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.newsletter-form input::placeholder {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.newsletter-form button {
+    background: var(--secondary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 0.95rem;
+    padding: 1.2rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.newsletter-form button:hover {
+    opacity: 0.95;
+}
+
+@media (max-width: 900px) {
+    .newsletter-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .newsletter-form {
+        grid-template-columns: 1fr;
+    }
+}
+
 .faq-card h3 {
     margin: 0;
     font-size: 1.15rem;
