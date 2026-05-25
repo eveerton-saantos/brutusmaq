@@ -1,0 +1,30 @@
+.header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    min-height: 5.5rem;
+}
+
+.header-logo {
+    max-height: 48px;
+}
+
+.header-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.header-nav a {
+    color: white;
+    font-family: var(--text-p);
+    font-weight: 500;
+}
