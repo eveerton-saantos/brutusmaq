@@ -46,7 +46,7 @@ p {
     gap: 3rem;
     padding: 10rem 2rem 4rem;
     text-align: left;
-    background-image: url('../public/main-brutusmaq.svg');
+    background-image: url('../assets/main/main-brutusmaq.svg');
     background-size: cover;
     background-position: center;
     min-height: calc(100vh - 5.5rem);
