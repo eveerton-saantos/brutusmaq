@@ -7,7 +7,7 @@
 
 .footer-top {
     display: grid;
-    grid-template-columns: minmax(260px, 1fr) 1fr 1fr;
+    grid-template-columns: minmax(260px, 1.2fr) repeat(3, 1fr);
     gap: 2rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding-bottom: 2.5rem;
@@ -25,7 +25,7 @@
     color: rgba(255, 255, 255, 0.72);
 }
 
-.footer-links h4,
+.footer-column h4,
 .footer-contact h4 {
     margin: 0 0 1rem;
     color: var(--secondary-color);
@@ -34,26 +34,26 @@
     text-transform: uppercase;
 }
 
-.footer-links ul,
+.footer-column ul,
 .footer-contact p {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.footer-links ul {
+.footer-column ul {
     display: grid;
     gap: 0.85rem;
 }
 
-.footer-links a,
+.footer-column a,
 .footer-contact p {
     color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     font-size: 0.95rem;
 }
 
-.footer-links a:hover {
+.footer-column a:hover {
     color: var(--secondary-color);
 }
 
