@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -387,4 +388,345 @@
     </footer>
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brutusmaq | Trituradores Industriais</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Teko:wght@300..700&display=swap');
+    </style>
+
+    <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+</head>
+
+<body>
+    <header class="header flex">
+        <a href="index.html"><img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="header-logo"></a>
+
+        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="header-nav" id="headerMenu">
+            <ul class="flex gap-20">
+                <li><a class="header-nav-links header-nav-active" href="index.html">Início</a></li>
+                <li><a class="header-nav-links" href="product.html">Produtos</a></li>
+                <li><a class="header-nav-links" href="about.html">Sobre Nós</a></li>
+                <li><a class="header-nav-links" href="contact.html">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <script>
+        const toggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('.header-nav');
+
+        if (toggle && nav) {
+            toggle.addEventListener('click', () => {
+                const isOpen = nav.classList.toggle('open');
+                toggle.classList.toggle('open', isOpen);
+                toggle.setAttribute('aria-expanded', String(isOpen));
+            });
+        }
+    </script>
+
+    <main class="main-content">
+        <div class="main-left">
+            <h1 class="main-h1">TECNOLOGIA <br><strong class="main-strong-color">QUE TRITURA,</strong><br> ATITUDE
+                QUE<br><strong class="main-strong-color">TRANSFORMA</strong></h1>
+            <p class="main-text">Equipamentos robustos para trituração, reciclagem e processamento de materiais com o
+                compromisso de construir um futuro melhor.</p>
+            <div class="hero-cards">
+                <div class="hero-card">
+                    <img src="assets/main/robustez.svg" class="main-img" alt="Robustez">
+                    <div class="hero-cards-div">
+                        <p class="hero-card-title">ROBUSTEZ</p>
+                        <p class="hero-card-subtitle">E DURABILIDADE</p>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <img src="assets/main/tecnologia.svg" class="main-img" alt="Tecnologia">
+                    <div class="hero-cards-div">
+                        <p class="hero-card-title">TECNOLOGIA</p>
+                        <p class="hero-card-subtitle">E DESEMPENHO</p>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <img src="assets/main/manutencao.svg" class="main-img" alt="Manutenção">
+                    <div class="hero-cards-div">
+                        <p class="hero-card-title">BAIXA</p>
+                        <p class="hero-card-subtitle">MANUTENÇÃO</p>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <img src="assets/main/sustentabilidade.svg" class="main-img" alt="Sustentabilidade">
+                    <div class="hero-cards-div">
+                        <p class="hero-card-title">SUSTENTABILIDADE</p>
+                        <p class="hero-card-subtitle">E RESPONSABILIDADE</p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-primary-main">CONHEÇA NOSSOS EQUIPAMENTOS</button>
+        </div>
+
+        <div class="main-right">
+            <div class="hero-side-text">
+                <span>HOJE TRITURAMOS RESÍDUOS.</span>
+                <strong>AMANHÃ TRANSFORMAMOS O FUTURO.</strong>
+            </div>
+        </div>
+    </main>
+
+    <section class="about-section why-section">
+        <div class="why-backdrop"></div>
+        <div class="why-inner">
+            <div class="why-copy">
+                <div class="why-heading">
+                    <span>Por que escolher a Brutusmaq</span>
+                    <h2>Equipamentos industriais criados para entregar desempenho e qualidade em cada
+                        projeto.</h2>
+                </div>
+            </div>
+            <div class="why-cards">
+                <div class="why-grid">
+                    <article class="why-card">
+                        <img src="assets/main/robustez.svg" alt="Industrialização interna">
+                        <div class="why-card-content">
+                            <h3>Industrialização interna</h3>
+                            <p>85% dos procedimentos de fabricação são realizados dentro do nosso chão de fábrica,
+                                garantindo controle total de qualidade.</p>
+                        </div>
+                    </article>
+                    <article class="why-card">
+                        <img src="assets/main/tecnologia.svg" alt="Materiais de alta qualidade">
+                        <div class="why-card-content">
+                            <h3>Materiais de alta qualidade</h3>
+                            <p>Selecionamos componentes premium para entregar equipamentos robustos, duráveis e
+                                preparados
+                                para grandes demandas.</p>
+                        </div>
+                    </article>
+                    <article class="why-card">
+                        <img src="assets/main/manutencao.svg" alt="Feito sob medida">
+                        <div class="why-card-content">
+                            <h3>Feito sob medida</h3>
+                            <p>Projetos personalizados que consideram a sua operação, o ambiente e as necessidades
+                                específicas de cada cliente.</p>
+                        </div>
+                    </article>
+                    <article class="why-card">
+                        <img src="assets/main/sustentabilidade.svg" alt="Serviço de consultoria">
+                        <div class="why-card-content">
+                            <h3>Serviço de consultoria</h3>
+                            <p>Com suporte técnico dedicado, ajudamos a escolher o melhor equipamento para o seu
+                                processo e
+                                garantir performance na prática.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <div class="products-inner">
+            <div class="products-copy">
+                <div class="products-header">
+                    <span>Destaque</span>
+                    <h2>Equipamentos pensados para produtividade, robustez e operação eficiente.</h2>
+                    <p>Conheça as linhas de trituradores industriais que combinam tecnologia avançada, baixo custo de
+                        manutenção e engenharia feita para o ambiente brasileiro.</p>
+                </div>
+
+                <div class="products-grid">
+                    <article class="product-card product-card-highlight">
+                        <div>
+                            <p class="product-overline">Destaque</p>
+                            <h3>TR-700</h3>
+                            <p>O triturador multifuncional para aplicações pesadas, com alta capacidade de processamento
+                                e
+                                baixo consumo energético.</p>
+                        </div>
+                        <div class="product-meta">
+                            <p><strong>Capacidade</strong><br>Até 15 t/h</p>
+                            <p><strong>Uso</strong><br>Reciclagem e processamento</p>
+                        </div>
+                    </article>
+
+                    <img class="products-visual-mobile" src="assets/main/tr-700.png" alt="TR-700" />
+
+                    <div class="product-cards-grid">
+                        <article class="product-card">
+                            <p class="product-overline">Linha de força</p>
+                            <h3>FKT 1200</h3>
+                            <p>Construído para operações industriais com suporte reforçado, sistema de segurança
+                                integrado e
+                                manutenção rápida.</p>
+                        </article>
+                        <article class="product-card">
+                            <p class="product-overline">Alta performance</p>
+                            <h3>SR-450</h3>
+                            <p>Design compacto e robusto para instalações que precisam de alto desempenho em espaços
+                                reduzidos.</p>
+                        </article>
+                        <article class="product-card">
+                            <p class="product-overline">Operação leve</p>
+                            <h3>MX-300</h3>
+                            <p>Ideal para operações médias, com foco em baixo custo de manutenção e fácil instalação.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <div class="products-visual">
+                <img src="assets/main/tr-700.png" alt="TR-700" />
+            </div>
+        </div>
+    </section>
+
+    <section class="machine-category-section">
+        <div class="machine-category-inner">
+            <div class="category-header">
+                <span>Seleção</span>
+                <h2>Escolha a linha de máquinas que atende melhor à sua demanda.</h2>
+                <p>Acesse as opções disponíveis para máquinas novas ou usadas e reformadas.</p>
+            </div>
+            <div class="machine-category-grid">
+                <a href="novas.html" class="machine-category-card">
+                    <div class="machine-category-tag">Máquinas Novas</div>
+                    <h3>Equipamentos novos com garantia e tecnologia atual</h3>
+                    <p>Conheça as soluções mais recentes da Brutusmaq, projetadas para máxima eficiência e
+                        confiabilidade.</p>
+                    <span>Ver catálogo de novos &rarr;</span>
+                </a>
+                <a href="usadas.html" class="machine-category-card">
+                    <div class="machine-category-tag">Máquinas Usadas e Reformadas</div>
+                    <h3>Equipamentos revisados com alto desempenho e melhor custo-benefício</h3>
+                    <p>Encontre máquinas recondicionadas que entregam qualidade comprovada com investimento reduzido.
+                    </p>
+                    <span>Ver opções usadas e reformadas &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="faq-inner">
+            <div class="faq-header">
+                <span>FAQ</span>
+                <h2>Perguntas frequentes sobre nossos equipamentos e serviços</h2>
+                <p>Esclarecemos as dúvidas mais importantes sobre capacidade, manutenção, entrega, garantia e
+                    consultoria técnica.</p>
+            </div>
+
+            <div class="faq-grid">
+                <details class="faq-card">
+                    <summary>Quais tipos de material os trituradores Brutusmaq processam?</summary>
+                    <p>Nossos equipamentos são projetados para materiais industriais, resíduos sólidos, plásticos,
+                        madeira, pneus e entulho leve, com foco em reciclagem e reaproveitamento.</p>
+                </details>
+                <details class="faq-card">
+                    <summary>Como é feita a manutenção dos equipamentos?</summary>
+                    <p>Oferecemos manutenção preventiva e peças de reposição, além de orientações técnicas para garantir
+                        que o equipamento opere com segurança e eficiência.</p>
+                </details>
+                <details class="faq-card">
+                    <summary>Qual é o prazo de entrega e instalação?</summary>
+                    <p>O prazo varia conforme o projeto e a localidade, mas trabalhamos para atender com rapidez, desde
+                        a fabricação até a entrega e suporte inicial de instalação.</p>
+                </details>
+                <details class="faq-card">
+                    <summary>Os equipamentos têm garantia?</summary>
+                    <p>Sim. Nossos trituradores acompanham garantia de fábrica e suporte técnico para assegurar
+                        desempenho contínuo e satisfação do cliente.</p>
+                </details>
+                <details class="faq-card">
+                    <summary>Vocês fazem projetos personalizados?</summary>
+                    <p>Sim. Desenvolvemos soluções sob medida para cada operação, ajustando capacidade, dimensões e
+                        componentes de acordo com a necessidade do cliente.</p>
+                </details>
+                <details class="faq-card">
+                    <summary>Posso contar com consultoria para escolher o melhor equipamento?</summary>
+                    <p>Temos equipe técnica dedicada para analisar seu processo e recomendar o equipamento ideal,
+                        apoiando desde a escolha até a operação diária.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter-section">
+        <div class="newsletter-inner">
+            <div class="newsletter-copy">
+                <span>Newsletter</span>
+                <h2>Receba novidades e ofertas de equipamentos.</h2>
+                <p>Fique por dentro das soluções Brutusmaq para reciclagem e novidades em
+                    trituradores.</p>
+            </div>
+            <form class="newsletter-form" action="#" method="post">
+                <input type="email" name="email" placeholder="Digite seu melhor e-mail" required>
+                <button type="submit">Quero receber</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="footer-logo">
+                <p>Brutusmaq fabrica trituradores industriais robustos, eficientes e preparados para atender toda a
+                    cadeia de reciclagem e processamento.</p>
+            </div>
+
+            <div class="footer-column">
+                <h4>Empresa</h4>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="product.html">Produtos</a></li>
+                    <li><a href="about.html">Sobre Nós</a></li>
+                    <li><a href="contact.html">Contato</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h4>Serviços</h4>
+                <ul>
+                    <li><a href="#">Consultoria técnica</a></li>
+                    <li><a href="#">Manutenção</a></li>
+                    <li><a href="#">Projetos sob medida</a></li>
+                    <li><a href="#">Entrega e instalação</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Fale conosco</h4>
+                <p>Area Rural - DISTRITO MACACOS, Contenda - PR, 83738-890</p>
+                <p>WhatsApp: (41) 98875-4003</p>
+                <p>Email: marketing@brutusmaq.com.br</p>
+                <div class="footer-social">
+                    <a href="https://www.linkedin.com/company/brutusmaq/">LinkedIn</a>
+                    <a href="https://www.instagram.com/brutusmaq/">Instagram</a>
+                    <a href="https://www.youtube.com/@brutusmaq">Youtube</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Brutusmaq. Todos os direitos reservados.</p>
+            <p>Desenvolvido para indústria pesada, reciclagem e futuro sustentável.</p>
+        </div>
+    </footer>
+</body>
+
+>>>>>>> b91b00a78cf60745e34a2bcdcb6391c92532c0c7
 </html>

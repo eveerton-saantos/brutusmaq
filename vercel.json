@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "version": 2,
     "builds": [
@@ -13,3 +14,20 @@
     }
     ]
 }
+=======
+{
+    "version": 2,
+    "builds": [
+    {
+        "src": "public/index.html",
+        "use": "@vercel/static"
+    }
+    ],
+    "routes": [
+    {
+        "src": "/(.*)",
+        "dest": "public/index.html"
+    }
+    ]
+}
+>>>>>>> b91b00a78cf60745e34a2bcdcb6391c92532c0c7
