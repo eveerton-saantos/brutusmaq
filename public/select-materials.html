@@ -1,20 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brutusmaq | Contato</title>
-
+    <title>Brutusmaq | Seleção de material</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Teko:wght@300..700&display=swap');
     </style>
-
     <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/contact-page.css">
+    <link rel="stylesheet" href="css/select-materials.css">
 </head>
 
 <body>
@@ -29,7 +27,7 @@
 
         <nav class="header-nav" id="headerMenu">
             <ul class="flex gap-20">
-                <li><a class="header-nav-links" href="index.html">Início</a></li>
+                <li><a class="header-nav-links header-nav-active" href="index.html">Início</a></li>
                 <li class="nav-item-with-dropdown">
                     <button class="header-nav-links dropdown-toggle" type="button" aria-haspopup="true"
                         aria-expanded="false">Produtos</button>
@@ -83,12 +81,8 @@
                                     <a class="product-dropdown-sublink" href="esteiras.html#E-800">E-800</a>
                                 </div>
                             </div>
-                            <strong>Moinhos</strong>
-                            <span>Linha de moagem para diversos insumos industriais.</span>
-                            </a>
-                            <a class="product-dropdown-link" role="menuitem" href="product.html#picadores">
-                                <strong>Picadores</strong>
-                                <span>Soluções para corte e fragmentação de resíduos.</span>
+                            <strong>Picadores</strong>
+                            <span>Soluções para corte e fragmentação de resíduos.</span>
                             </a>
                             <a class="product-dropdown-link" role="menuitem"
                                 href="product.html#esteiras-transportadoras">
@@ -103,101 +97,131 @@
                     </div>
                 </li>
                 <li><a class="header-nav-links" href="about.html">Sobre Nós</a></li>
-                <li><a class="header-nav-links header-nav-active" href="contact.html">Contato</a></li>
+                <li><a class="header-nav-links" href="contact.html">Contato</a></li>
             </ul>
         </nav>
     </header>
 
-    <main class="contact-main">
-        <section class="contact-hero">
-            <div class="contact-hero-copy">
-                <span>Entre em contato</span>
-                <h1>Vamos conversar sobre o seu projeto industrial.</h1>
-                <p>Deixe seus dados e um breve resumo do seu desafio. Nossa equipe técnica vai entrar em contato com
-                    você com a melhor solução.</p>
-                <div class="contact-hero-cards">
-                    <article>
-                        <h3>Resposta rápida</h3>
-                        <p>Atendimento dedicado para esclarecer dúvidas, orçamentos e consultoria técnica.</p>
-                    </article>
-                    <article>
-                        <h3>Suporte especializado</h3>
-                        <p>Equipe com experiência em trituradores industriais, reciclagem e processos industriais.</p>
-                    </article>
-                </div>
-            </div>
+    <main class="select-materials-page">
+        <div class="select-materials-inner">
+            <section class="select-materials-hero">
+                <span class="select-materials-pretitle">Selecione o material</span>
+                <h1 class="select-materials-title">O que você deseja triturar?</h1>
+                <p class="select-materials-description">Cada material possui características específicas. Por isso,
+                    desenvolvemos linhas completas de equipamentos para entregar o máximo desempenho em cada aplicação.
+                </p>
+            </section>
 
-            <div class="contact-hero-info">
-                <div class="contact-info-card">
-                    <span>Nosso contato</span>
-                    <p>Telefone: (41) 98875-4003</p>
-                    <p>Email: marketing@brutusmaq.com.br</p>
-                    <p>Local: Distrito Macacos, Contenda - PR</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="contact-form-section">
-            <div class="section-heading">
-                <span>Formulário</span>
-                <h2>Nos conte mais sobre a sua necessidade.</h2>
-            </div>
-
-            <form class="contact-form" action="#" method="post">
-                <div class="contact-grid">
-                    <label>
-                        <span>Nome completo</span>
-                        <input type="text" name="name" placeholder="Seu nome" required>
-                    </label>
-                    <label>
-                        <span>Empresa</span>
-                        <input type="text" name="company" placeholder="Nome da empresa" required>
-                    </label>
-                    <label>
-                        <span>Email</span>
-                        <input type="email" name="email" placeholder="seu@email.com" required>
-                    </label>
-                    <label>
-                        <span>Telefone</span>
-                        <input type="tel" name="phone" placeholder="(41) 9 9999-9999" required>
-                    </label>
-                    <label class="full-width">
-                        <span>Ramal / setor</span>
-                        <input type="text" name="department" placeholder="Ex.: Produção, Logística, Engenharia">
-                    </label>
-                    <label class="full-width">
-                        <span>Mensagem</span>
-                        <textarea name="message" rows="6" placeholder="Explique seu projeto, volumes e prazo"
-                            required></textarea>
-                    </label>
-                </div>
-
-                <button type="submit" class="btn-secondary-main">Enviar mensagem</button>
-            </form>
-        </section>
-
-        <section class="contact-details">
-            <div class="section-heading">
-                <span>Por que falar conosco</span>
-                <h2>Compartilhe os dados certos e ganhe um retorno técnico rápido.</h2>
-            </div>
-            <div class="contact-details-grid">
-                <article>
-                    <h3>Projeto sob medida</h3>
-                    <p>Encontramos a melhor solução para o seu processo, considerando material, capacidade e espaço
-                        disponível.</p>
+            <section class="materials-cards">
+                <article class="material-card active"
+                    data-description="Equipamentos robustos e potentes, desenvolvidos para triturar os mais diversos tipos de sucata metálica com alta eficiência e segurança.">
+                    <img class="material-card-image" src="./assets/select-materials/Sucata.svg" alt="Imagem da sucata">
+                    <h2 class="material-card-title">Sucata</h2>
                 </article>
-                <article>
-                    <h3>Orçamento ajustado</h3>
-                    <p>Apresentamos propostas com preços claros, prazos realistas e suporte para decisão técnica.</p>
+                <article class="material-card"
+                    data-description="Linha ideal para plásticos industriais, garantindo corte e separação adequados.">
+                    <img class="material-card-image" src="./assets/select-materials/Plastico.svg"
+                        alt="Imagem dos plásticos">
+                    <h2 class="material-card-title">Plásticos</h2>
                 </article>
-                <article>
-                    <h3>Visita técnica</h3>
-                    <p>Quando necessário, agendamos visita técnica para analisar o local e garantir uma especificação
-                        precisa.</p>
+                <article class="material-card"
+                    data-description="Máquinas para madeira com baixo ruído e alto rendimento.">
+                    <img class="material-card-image" src="./assets/select-materials/Madeira.svg"
+                        alt="Imagem da madeira">
+                    <h2 class="material-card-title">Madeira</h2>
                 </article>
-            </div>
-        </section>
+                <article class="material-card"
+                    data-description="Processamento seguro para papel e papelão, com fluxo contínuo.">
+                    <img class="material-card-image" src="./assets/select-materials/Papel e Papelao.svg"
+                        alt="Imagem do papel">
+                    <h2 class="material-card-title">Papel e Papelão</h2>
+                </article>
+                <article class="material-card"
+                    data-description="Captação e trituração eficientes para resíduos mistos industriais.">
+                    <img class="material-card-image" src="./assets/select-materials/Residuos Industriais.svg"
+                        alt="Imagem dos resíduos">
+                    <h2 class="material-card-title">Resíduos Industriais</h2>
+                </article>
+                <article class="material-card"
+                    data-description="Linha especializada em borracha com corte preciso e durabilidade.">
+                    <img class="material-card-image" src="./assets/select-materials/Pneus.svg" alt="Imagem da borracha">
+                    <h2 class="material-card-title">Borracha</h2>
+                </article>
+                <article class="material-card"
+                    data-description="Equipamentos para alumínio com alto desempenho e baixo desgaste.">
+                    <img class="material-card-image" src="./assets/select-materials/Aluminio.svg"
+                        alt="Imagem do alumínio">
+                    <h2 class="material-card-title">Alumínio</h2>
+                </article>
+                <article class="material-card"
+                    data-description="Soluções adaptáveis a outros tipos de materiais e aplicações específicas.">
+                    <img class="material-card-image" src="./assets/select-materials/Outros.svg"
+                        alt="Imagem de outros materiais">
+                    <h2 class="material-card-title">Outros</h2>
+                </article>
+            </section>
+
+            <section class="split-section">
+                <div class="split-left">
+                    <span class="split-label">Linha recomendada para</span>
+                    <h2 class="split-title">Sucata</h2>
+                    <p class="split-copy">Equipamentos robustos e potentes, desenvolvidos para triturar os mais diversos
+                        tipos de sucata metálica com alta eficiência e segurança.</p>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <span class="feature-icon">⚙</span>
+                            <div class="feature-copy">
+                                <h3>Estrutura reforçada</h3>
+                                <p>Maior vida útil e durabilidade</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔥</span>
+                            <div class="feature-copy">
+                                <h3>Alto torque</h3>
+                                <p>Desempenho superior mesmo em materiais mais resistentes</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📈</span>
+                            <div class="feature-copy">
+                                <h3>Máxima produtividade</h3>
+                                <p>Mais toneladas trituradas por hora</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🛠</span>
+                            <div class="feature-copy">
+                                <h3>Baixa manutenção</h3>
+                                <p>Projetos inteligentes que reduzem custos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="split-right">
+                    <div class="image-placeholder">Imagem do equipamento ou gráfico</div>
+                </div>
+            </section>
+
+            <section class="bottom-bar">
+                <div class="bottom-card">
+                    <strong>Até 50 ton/h</strong>
+                    <span>Capacidade de produção</span>
+                </div>
+                <div class="bottom-card">
+                    <strong>Potências</strong>
+                    <span>De 75 a 300 CV</span>
+                </div>
+                <div class="bottom-card">
+                    <strong>Rotores</strong>
+                    <span>De alta resistência</span>
+                </div>
+                <div class="bottom-card">
+                    <strong>Tecnologia</strong>
+                    <span>E segurança avançada</span>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="footer">
@@ -246,7 +270,35 @@
             <p>Desenvolvido para indústria pesada, reciclagem e futuro sustentável.</p>
         </div>
     </footer>
+
     <script src="js/header.js"></script>
+    <script>
+        const materialCards = document.querySelectorAll('.material-card');
+        const splitTitle = document.querySelector('.split-title');
+        const splitCopy = document.querySelector('.split-copy');
+
+        if (materialCards.length && splitTitle && splitCopy) {
+            materialCards.forEach((card) => {
+                card.addEventListener('click', () => {
+                    materialCards.forEach((item) => {
+                        item.classList.remove('active');
+                    });
+
+                    card.classList.add('active');
+
+                    const title = card.querySelector('.material-card-title');
+                    const description = card.dataset.description;
+
+                    if (title) {
+                        splitTitle.textContent = title.textContent;
+                    }
+                    if (description) {
+                        splitCopy.textContent = description;
+                    }
+                });
+            });
+        }
+    </script>
 </body>
 
 </html>

@@ -17,10 +17,88 @@
 <body>
     <header class="header flex">
         <a href="index.html"><img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="header-logo"></a>
-        <nav class="header-nav">
+
+        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="header-nav" id="headerMenu">
             <ul class="flex gap-20">
                 <li><a class="header-nav-links" href="index.html">Início</a></li>
-                <li><a class="header-nav-links header-nav-active" href="product.html">Produtos</a></li>
+                <li class="nav-item-with-dropdown">
+                    <button class="header-nav-links dropdown-toggle header-nav-active" type="button"
+                        aria-haspopup="true" aria-expanded="true">Produtos</button>
+                    <div class="product-dropdown open" role="menu" aria-label="Menu Produtos">
+                        <div class="product-dropdown-grid">
+                            <div class="product-dropdown-panel">
+                                <a class="product-dropdown-category" role="menuitem" href="trituradores.html">
+                                    <strong>Trituradores</strong>
+                                    <span>Visão completa da linha de trituradores Brutusmaq.</span>
+                                </a>
+                                <div class="product-dropdown-subitems">
+                                    <a class="product-dropdown-sublink" href="trituradores.html#TR-700">TR-700</a>
+                                    <a class="product-dropdown-sublink" href="trituradores.html#TR-800">TR-800</a>
+                                    <a class="product-dropdown-sublink" href="trituradores.html#TR-1000">TR-1000</a>
+                                    <a class="product-dropdown-sublink" href="trituradores.html#TR-1200">TR-1200</a>
+                                </div>
+                            </div>
+                            <div class="product-dropdown-panel">
+                                <a class="product-dropdown-category" role="menuitem" href="moinhos.html">
+                                    <strong>Moinhos</strong>
+                                    <span>Conheça nossa linha de moinhos industriais.</span>
+                                </a>
+                                <div class="product-dropdown-subitems">
+                                    <a class="product-dropdown-sublink" href="moinhos.html#M-250">M-250</a>
+                                    <a class="product-dropdown-sublink" href="moinhos.html#M-450">M-450</a>
+                                    <a class="product-dropdown-sublink" href="moinhos.html#M-600">M-600</a>
+                                    <a class="product-dropdown-sublink" href="moinhos.html#M-800">M-800</a>
+                                </div>
+                            </div>
+                            <div class="product-dropdown-panel">
+                                <a class="product-dropdown-category" role="menuitem" href="picadores.html">
+                                    <strong>Picadores</strong>
+                                    <span>Soluções para corte e fragmentação de materiais.</span>
+                                </a>
+                                <div class="product-dropdown-subitems">
+                                    <a class="product-dropdown-sublink" href="picadores.html#P-200">P-200</a>
+                                    <a class="product-dropdown-sublink" href="picadores.html#P-400">P-400</a>
+                                    <a class="product-dropdown-sublink" href="picadores.html#P-650">P-650</a>
+                                    <a class="product-dropdown-sublink" href="picadores.html#P-900">P-900</a>
+                                </div>
+                            </div>
+                            <div class="product-dropdown-panel">
+                                <a class="product-dropdown-category" role="menuitem" href="esteiras.html">
+                                    <strong>Esteiras transportadoras</strong>
+                                    <span>Transporte contínuo para a sua linha de produção.</span>
+                                </a>
+                                <div class="product-dropdown-subitems">
+                                    <a class="product-dropdown-sublink" href="esteiras.html#E-200">E-200</a>
+                                    <a class="product-dropdown-sublink" href="esteiras.html#E-400">E-400</a>
+                                    <a class="product-dropdown-sublink" href="esteiras.html#E-600">E-600</a>
+                                    <a class="product-dropdown-sublink" href="esteiras.html#E-800">E-800</a>
+                                </div>
+                            </div>
+                            <strong>Moinhos</strong>
+                            <span>Linha de moagem para diversos insumos industriais.</span>
+                            </a>
+                            <a class="product-dropdown-link" role="menuitem" href="product.html#picadores">
+                                <strong>Picadores</strong>
+                                <span>Soluções para corte e fragmentação de resíduos.</span>
+                            </a>
+                            <a class="product-dropdown-link" role="menuitem"
+                                href="product.html#esteiras-transportadoras">
+                                <strong>Esteiras transportadoras</strong>
+                                <span>Transporte contínuo para a sua linha de produção.</span>
+                            </a>
+                            <a class="product-dropdown-link" role="menuitem" href="usadas.html">
+                                <strong>Equipamentos usados</strong>
+                                <span>Máquinas revisadas e disponíveis com condições especiais.</span>
+                            </a>
+                        </div>
+                    </div>
+                </li>
                 <li><a class="header-nav-links" href="about.html">Sobre Nós</a></li>
                 <li><a class="header-nav-links" href="contact.html">Contato</a></li>
             </ul>
@@ -103,9 +181,9 @@
                 <p>WhatsApp: (41) 98875-4003</p>
                 <p>Email: marketing@brutusmaq.com.br</p>
                 <div class="footer-social">
-                    <a href="#">LinkedIn</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">WhatsApp</a>
+                    <a href="https://www.linkedin.com/company/brutusmaq/ " target="_blank">LinkedIn</a>
+                    <a href="https://www.instagram.com/brutusmaq/" target="_blank">Instagram</a>
+                    <a href="https://www.youtube.com/@brutusmaq" target="_blank">Youtube</a>
                 </div>
             </div>
         </div>
@@ -115,6 +193,7 @@
             <p>Desenvolvido para indústria pesada, reciclagem e futuro sustentável.</p>
         </div>
     </footer>
+    <script src="js/header.js"></script>
 </body>
 
 </html>
