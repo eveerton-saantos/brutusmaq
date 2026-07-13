@@ -1,0 +1,1214 @@
+/* =========================================================
+   BRUTUSMAQ - PÁGINA MÁQUINAS USADAS
+   Arquivo: css/usadas.css
+   ========================================================= */
+
+:root {
+    --us-orange: #ff5a00;
+    --us-orange-2: #ff7a00;
+    --us-black: #050505;
+    --us-black-2: #0a0a0a;
+    --us-card: rgba(18, 18, 18, 0.88);
+    --us-card-2: rgba(10, 10, 10, 0.94);
+    --us-border: rgba(255, 255, 255, 0.12);
+    --us-border-orange: rgba(255, 90, 0, 0.48);
+    --us-text: #f4f4f4;
+    --us-muted: #b9b9b9;
+    --us-muted-2: #7c7c7c;
+    --us-radius: 14px;
+    --us-container: 1180px;
+}
+
+/* BASE */
+
+html {
+    scroll-behavior: smooth;
+}
+
+.usadas-page {
+    background:
+        radial-gradient(circle at 14% 8%, rgba(255, 90, 0, 0.09), transparent 30%),
+        radial-gradient(circle at 86% 28%, rgba(255, 90, 0, 0.08), transparent 28%),
+        linear-gradient(180deg, #050505 0%, #090909 48%, #050505 100%);
+    color: var(--us-text);
+    overflow: hidden;
+}
+
+.usadas-container {
+    width: min(var(--us-container), calc(100% - 64px));
+    margin: 0 auto;
+}
+
+.usadas-page a {
+    text-decoration: none;
+}
+
+.usadas-page img {
+    max-width: 100%;
+    display: block;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* =========================================================
+   BOTÕES
+   ========================================================= */
+
+.usadas-btn-primary,
+.usadas-card-btn {
+    min-height: 48px;
+    padding: 0 22px;
+    border-radius: 7px;
+    border: 1px solid transparent;
+    background: linear-gradient(90deg, var(--us-orange), var(--us-orange-2));
+    color: #fff;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 21px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 18px 36px rgba(255, 90, 0, 0.20);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+.usadas-btn-primary:hover,
+.usadas-card-btn:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.06);
+    box-shadow: 0 22px 42px rgba(255, 90, 0, 0.32);
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.usadas-hero {
+    position: relative;
+    min-height: 560px;
+    display: flex;
+    align-items: center;
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.97), rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.92)),
+        linear-gradient(180deg, #050505 0%, #101010 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+.usadas-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(5, 5, 5, 0.06), rgba(5, 5, 5, 0.94)),
+        repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.018) 0,
+            rgba(255, 255, 255, 0.018) 1px,
+            transparent 1px,
+            transparent 90px
+        );
+    pointer-events: none;
+}
+
+.usadas-hero::after {
+    content: "";
+    position: absolute;
+    right: -170px;
+    top: 34px;
+    width: 720px;
+    height: 720px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.045), transparent 63%);
+    filter: blur(10px);
+    pointer-events: none;
+}
+
+.usadas-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 62% 46%, transparent 0%, rgba(0, 0, 0, 0.26) 48%, rgba(0, 0, 0, 0.72) 100%);
+    pointer-events: none;
+}
+
+.usadas-hero-inner {
+    position: relative;
+    z-index: 2;
+    min-height: 560px;
+    padding: 54px 0 62px;
+    display: grid;
+    grid-template-columns: minmax(0, 680px);
+    align-items: center;
+}
+
+.usadas-hero-copy {
+    position: relative;
+    z-index: 3;
+}
+
+.usadas-breadcrumb ol {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 0;
+    padding: 0;
+    list-style: none;
+    color: #b9b9b9;
+    font-size: 13px;
+}
+
+.usadas-breadcrumb li + li::before {
+    content: "/";
+    margin-right: 10px;
+    color: #b9b9b9;
+}
+
+.usadas-breadcrumb a {
+    color: var(--us-orange);
+    font-weight: 700;
+}
+
+.usadas-breadcrumb strong {
+    color: #d7d7d7;
+    font-weight: 500;
+}
+
+.usadas-hero-copy h1 {
+    margin: 0;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: clamp(72px, 9vw, 118px);
+    line-height: 0.82;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: #f3f3f3;
+    text-transform: uppercase;
+    text-shadow: 0 18px 40px rgba(0, 0, 0, 0.82);
+}
+
+.usadas-hero-copy h1 strong {
+    color: var(--us-orange);
+    font-weight: 700;
+}
+
+.usadas-hero-copy p {
+    max-width: 550px;
+    margin: 24px 0 0;
+    color: #dedede;
+    font-size: 16px;
+    line-height: 1.75;
+}
+
+.usadas-hero-features {
+    margin-top: 34px;
+    display: grid;
+    grid-template-columns: repeat(4, max-content);
+    gap: 28px;
+    align-items: center;
+}
+
+.usadas-hero-features div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.usadas-hero-features span {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--us-orange);
+    border: 1px solid rgba(255, 90, 0, 0.42);
+    background: rgba(255, 90, 0, 0.07);
+    font-size: 22px;
+}
+
+.usadas-hero-features strong {
+    color: #f3f3f3;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 20px;
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+/* =========================================================
+   BENEFÍCIOS
+   ========================================================= */
+
+.usadas-benefits-section {
+    position: relative;
+    z-index: 5;
+    margin-top: 0;
+    padding: 32px 0 58px;
+}
+
+.usadas-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--us-border);
+    border-radius: var(--us-radius);
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
+        rgba(12, 12, 12, 0.94);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+}
+
+.usadas-benefit-card {
+    min-height: 166px;
+    padding: 34px 32px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    border-right: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.usadas-benefit-card:last-child {
+    border-right: none;
+}
+
+.usadas-benefit-icon {
+    flex: 0 0 auto;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--us-orange);
+    border: 1px solid rgba(255, 90, 0, 0.42);
+    background: rgba(255, 90, 0, 0.07);
+    font-size: 36px;
+    font-family: "Teko", "Poppins", sans-serif;
+}
+
+.usadas-benefit-card h2,
+.usadas-benefit-card h3 {
+    margin: 0 0 12px;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 28px;
+    line-height: 0.98;
+    color: #f4f4f4;
+    text-transform: uppercase;
+}
+
+.usadas-benefit-card h2::after,
+.usadas-benefit-card h3::after {
+    content: "";
+    display: block;
+    width: 46px;
+    height: 2px;
+    margin-top: 10px;
+    background: var(--us-orange);
+    border-radius: 999px;
+}
+
+.usadas-benefit-card p {
+    margin: 0;
+    color: #c7c7c7;
+    font-size: 13.5px;
+    line-height: 1.55;
+}
+
+/* =========================================================
+   TÍTULOS DE SEÇÃO
+   ========================================================= */
+
+.usadas-section-title {
+    text-align: center;
+    margin-bottom: 26px;
+}
+
+.usadas-section-title h2 {
+    margin: 0;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: clamp(42px, 5vw, 58px);
+    line-height: 1;
+    color: #f4f4f4;
+    text-transform: uppercase;
+}
+
+.usadas-section-title h2::after {
+    content: "";
+    display: block;
+    width: 68px;
+    height: 3px;
+    margin: 12px auto 0;
+    background: var(--us-orange);
+    border-radius: 999px;
+}
+
+/* =========================================================
+   FILTROS
+   ========================================================= */
+
+.usadas-products-section {
+    padding: 0 0 26px;
+}
+
+.usadas-filter-bar {
+    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: 1.45fr 1fr 1fr 0.85fr 0.9fr auto;
+    gap: 14px;
+}
+
+.usadas-search-box {
+    height: 48px;
+    display: flex;
+    border: 1px solid var(--us-border);
+    border-radius: 7px;
+    background: rgba(0, 0, 0, 0.28);
+    overflow: hidden;
+}
+
+.usadas-search-box input {
+    width: 100%;
+    height: 100%;
+    padding: 0 16px;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: #f4f4f4;
+    font-family: "Poppins", sans-serif;
+    font-size: 13.5px;
+}
+
+.usadas-search-box input::placeholder {
+    color: #777;
+}
+
+.usadas-search-box button {
+    width: 52px;
+    height: 100%;
+    border: 0;
+    background: transparent;
+    color: #f4f4f4;
+    cursor: pointer;
+    font-size: 22px;
+    transition: color 0.22s ease, background 0.22s ease;
+}
+
+.usadas-search-box button:hover {
+    color: var(--us-orange);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.usadas-filter-bar select {
+    width: 100%;
+    height: 48px;
+    padding: 0 38px 0 14px;
+    border: 1px solid var(--us-border);
+    border-radius: 7px;
+    background-color: rgba(0, 0, 0, 0.28);
+    color: #f4f4f4;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--us-orange) 50%),
+        linear-gradient(135deg, var(--us-orange) 50%, transparent 50%);
+    background-position:
+        calc(100% - 19px) 20px,
+        calc(100% - 13px) 20px;
+    background-size: 7px 7px, 7px 7px;
+    background-repeat: no-repeat;
+}
+
+.usadas-filter-bar select option {
+    background: #111;
+    color: #f4f4f4;
+}
+
+.usadas-clear-filter {
+    height: 48px;
+    padding: 0 20px;
+    border: 1px solid var(--us-orange);
+    border-radius: 7px;
+    background: rgba(0, 0, 0, 0.18);
+    color: var(--us-orange);
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.22s ease, color 0.22s ease, transform 0.22s ease;
+}
+
+.usadas-clear-filter:hover {
+    background: var(--us-orange);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   CARDS DE MÁQUINAS
+   ========================================================= */
+
+.usadas-products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.usadas-product-card {
+    position: relative;
+    min-height: 360px;
+    padding: 18px;
+    border: 1px solid var(--us-border);
+    border-radius: var(--us-radius);
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.06), transparent 36%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+        var(--us-card);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+    color: var(--us-text);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.usadas-product-card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(255, 90, 0, 0.42);
+    box-shadow: 0 30px 78px rgba(0, 0, 0, 0.46);
+}
+
+.usadas-product-card::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: calc(var(--us-radius) - 1px);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 46%);
+    pointer-events: none;
+}
+
+.usadas-status {
+    position: absolute;
+    z-index: 3;
+    top: 16px;
+    left: 16px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 11px;
+    line-height: 1;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.status-disponivel {
+    background: #17a833;
+}
+
+.status-revisao {
+    background: #f6a400;
+    color: #111;
+}
+
+.status-nao-revisado {
+    background: #f6a400;
+    color: #111;
+}
+
+.status-vendida {
+    background: #e52b2b;
+}
+
+.usadas-empty-state {
+    grid-column: 1 / -1;
+    min-height: 180px;
+    padding: 34px 24px;
+    border: 1px dashed var(--us-border);
+    border-radius: var(--us-radius);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    color: var(--us-muted);
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.usadas-product-image {
+    height: 170px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.usadas-product-image img {
+    max-height: 165px;
+    object-fit: contain;
+    filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.72));
+    transition: transform 0.28s ease;
+}
+
+.usadas-product-card:hover .usadas-product-image img {
+    transform: scale(1.06);
+}
+
+.usadas-product-card h3 {
+    margin: auto 0 4px;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 34px;
+    line-height: 1;
+    color: #f4f4f4;
+    text-transform: uppercase;
+}
+
+.usadas-product-category {
+    display: block;
+    margin-bottom: 12px;
+    color: #bcbcbc;
+    font-size: 13px;
+}
+
+.usadas-product-card ul {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+}
+
+.usadas-product-card li {
+    position: relative;
+    padding-left: 14px;
+    color: #d0d0d0;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.usadas-product-card li::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--us-orange);
+    font-weight: 800;
+}
+
+.usadas-card-btn {
+    width: max-content;
+    min-height: 38px;
+    padding: 0 18px;
+    margin-top: auto;
+    font-size: 19px;
+    box-shadow: none;
+}
+
+/* =========================================================
+   CTA AVISO
+   ========================================================= */
+
+.usadas-alert-section {
+    padding: 0 0 28px;
+}
+
+.usadas-alert-box {
+    position: relative;
+    min-height: 130px;
+    padding: 28px 34px;
+    border: 1px solid var(--us-border-orange);
+    border-radius: 8px;
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.94), rgba(0, 0, 0, 0.70)),
+        radial-gradient(circle at 80% 50%, rgba(255, 90, 0, 0.20), transparent 34%),
+        rgba(15, 15, 15, 0.92);
+    display: grid;
+    grid-template-columns: auto 1fr 0.8fr auto;
+    gap: 24px;
+    align-items: center;
+    overflow: hidden;
+}
+
+.usadas-alert-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.018) 0,
+            rgba(255, 255, 255, 0.018) 1px,
+            transparent 1px,
+            transparent 70px
+        );
+    pointer-events: none;
+}
+
+.usadas-alert-icon {
+    position: relative;
+    z-index: 1;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    color: var(--us-orange);
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 90, 0, 0.42);
+    background: rgba(255, 90, 0, 0.07);
+    font-size: 32px;
+}
+
+.usadas-alert-box h2 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: clamp(32px, 3.6vw, 46px);
+    line-height: 0.95;
+    color: #f4f4f4;
+    text-transform: uppercase;
+}
+
+.usadas-alert-box h2 strong {
+    color: var(--us-orange);
+}
+
+.usadas-alert-box p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: #d4d4d4;
+    font-size: 13.5px;
+    line-height: 1.55;
+}
+
+.usadas-alert-box .usadas-btn-primary {
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   COMO FUNCIONA
+   ========================================================= */
+
+.usadas-process-section {
+    padding: 0 0 78px;
+}
+
+.usadas-process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--us-border);
+    border-radius: var(--us-radius);
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.014)),
+        rgba(12, 12, 12, 0.90);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+    overflow: hidden;
+}
+
+.usadas-process-step {
+    min-height: 150px;
+    padding: 28px 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    border-right: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.usadas-process-step:last-child {
+    border-right: 0;
+}
+
+.usadas-process-icon {
+    flex: 0 0 auto;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--us-orange);
+    border: 1px solid rgba(255, 90, 0, 0.42);
+    background: rgba(255, 90, 0, 0.07);
+    font-size: 28px;
+}
+
+.usadas-process-step span {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--us-orange);
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 42px;
+    line-height: 0.85;
+}
+
+.usadas-process-step h3 {
+    margin: 0 0 7px;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 25px;
+    line-height: 0.95;
+    color: #f4f4f4;
+    text-transform: uppercase;
+}
+
+.usadas-process-step p {
+    margin: 0;
+    color: #bdbdbd;
+    font-size: 12.5px;
+    line-height: 1.4;
+}
+
+.footer-contact {
+    font-style: normal;
+}
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+
+@media (max-width: 1180px) {
+    .usadas-container {
+        width: min(100% - 40px, var(--us-container));
+    }
+
+    .usadas-hero-inner {
+        grid-template-columns: minmax(0, 680px);
+    }
+
+    .usadas-hero-features {
+        grid-template-columns: repeat(2, max-content);
+        gap: 20px 28px;
+    }
+
+    .usadas-filter-bar {
+        grid-template-columns: 1.2fr 1fr 1fr;
+    }
+
+    .usadas-clear-filter {
+        grid-column: span 3;
+        justify-self: end;
+    }
+
+    .usadas-products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .usadas-alert-box {
+        grid-template-columns: auto 1fr;
+    }
+
+    .usadas-alert-box p,
+    .usadas-alert-box .usadas-btn-primary {
+        grid-column: 2 / 3;
+    }
+}
+
+@media (max-width: 980px) {
+    .usadas-hero {
+        min-height: auto;
+    }
+
+    .usadas-hero-inner {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 56px 0 92px;
+        text-align: center;
+    }
+
+    .usadas-breadcrumb {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .usadas-breadcrumb ol {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .usadas-hero-copy p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .usadas-hero-features {
+        justify-content: center;
+    }
+
+    .usadas-benefits-grid {
+        position: relative;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        backdrop-filter: none;
+        overflow: visible;
+    }
+
+    .usadas-benefit-card {
+        position: relative;
+        min-height: 220px;
+        padding: 24px 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.11);
+        border-radius: 8px;
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.014)),
+            rgba(12, 12, 12, 0.94);
+    }
+
+    .usadas-benefit-card:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 55px;
+        right: -13px;
+        width: 13px;
+        height: 1px;
+        background: rgba(255, 90, 0, 0.42);
+    }
+
+    .usadas-benefit-card:last-child {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+    }
+
+    .usadas-benefit-icon {
+        width: 58px;
+        height: 58px;
+        font-size: 31px;
+    }
+
+    .usadas-benefit-card h2,
+    .usadas-benefit-card h3 {
+        font-size: 24px;
+    }
+
+    .usadas-benefit-card p {
+        font-size: 13px;
+    }
+
+    .usadas-filter-bar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .usadas-search-box {
+        grid-column: 1 / -1;
+    }
+
+    .usadas-clear-filter {
+        grid-column: 1 / -1;
+        justify-self: stretch;
+    }
+
+    .usadas-products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .usadas-process-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .usadas-process-step:nth-child(2) {
+        border-right: 0;
+    }
+
+    .usadas-process-step:nth-child(1),
+    .usadas-process-step:nth-child(2) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    }
+}
+
+@media (max-width: 680px) {
+    .usadas-container {
+        width: min(100% - 28px, var(--us-container));
+    }
+
+    .usadas-btn-primary {
+        width: 100%;
+        min-height: 52px;
+        font-size: 21px;
+    }
+
+    .usadas-hero-inner {
+        padding: 44px 0 86px;
+    }
+
+    .usadas-breadcrumb {
+        font-size: 12px;
+        margin-bottom: 18px;
+    }
+
+    .usadas-breadcrumb ol {
+        font-size: 12px;
+        margin-bottom: 18px;
+    }
+
+    .usadas-hero-copy h1 {
+        font-size: clamp(58px, 18vw, 86px);
+    }
+
+    .usadas-hero-copy p {
+        font-size: 14.5px;
+    }
+
+    .usadas-hero-features {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: min(100%, 360px);
+        margin: 26px auto 0;
+    }
+
+    .usadas-hero-features div {
+        position: relative;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+        min-height: 118px;
+        padding: 14px;
+        overflow: hidden;
+        text-align: left;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: 8px;
+        background:
+            linear-gradient(145deg, rgba(255, 255, 255, 0.042), rgba(255, 255, 255, 0.012)),
+            rgba(12, 12, 12, 0.78);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+    }
+
+    .usadas-hero-features div::before {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        color: rgba(255, 255, 255, 0.10);
+        font-family: "Teko", "Poppins", sans-serif;
+        font-size: 25px;
+        line-height: 1;
+    }
+
+    .usadas-hero-features div:nth-child(1)::before {
+        content: "01";
+    }
+
+    .usadas-hero-features div:nth-child(2)::before {
+        content: "02";
+    }
+
+    .usadas-hero-features div:nth-child(3)::before {
+        content: "03";
+    }
+
+    .usadas-hero-features div:nth-child(4)::before {
+        content: "04";
+    }
+
+    .usadas-hero-features span {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+        border-color: rgba(255, 90, 0, 0.26);
+        background: rgba(255, 90, 0, 0.045);
+    }
+
+    .usadas-hero-features strong {
+        max-width: 118px;
+        font-size: 17px;
+        line-height: 0.9;
+    }
+
+    .usadas-benefits-section {
+        padding: 24px 0 44px;
+    }
+
+    .usadas-benefits-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+        border: 1px solid var(--us-border);
+        border-radius: var(--us-radius);
+        background:
+            linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
+            rgba(12, 12, 12, 0.94);
+        overflow: hidden;
+    }
+
+    .usadas-benefit-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 30px 22px;
+    }
+
+    .usadas-benefit-card:not(:last-child)::after {
+        display: none;
+    }
+
+    .usadas-benefit-card h2::after,
+    .usadas-benefit-card h3::after {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .usadas-filter-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .usadas-products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .usadas-product-card {
+        min-height: auto;
+    }
+
+    .usadas-product-image {
+        height: 210px;
+    }
+
+    .usadas-card-btn {
+        width: 100%;
+    }
+
+    .usadas-alert-box {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 28px 22px;
+    }
+
+    .usadas-alert-icon {
+        justify-self: center;
+    }
+
+    .usadas-alert-box p,
+    .usadas-alert-box .usadas-btn-primary {
+        grid-column: auto;
+    }
+
+    .usadas-process-section {
+        padding-bottom: 56px;
+    }
+
+    .usadas-process-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    .usadas-process-step {
+        position: relative;
+        display: grid;
+        grid-template-columns: 52px 1fr;
+        align-items: start;
+        gap: 14px;
+        min-height: auto;
+        padding: 18px;
+        border-right: 0;
+        border: 1px solid rgba(255, 255, 255, 0.11);
+        border-radius: 8px;
+        background:
+            linear-gradient(135deg, rgba(255, 90, 0, 0.08), transparent 36%),
+            linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.014)),
+            rgba(12, 12, 12, 0.94);
+    }
+
+    .usadas-process-step:last-child {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+    }
+
+    .usadas-process-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 23px;
+    }
+
+    .usadas-process-step > div {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        column-gap: 8px;
+        align-items: end;
+    }
+
+    .usadas-process-step span {
+        margin: 0;
+        font-size: 34px;
+        line-height: 0.85;
+    }
+
+    .usadas-process-step h3 {
+        margin: 0 0 3px;
+        font-size: 24px;
+        line-height: 0.95;
+    }
+
+    .usadas-process-step p {
+        grid-column: 1 / -1;
+        margin-top: 5px;
+        font-size: 13px;
+        line-height: 1.45;
+    }
+}
+
+@media (max-width: 420px) {
+    .usadas-container {
+        width: min(100% - 22px, var(--us-container));
+    }
+
+    .usadas-hero-copy h1 {
+        font-size: clamp(52px, 18vw, 72px);
+    }
+
+    .usadas-section-title h2 {
+        font-size: clamp(36px, 13vw, 48px);
+    }
+
+    .usadas-product-card {
+        padding: 16px;
+    }
+
+    .usadas-product-image {
+        height: 180px;
+    }
+
+    .usadas-alert-box h2 {
+        font-size: clamp(32px, 13vw, 44px);
+    }
+
+    .usadas-process-step {
+        grid-template-columns: 46px 1fr;
+        gap: 12px;
+        padding: 16px;
+        text-align: left;
+    }
+
+    .usadas-process-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 21px;
+    }
+
+    .usadas-process-step h3 {
+        font-size: 22px;
+    }
+}
