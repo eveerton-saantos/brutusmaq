@@ -127,6 +127,13 @@ Os novos assets cobrem categorias de equipamentos, atendimento, proposta, segura
 - A desativacao do CAPTCHA melhora a experiencia, mas torna importante acompanhar o volume de spam recebido.
 - Um banco de dados proprio ainda nao foi criado. Essa evolucao exigira backend, autenticacao e definicao de hospedagem.
 
+## Publicacao na Vercel
+
+- Remocao da configuracao legada que encaminhava todas as requisicoes para `public/index.html`.
+- Definicao de `public` como diretorio de saida do site estatico.
+- CSS, JavaScript, imagens, SVGs e paginas HTML passam a ser entregues com seus caminhos e tipos de conteudo corretos.
+- O projeto usa o preset `Other`, sem comando de build e sem framework.
+
 ## Validacoes executadas
 
 - Verificacao de sintaxe dos arquivos JavaScript com `node --check`.
@@ -145,7 +152,8 @@ Nao foi disparada uma proposta real durante os testes para evitar o envio de uma
 - Confirmar que o endereco do FormSubmit esta ativado.
 - Verificar a caixa de spam apos o primeiro envio.
 - Revisar os produtos cadastrados em `public/js/catalogo-produtos.js`.
-- Manter `.gitignore` e `vercel.json` fora desta entrega ate que suas exclusoes sejam confirmadas.
+- Manter somente a exclusao local de `.gitignore` fora desta entrega.
+- Validar o Preview da Vercel antes de promover o pull request para producao.
 
 ## Resumo para pull request
 
