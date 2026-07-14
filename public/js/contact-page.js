@@ -1,6 +1,12 @@
 const contactForm = document.querySelector('.contact-form');
-const contactWhatsappNumber = '5541988754003';
-const contactProductLabels = {};
+const contactProductLabels = Object.fromEntries(
+    [
+        ...(window.brutusmaqProdutosNovos || []),
+        ...(window.brutusmaqMaquinasUsadas || [])
+    ]
+        .filter((produto) => produto.id && produto.modelo)
+        .map((produto) => [String(produto.id).toLowerCase(), produto.modelo])
+);
 
 document.querySelectorAll('a[href*="#"]').forEach((link) => {
     link.addEventListener('click', (event) => {
@@ -30,6 +36,15 @@ if (contactForm) {
     const message = document.querySelector('#contactMessage');
     const submit = document.querySelector('#contactSubmit');
     const contextInput = document.querySelector('#contactContextInput');
+    const emailInput = contactForm.querySelector('input[name="email"]');
+    const replyToInput = document.querySelector('#contactReplyTo');
+    const formStatus = document.querySelector('#contactFormStatus');
+    const productInput = document.querySelector('#contactProductInput');
+    const productCategoryInput = document.querySelector('#contactProductCategoryInput');
+    const materialInput = document.querySelector('#contactMaterialInput');
+    const productUrlInput = document.querySelector('#contactProductUrlInput');
+    const sourceInput = document.querySelector('#contactSourceInput');
+    const subjectInput = document.querySelector('#contactSubjectInput');
 
     const configs = {
         'Solicitar proposta técnica': {
@@ -151,6 +166,7 @@ if (contactForm) {
         contextText.textContent = config.text;
         contextList.innerHTML = config.tips.map((tip) => `<li>${tip}</li>`).join('');
         message.placeholder = config.placeholder;
+        submit.dataset.label = config.submit;
         submit.innerHTML = `${config.submit} <span aria-hidden="true">→</span>`;
         contextInput.value = value;
 
@@ -192,54 +208,109 @@ if (contactForm) {
         }
     };
 
-    const getFormLines = () => {
-        const formData = new FormData(contactForm);
-        const labels = {
-            motivo: 'Motivo',
-            nome: 'Nome',
-            email: 'E-mail',
-            telefone: 'Telefone/WhatsApp',
-            empresa: 'Empresa',
-            cnpj: 'CNPJ',
-            cidade_estado: 'Cidade/Estado',
-            interesse: 'Interesse',
-            mensagem: 'Mensagem',
-            contexto_do_atendimento: 'Contexto',
-            material_processado: 'Material processado',
-            capacidade_desejada: 'Capacidade desejada',
-            equipamento_usado: 'Equipamento usado',
-            prazo_compra: 'Prazo para compra',
-            modelo_equipamento: 'Modelo do equipamento',
-            peca_necessaria: 'Peça necessária',
-            status_equipamento: 'Status do equipamento',
-            tipo_suporte: 'Tipo de suporte',
-            duvida_principal: 'Dúvida principal',
-            material_ou_aplicacao: 'Material ou aplicação',
-            assunto: 'Assunto',
-            melhor_horario: 'Melhor horário'
-        };
+    const setFormStatus = (type, messageText) => {
+        formStatus.className = `contact-form-status ${type ? `is-${type}` : ''}`.trim();
+        formStatus.replaceChildren();
 
-        return [...formData.entries()]
-            .filter(([, value]) => String(value).trim())
-            .map(([key, value]) => `${labels[key] || key}: ${String(value).trim()}`);
+        if (!messageText) {
+            return;
+        }
+        formStatus.append(document.createTextNode(messageText));
+    };
+
+    const setSubmitState = (isSubmitting) => {
+        submit.disabled = isSubmitting;
+        submit.toggleAttribute('aria-busy', isSubmitting);
+        submit.innerHTML = isSubmitting
+            ? 'Enviando solicitação...'
+            : `${submit.dataset.label || 'Enviar solicitação'} <span aria-hidden="true">→</span>`;
+    };
+
+    const getStoredProposalContext = () => {
+        try {
+            const stored = window.sessionStorage.getItem('brutusmaq:proposta-contexto');
+            window.sessionStorage.removeItem('brutusmaq:proposta-contexto');
+            return stored ? JSON.parse(stored) : {};
+        } catch (error) {
+            return {};
+        }
+    };
+
+    const selectInterestFromCategory = (category) => {
+        const normalized = String(category || '').toLowerCase();
+        const categoryNames = {
+            triturad: 'Trituradores',
+            moinho: 'Moinhos',
+            picador: 'Picadores',
+            esteira: 'Esteiras transportadoras'
+        };
+        const targetValue = Object.entries(categoryNames).find(([fragment]) => normalized.includes(fragment))?.[1];
+        const option = [...interestSelect.options].find((item) => item.value === targetValue);
+
+        if (option) {
+            interestSelect.value = option.value;
+        }
     };
 
     const configureUrlContext = () => {
         const params = new URLSearchParams(window.location.search);
         const tipo = params.get('tipo');
-        const produto = params.get('produto');
+        const storedContext = getStoredProposalContext();
+        const produto = params.get('produto') || storedContext.produto || '';
+        const modeloParam = params.get('modelo') || storedContext.modelo || '';
+        const categoriaParam = params.get('categoria') || storedContext.categoria || '';
+        const materialParam = params.get('material') || storedContext.material || '';
+        const detalhesParam = storedContext.detalhes || '';
+        const paginaParam = params.get('pagina') || storedContext.pagina || '';
+        const origemParam = params.get('origem') || storedContext.origem || 'Página de contato';
+        const hasProductContext = Boolean(produto || modeloParam || paginaParam);
 
         if (window.location.hash === '#assistencia-tecnica') {
             setReasonByKind('assistencia');
         }
 
-        if (tipo === 'equipamento-usado' || produto) {
+        if (tipo === 'equipamento-usado') {
             setReasonByKind('usado');
+        } else if (tipo === 'proposta-tecnica' || hasProductContext) {
+            setReasonByKind('proposta');
         }
 
-        if (produto && message) {
-            const label = contactProductLabels[produto] || produto.replace(/-/g, ' ').toUpperCase();
-            message.value = `Tenho interesse no ${label}.`;
+        if (hasProductContext && message) {
+            const productKey = String(produto).toLowerCase();
+            const label = modeloParam || contactProductLabels[productKey] || produto.replace(/-/g, ' ').toUpperCase();
+            const messageParts = [`Tenho interesse no equipamento ${label}.`];
+
+            if (materialParam) {
+                messageParts.push(`Material do projeto: ${materialParam}.`);
+            }
+
+            if (detalhesParam) {
+                messageParts.push(`Detalhes informados: ${detalhesParam}`);
+            }
+
+            message.value = messageParts.join('\n');
+            productInput.value = label;
+            productCategoryInput.value = categoriaParam;
+            materialInput.value = materialParam;
+            productUrlInput.value = paginaParam;
+            sourceInput.value = origemParam;
+            subjectInput.value = `Solicitação de proposta - ${label}`;
+
+            selectInterestFromCategory(categoriaParam);
+
+            const materialField = contactForm.querySelector('input[name="material_processado"]');
+            if (materialField && materialParam) {
+                materialField.value = materialParam;
+            }
+        }
+
+        if (params.get('enviado') === '1') {
+            setFormStatus('success', 'Solicitação enviada com sucesso. Nossa equipe recebeu os dados e entrará em contato.');
+            params.delete('enviado');
+
+            const cleanQuery = params.toString();
+            const cleanUrl = `${window.location.pathname}${cleanQuery ? `?${cleanQuery}` : ''}${window.location.hash}`;
+            window.history.replaceState(null, '', cleanUrl);
         }
     };
 
@@ -260,22 +331,89 @@ if (contactForm) {
         });
     });
 
-    contactForm.addEventListener('submit', (event) => {
-        event.preventDefault();
+    const showSubmissionFallback = (reason) => {
+        const product = productInput.value || interestSelect.value || 'equipamento industrial';
+        const text = [
+            `Olá, quero solicitar uma proposta para ${product}.`,
+            message.value.trim(),
+            `Nome: ${contactForm.querySelector('input[name="nome"]')?.value || ''}`,
+            `Telefone: ${contactForm.querySelector('input[name="telefone"]')?.value || ''}`
+        ].filter(Boolean).join('\n');
+        const subject = `Solicitação de proposta - ${product}`;
+        const actions = document.createElement('span');
+        actions.className = 'contact-form-status-actions';
 
+        const whatsappLink = document.createElement('a');
+        whatsappLink.href = `https://wa.me/5541988754003?text=${encodeURIComponent(text)}`;
+        whatsappLink.target = '_blank';
+        whatsappLink.rel = 'noopener';
+        whatsappLink.textContent = 'Enviar pelo WhatsApp';
+
+        const emailLink = document.createElement('a');
+        emailLink.href = `mailto:contato@brutusmaq.com.br?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+        emailLink.textContent = 'Abrir no e-mail';
+
+        actions.append(whatsappLink, emailLink);
+        formStatus.className = 'contact-form-status is-error';
+        formStatus.replaceChildren(
+            document.createTextNode(reason),
+            actions
+        );
+    };
+
+    contactForm.addEventListener('submit', async (event) => {
         if (!contactForm.checkValidity()) {
+            event.preventDefault();
             contactForm.reportValidity();
             return;
         }
 
-        const text = [
-            'Olá, gostaria de atendimento da Brutusmaq.',
-            '',
-            ...getFormLines()
-        ].join('\n');
-        const url = `https://wa.me/${contactWhatsappNumber}?text=${encodeURIComponent(text)}`;
+        replyToInput.value = emailInput.value.trim();
 
-        window.open(url, '_blank', 'noopener');
+        if (!window.fetch || !window.AbortController) {
+            setFormStatus('sending', 'Enviando sua solicitação...');
+            return;
+        }
+
+        event.preventDefault();
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(() => controller.abort(), 15000);
+        const endpoint = new URL(contactForm.action);
+        endpoint.pathname = `/ajax${endpoint.pathname}`;
+
+        setSubmitState(true);
+        setFormStatus('sending', 'Enviando sua solicitação com segurança...');
+
+        try {
+            const formData = Object.fromEntries(new FormData(contactForm).entries());
+            const response = await fetch(endpoint.href, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData),
+                signal: controller.signal
+            });
+
+            if (!response.ok) {
+                throw new Error(`Falha no envio: ${response.status}`);
+            }
+
+            setFormStatus('success', 'Solicitação enviada com sucesso. Os dados do equipamento seguiram para nossa equipe e você permanecerá nesta página.');
+        } catch (error) {
+            const reason = error.name === 'AbortError'
+                ? 'O serviço de e-mail demorou para confirmar o envio. Seus dados continuam preenchidos; escolha um canal abaixo para concluir sem repetir tudo.'
+                : 'Não foi possível confirmar o envio por e-mail agora. Seus dados continuam preenchidos; você pode concluir por outro canal.';
+            showSubmissionFallback(reason);
+        } finally {
+            window.clearTimeout(timeoutId);
+            setSubmitState(false);
+        }
+    });
+
+    window.addEventListener('pageshow', () => {
+        setSubmitState(false);
     });
 
     const selectedReason = contactForm.querySelector('input[name="motivo"]:checked');

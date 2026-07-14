@@ -1,51 +1,29 @@
-/* =========================================================
-   BRUTUSMAQ - PÁGINA MÁQUINAS USADAS
-   Arquivo: css/usadas.css
-   ========================================================= */
-
 :root {
-    --us-orange: #ff5a00;
-    --us-orange-2: #ff7a00;
-    --us-black: #050505;
-    --us-black-2: #0a0a0a;
-    --us-card: rgba(18, 18, 18, 0.88);
-    --us-card-2: rgba(10, 10, 10, 0.94);
-    --us-border: rgba(255, 255, 255, 0.12);
-    --us-border-orange: rgba(255, 90, 0, 0.48);
-    --us-text: #f4f4f4;
-    --us-muted: #b9b9b9;
-    --us-muted-2: #7c7c7c;
-    --us-radius: 14px;
-    --us-container: 1180px;
-}
-
-/* BASE */
-
-html {
-    scroll-behavior: smooth;
+    --usadas-orange: #ff5a00;
+    --usadas-orange-dark: #c94300;
+    --usadas-black: #050706;
+    --usadas-surface: #0e110f;
+    --usadas-surface-soft: #151916;
+    --usadas-line: rgba(255, 255, 255, 0.12);
+    --usadas-muted: #aeb5b0;
+    --usadas-white: #f7f8f7;
 }
 
 .usadas-page {
-    background:
-        radial-gradient(circle at 14% 8%, rgba(255, 90, 0, 0.09), transparent 30%),
-        radial-gradient(circle at 86% 28%, rgba(255, 90, 0, 0.08), transparent 28%),
-        linear-gradient(180deg, #050505 0%, #090909 48%, #050505 100%);
-    color: var(--us-text);
     overflow: hidden;
+    color: var(--usadas-white);
+    background: var(--usadas-black);
+}
+
+.usadas-page *,
+.usadas-page *::before,
+.usadas-page *::after {
+    box-sizing: border-box;
 }
 
 .usadas-container {
-    width: min(var(--us-container), calc(100% - 64px));
-    margin: 0 auto;
-}
-
-.usadas-page a {
-    text-decoration: none;
-}
-
-.usadas-page img {
-    max-width: 100%;
-    display: block;
+    width: min(100% - 48px, 1380px);
+    margin-inline: auto;
 }
 
 .sr-only {
@@ -60,1155 +38,1085 @@ html {
     border: 0;
 }
 
-/* =========================================================
-   BOTÕES
-   ========================================================= */
-
-.usadas-btn-primary,
-.usadas-card-btn {
-    min-height: 48px;
-    padding: 0 22px;
-    border-radius: 7px;
-    border: 1px solid transparent;
-    background: linear-gradient(90deg, var(--us-orange), var(--us-orange-2));
-    color: #fff;
-    font-family: "Teko", "Poppins", sans-serif;
-    font-size: 21px;
-    line-height: 1;
-    font-weight: 700;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    box-shadow: 0 18px 36px rgba(255, 90, 0, 0.20);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
-}
-
-.usadas-btn-primary:hover,
-.usadas-card-btn:hover {
-    transform: translateY(-3px);
-    filter: brightness(1.06);
-    box-shadow: 0 22px 42px rgba(255, 90, 0, 0.32);
-}
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
 .usadas-hero {
     position: relative;
-    min-height: 560px;
-    display: flex;
-    align-items: center;
-    background:
-        linear-gradient(90deg, rgba(0, 0, 0, 0.97), rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.92)),
-        linear-gradient(180deg, #050505 0%, #101010 100%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    overflow: hidden;
+    min-height: 660px;
+    isolation: isolate;
+    background: #070a08;
+    border-bottom: 1px solid var(--usadas-line);
 }
 
 .usadas-hero::before {
     content: "";
     position: absolute;
     inset: 0;
+    z-index: -2;
     background:
-        linear-gradient(180deg, rgba(5, 5, 5, 0.06), rgba(5, 5, 5, 0.94)),
-        repeating-linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.018) 0,
-            rgba(255, 255, 255, 0.018) 1px,
-            transparent 1px,
-            transparent 90px
-        );
-    pointer-events: none;
-}
-
-.usadas-hero::after {
-    content: "";
-    position: absolute;
-    right: -170px;
-    top: 34px;
-    width: 720px;
-    height: 720px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.045), transparent 63%);
-    filter: blur(10px);
-    pointer-events: none;
+        linear-gradient(90deg, #060807 0%, #060807 48%, rgba(6, 8, 7, 0.82) 62%, rgba(6, 8, 7, 0.2) 100%),
+        linear-gradient(0deg, #060807 0%, transparent 34%);
 }
 
 .usadas-hero-overlay {
     position: absolute;
     inset: 0;
-    background:
-        radial-gradient(circle at 62% 46%, transparent 0%, rgba(0, 0, 0, 0.26) 48%, rgba(0, 0, 0, 0.72) 100%);
-    pointer-events: none;
+    z-index: -1;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: linear-gradient(to right, black, transparent 72%);
 }
 
 .usadas-hero-inner {
     position: relative;
-    z-index: 2;
-    min-height: 560px;
-    padding: 54px 0 62px;
     display: grid;
-    grid-template-columns: minmax(0, 680px);
+    grid-template-columns: minmax(0, 0.95fr) minmax(420px, 0.75fr);
     align-items: center;
+    min-height: 660px;
+    padding-top: 76px;
 }
 
 .usadas-hero-copy {
     position: relative;
-    z-index: 3;
+    z-index: 2;
+    max-width: 720px;
+    padding: 48px 0 54px;
 }
 
 .usadas-breadcrumb ol {
-    margin-bottom: 24px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
-    margin-top: 0;
+    gap: 8px;
     padding: 0;
+    margin: 0 0 36px;
     list-style: none;
-    color: #b9b9b9;
     font-size: 13px;
+    color: #9ca39e;
 }
 
-.usadas-breadcrumb li + li::before {
+.usadas-breadcrumb li:not(:last-child)::after {
     content: "/";
-    margin-right: 10px;
-    color: #b9b9b9;
+    margin-left: 8px;
+    color: var(--usadas-orange);
 }
 
 .usadas-breadcrumb a {
-    color: var(--us-orange);
-    font-weight: 700;
+    color: inherit;
+    text-decoration: none;
 }
 
-.usadas-breadcrumb strong {
-    color: #d7d7d7;
-    font-weight: 500;
+.usadas-breadcrumb a:hover,
+.usadas-breadcrumb a:focus-visible {
+    color: #fff;
 }
 
-.usadas-hero-copy h1 {
+.usadas-hero-eyebrow,
+.usadas-section-title > div > span {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--usadas-orange);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.usadas-hero h1 {
+    max-width: 650px;
     margin: 0;
     font-family: "Teko", "Poppins", sans-serif;
-    font-size: clamp(72px, 9vw, 118px);
-    line-height: 0.82;
+    font-size: 94px;
     font-weight: 700;
-    letter-spacing: 0.8px;
-    color: #f3f3f3;
+    line-height: 0.78;
     text-transform: uppercase;
-    text-shadow: 0 18px 40px rgba(0, 0, 0, 0.82);
 }
 
-.usadas-hero-copy h1 strong {
-    color: var(--us-orange);
-    font-weight: 700;
+.usadas-hero h1 strong {
+    color: var(--usadas-orange);
+    font-weight: inherit;
 }
 
-.usadas-hero-copy p {
-    max-width: 550px;
-    margin: 24px 0 0;
-    color: #dedede;
+.usadas-hero-copy > p {
+    max-width: 650px;
+    margin: 30px 0 0;
+    color: #d3d8d4;
     font-size: 16px;
-    line-height: 1.75;
+    line-height: 1.7;
+}
+
+.usadas-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.usadas-btn-primary,
+.usadas-btn-secondary {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 22px;
+    border: 1px solid var(--usadas-orange);
+    border-radius: 4px;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.usadas-btn-primary {
+    color: #fff;
+    background: var(--usadas-orange);
+}
+
+.usadas-btn-secondary {
+    color: #fff;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.usadas-btn-primary:hover,
+.usadas-btn-primary:focus-visible {
+    background: #ff7428;
+    border-color: #ff7428;
+    transform: translateY(-2px);
+}
+
+.usadas-btn-secondary:hover,
+.usadas-btn-secondary:focus-visible {
+    color: var(--usadas-orange);
+    background: rgba(255, 90, 0, 0.08);
 }
 
 .usadas-hero-features {
-    margin-top: 34px;
     display: grid;
-    grid-template-columns: repeat(4, max-content);
-    gap: 28px;
-    align-items: center;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    max-width: 680px;
+    margin-top: 38px;
+    padding-top: 24px;
+    border-top: 1px solid var(--usadas-line);
 }
 
-.usadas-hero-features div {
+.usadas-hero-features > div {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .usadas-hero-features span {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
     display: grid;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
     place-items: center;
-    color: var(--us-orange);
-    border: 1px solid rgba(255, 90, 0, 0.42);
-    background: rgba(255, 90, 0, 0.07);
-    font-size: 22px;
+    border: 1px solid rgba(255, 90, 0, 0.5);
+    border-radius: 50%;
+}
+
+.usadas-hero-features img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
 }
 
 .usadas-hero-features strong {
-    color: #f3f3f3;
     font-family: "Teko", "Poppins", sans-serif;
-    font-size: 20px;
-    line-height: 0.95;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1;
     text-transform: uppercase;
-    letter-spacing: 0.4px;
 }
 
-/* =========================================================
-   BENEFÍCIOS
-   ========================================================= */
+.usadas-hero-media {
+    position: absolute;
+    z-index: 0;
+    right: -3%;
+    bottom: 0;
+    width: 49%;
+    height: calc(100% - 76px);
+    overflow: hidden;
+}
+
+.usadas-hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #060807 0%, transparent 26%), linear-gradient(0deg, #060807 0%, transparent 28%);
+}
+
+.usadas-hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+    opacity: 0.9;
+}
 
 .usadas-benefits-section {
-    position: relative;
-    z-index: 5;
-    margin-top: 0;
-    padding: 32px 0 58px;
+    background: #0b0e0c;
+    border-bottom: 1px solid var(--usadas-line);
 }
 
 .usadas-benefits-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border: 1px solid var(--us-border);
-    border-radius: var(--us-radius);
-    background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
-        rgba(12, 12, 12, 0.94);
-    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.48);
-    backdrop-filter: blur(12px);
-    overflow: hidden;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .usadas-benefit-card {
-    min-height: 166px;
-    padding: 34px 32px;
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    border-right: 1px solid rgba(255, 255, 255, 0.10);
-}
-
-.usadas-benefit-card:last-child {
-    border-right: none;
-}
-
-.usadas-benefit-icon {
-    flex: 0 0 auto;
-    width: 68px;
-    height: 68px;
-    border-radius: 50%;
     display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 20px;
+    min-height: 182px;
+    align-content: center;
+    padding: 36px 42px;
+    border-right: 1px solid var(--usadas-line);
+}
+
+.usadas-benefit-card:first-child {
+    border-left: 1px solid var(--usadas-line);
+}
+
+.usadas-benefit-icon,
+.usadas-process-icon,
+.usadas-alert-icon,
+.usadas-empty-icon {
+    display: grid;
+    width: 52px;
+    height: 52px;
     place-items: center;
-    color: var(--us-orange);
-    border: 1px solid rgba(255, 90, 0, 0.42);
-    background: rgba(255, 90, 0, 0.07);
-    font-size: 36px;
-    font-family: "Teko", "Poppins", sans-serif;
+    border: 1px solid rgba(255, 90, 0, 0.45);
+    border-radius: 4px;
+    background: rgba(255, 90, 0, 0.06);
 }
 
-.usadas-benefit-card h2,
-.usadas-benefit-card h3 {
-    margin: 0 0 12px;
+.usadas-benefit-icon img,
+.usadas-process-icon img,
+.usadas-alert-icon img,
+.usadas-empty-icon img {
+    width: 27px;
+    height: 27px;
+    object-fit: contain;
+}
+
+.usadas-benefit-card h3,
+.usadas-process-step h3,
+.usadas-empty-state h3 {
+    margin: 0;
     font-family: "Teko", "Poppins", sans-serif;
-    font-size: 28px;
-    line-height: 0.98;
-    color: #f4f4f4;
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 1.05;
     text-transform: uppercase;
 }
 
-.usadas-benefit-card h2::after,
-.usadas-benefit-card h3::after {
-    content: "";
-    display: block;
-    width: 46px;
-    height: 2px;
-    margin-top: 10px;
-    background: var(--us-orange);
-    border-radius: 999px;
+.usadas-benefit-card p,
+.usadas-process-step p {
+    margin: 8px 0 0;
+    color: var(--usadas-muted);
+    font-size: 13px;
+    line-height: 1.6;
 }
-
-.usadas-benefit-card p {
-    margin: 0;
-    color: #c7c7c7;
-    font-size: 13.5px;
-    line-height: 1.55;
-}
-
-/* =========================================================
-   TÍTULOS DE SEÇÃO
-   ========================================================= */
-
-.usadas-section-title {
-    text-align: center;
-    margin-bottom: 26px;
-}
-
-.usadas-section-title h2 {
-    margin: 0;
-    font-family: "Teko", "Poppins", sans-serif;
-    font-size: clamp(42px, 5vw, 58px);
-    line-height: 1;
-    color: #f4f4f4;
-    text-transform: uppercase;
-}
-
-.usadas-section-title h2::after {
-    content: "";
-    display: block;
-    width: 68px;
-    height: 3px;
-    margin: 12px auto 0;
-    background: var(--us-orange);
-    border-radius: 999px;
-}
-
-/* =========================================================
-   FILTROS
-   ========================================================= */
 
 .usadas-products-section {
-    padding: 0 0 26px;
+    padding: 88px 0 96px;
+    background: #070907;
+}
+
+.usadas-section-title {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 36px;
+}
+
+.usadas-section-title h2,
+.usadas-alert-box h2 {
+    margin: 0;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 58px;
+    font-weight: 600;
+    line-height: 0.95;
+    text-transform: uppercase;
+}
+
+.usadas-section-title > p {
+    max-width: 500px;
+    margin: 0 0 3px;
+    color: var(--usadas-muted);
+    font-size: 14px;
+    line-height: 1.65;
 }
 
 .usadas-filter-bar {
-    margin-bottom: 24px;
     display: grid;
-    grid-template-columns: 1.45fr 1fr 1fr 0.85fr 0.9fr auto;
-    gap: 14px;
+    grid-template-columns: minmax(240px, 1.55fr) repeat(4, minmax(145px, 0.78fr)) auto;
+    gap: 10px;
+    padding: 16px;
+    border: 1px solid var(--usadas-line);
+    border-radius: 6px;
+    background: var(--usadas-surface);
 }
 
 .usadas-search-box {
-    height: 48px;
-    display: flex;
-    border: 1px solid var(--us-border);
-    border-radius: 7px;
-    background: rgba(0, 0, 0, 0.28);
-    overflow: hidden;
+    position: relative;
 }
 
-.usadas-search-box input {
-    width: 100%;
-    height: 100%;
-    padding: 0 16px;
-    border: 0;
-    outline: none;
-    background: transparent;
-    color: #f4f4f4;
-    font-family: "Poppins", sans-serif;
-    font-size: 13.5px;
-}
-
-.usadas-search-box input::placeholder {
-    color: #777;
-}
-
-.usadas-search-box button {
-    width: 52px;
-    height: 100%;
-    border: 0;
-    background: transparent;
-    color: #f4f4f4;
-    cursor: pointer;
-    font-size: 22px;
-    transition: color 0.22s ease, background 0.22s ease;
-}
-
-.usadas-search-box button:hover {
-    color: var(--us-orange);
-    background: rgba(255, 255, 255, 0.04);
-}
-
+.usadas-search-box input,
 .usadas-filter-bar select {
     width: 100%;
     height: 48px;
-    padding: 0 38px 0 14px;
-    border: 1px solid var(--us-border);
-    border-radius: 7px;
-    background-color: rgba(0, 0, 0, 0.28);
-    color: #f4f4f4;
-    font-family: "Poppins", sans-serif;
-    font-size: 13px;
+    padding: 0 14px;
+    color: #e8ebe9;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 4px;
     outline: none;
-    cursor: pointer;
-    appearance: none;
-    background-image:
-        linear-gradient(45deg, transparent 50%, var(--us-orange) 50%),
-        linear-gradient(135deg, var(--us-orange) 50%, transparent 50%);
-    background-position:
-        calc(100% - 19px) 20px,
-        calc(100% - 13px) 20px;
-    background-size: 7px 7px, 7px 7px;
-    background-repeat: no-repeat;
+    background: #080a09;
+    font: 500 12px "Poppins", sans-serif;
 }
 
-.usadas-filter-bar select option {
-    background: #111;
-    color: #f4f4f4;
+.usadas-search-box input {
+    padding-right: 48px;
+}
+
+.usadas-search-box input::placeholder {
+    color: #858c87;
+}
+
+.usadas-search-box button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 48px;
+    height: 48px;
+    color: var(--usadas-orange);
+    border: 0;
+    background: transparent;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.usadas-search-box input:focus,
+.usadas-filter-bar select:focus {
+    border-color: var(--usadas-orange);
+    box-shadow: 0 0 0 2px rgba(255, 90, 0, 0.12);
+}
+
+.usadas-filter-bar select {
+    cursor: pointer;
 }
 
 .usadas-clear-filter {
-    height: 48px;
-    padding: 0 20px;
-    border: 1px solid var(--us-orange);
-    border-radius: 7px;
-    background: rgba(0, 0, 0, 0.18);
-    color: var(--us-orange);
-    font-family: "Teko", "Poppins", sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    text-transform: uppercase;
+    min-height: 48px;
+    padding: 0 16px;
+    color: #d8dcda;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 4px;
+    background: transparent;
+    font: 600 12px "Poppins", sans-serif;
     cursor: pointer;
     white-space: nowrap;
-    display: inline-flex;
+}
+
+.usadas-clear-filter:hover,
+.usadas-clear-filter:focus-visible {
+    color: var(--usadas-orange);
+    border-color: var(--usadas-orange);
+}
+
+.usadas-results-meta {
+    min-height: 48px;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: background 0.22s ease, color 0.22s ease, transform 0.22s ease;
+    justify-content: flex-end;
 }
 
-.usadas-clear-filter:hover {
-    background: var(--us-orange);
-    color: #fff;
-    transform: translateY(-2px);
+.usadas-results-meta p {
+    margin: 0;
+    color: #8f9691;
+    font-size: 12px;
 }
-
-/* =========================================================
-   CARDS DE MÁQUINAS
-   ========================================================= */
 
 .usadas-products-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
 }
 
 .usadas-product-card {
     position: relative;
-    min-height: 360px;
-    padding: 18px;
-    border: 1px solid var(--us-border);
-    border-radius: var(--us-radius);
-    background:
-        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.06), transparent 36%),
-        linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
-        var(--us-card);
-    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
-    color: var(--us-text);
-    overflow: hidden;
     display: flex;
+    min-width: 0;
     flex-direction: column;
-    cursor: pointer;
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    padding: 18px;
+    overflow: hidden;
+    color: var(--usadas-white);
+    border: 1px solid var(--usadas-line);
+    border-radius: 6px;
+    background: var(--usadas-surface);
+    text-decoration: none;
+    transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
 }
 
-.usadas-product-card:hover {
-    transform: translateY(-7px);
-    border-color: rgba(255, 90, 0, 0.42);
-    box-shadow: 0 30px 78px rgba(0, 0, 0, 0.46);
-}
-
-.usadas-product-card::after {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    border-radius: calc(var(--us-radius) - 1px);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 46%);
-    pointer-events: none;
+.usadas-product-card:hover,
+.usadas-product-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: rgba(255, 90, 0, 0.7);
+    background: var(--usadas-surface-soft);
 }
 
 .usadas-status {
     position: absolute;
-    z-index: 3;
+    z-index: 2;
     top: 16px;
     left: 16px;
-    padding: 6px 10px;
-    border-radius: 5px;
+    padding: 5px 8px;
     color: #fff;
-    font-size: 11px;
-    line-height: 1;
-    font-weight: 800;
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    background: rgba(4, 6, 5, 0.86);
+    font-size: 9px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
 }
 
 .status-disponivel {
-    background: #17a833;
+    color: #66d78c;
 }
 
+.status-nao-revisado,
 .status-revisao {
-    background: #f6a400;
-    color: #111;
+    color: #ffb24e;
 }
 
-.status-nao-revisado {
-    background: #f6a400;
-    color: #111;
-}
-
-.status-vendida {
-    background: #e52b2b;
-}
-
-.usadas-empty-state {
-    grid-column: 1 / -1;
-    min-height: 180px;
-    padding: 34px 24px;
-    border: 1px dashed var(--us-border);
-    border-radius: var(--us-radius);
-    display: grid;
-    place-items: center;
-    text-align: center;
-    color: var(--us-muted);
-    background: rgba(255, 255, 255, 0.025);
+.status-vendida,
+.status-vendido {
+    color: #aeb5b0;
 }
 
 .usadas-product-image {
-    height: 170px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 18px;
+    place-items: center;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: #0a0d0b;
 }
 
 .usadas-product-image img {
-    max-height: 165px;
+    width: 92%;
+    height: 92%;
     object-fit: contain;
-    filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.72));
-    transition: transform 0.28s ease;
+    transition: transform 220ms ease;
 }
 
 .usadas-product-card:hover .usadas-product-image img {
-    transform: scale(1.06);
+    transform: scale(1.04);
 }
 
 .usadas-product-card h3 {
-    margin: auto 0 4px;
+    margin: 0;
     font-family: "Teko", "Poppins", sans-serif;
-    font-size: 34px;
+    font-size: 35px;
+    font-weight: 600;
     line-height: 1;
-    color: #f4f4f4;
     text-transform: uppercase;
 }
 
 .usadas-product-category {
-    display: block;
-    margin-bottom: 12px;
-    color: #bcbcbc;
-    font-size: 13px;
-}
-
-.usadas-product-card ul {
-    list-style: none;
-    margin: 0 0 16px;
-    padding: 0;
-}
-
-.usadas-product-card li {
-    position: relative;
-    padding-left: 14px;
-    color: #d0d0d0;
-    font-size: 13px;
-    line-height: 1.55;
-}
-
-.usadas-product-card li::before {
-    content: "›";
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: var(--us-orange);
-    font-weight: 800;
-}
-
-.usadas-card-btn {
-    width: max-content;
     min-height: 38px;
-    padding: 0 18px;
-    margin-top: auto;
-    font-size: 19px;
-    box-shadow: none;
-}
-
-/* =========================================================
-   CTA AVISO
-   ========================================================= */
-
-.usadas-alert-section {
-    padding: 0 0 28px;
-}
-
-.usadas-alert-box {
-    position: relative;
-    min-height: 130px;
-    padding: 28px 34px;
-    border: 1px solid var(--us-border-orange);
-    border-radius: 8px;
-    background:
-        linear-gradient(90deg, rgba(0, 0, 0, 0.94), rgba(0, 0, 0, 0.70)),
-        radial-gradient(circle at 80% 50%, rgba(255, 90, 0, 0.20), transparent 34%),
-        rgba(15, 15, 15, 0.92);
-    display: grid;
-    grid-template-columns: auto 1fr 0.8fr auto;
-    gap: 24px;
-    align-items: center;
-    overflow: hidden;
-}
-
-.usadas-alert-box::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        repeating-linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.018) 0,
-            rgba(255, 255, 255, 0.018) 1px,
-            transparent 1px,
-            transparent 70px
-        );
-    pointer-events: none;
-}
-
-.usadas-alert-icon {
-    position: relative;
-    z-index: 1;
-    width: 62px;
-    height: 62px;
-    border-radius: 50%;
-    color: var(--us-orange);
-    display: grid;
-    place-items: center;
-    border: 1px solid rgba(255, 90, 0, 0.42);
-    background: rgba(255, 90, 0, 0.07);
-    font-size: 32px;
-}
-
-.usadas-alert-box h2 {
-    position: relative;
-    z-index: 1;
-    margin: 0;
-    font-family: "Teko", "Poppins", sans-serif;
-    font-size: clamp(32px, 3.6vw, 46px);
-    line-height: 0.95;
-    color: #f4f4f4;
+    margin-top: 3px;
+    color: var(--usadas-orange);
+    font-size: 11px;
+    font-weight: 700;
     text-transform: uppercase;
 }
 
+.usadas-product-card ul {
+    display: grid;
+    gap: 7px;
+    padding: 14px 0;
+    margin: 14px 0 0;
+    color: #aeb5b0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    list-style: none;
+    font-size: 11px;
+}
+
+.usadas-product-card li::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    margin-right: 8px;
+    vertical-align: middle;
+    background: var(--usadas-orange);
+}
+
+.usadas-card-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 15px;
+    color: #fff;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 19px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.usadas-card-btn span {
+    color: var(--usadas-orange);
+}
+
+.usadas-empty-state {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 60px minmax(0, 1fr) auto;
+    gap: 22px;
+    align-items: center;
+    min-height: 170px;
+    padding: 34px;
+    border-block: 1px solid var(--usadas-line);
+    background: #0b0e0c;
+}
+
+.usadas-empty-state p {
+    max-width: 650px;
+    margin: 8px 0 0;
+    color: var(--usadas-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.usadas-empty-state .usadas-btn-primary {
+    border: 1px solid var(--usadas-orange);
+}
+
+.usadas-alert-section {
+    position: relative;
+    background: #101511;
+    border-block: 1px solid var(--usadas-line);
+}
+
+.usadas-alert-section::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 6px;
+    background: var(--usadas-orange);
+}
+
+.usadas-alert-box {
+    display: grid;
+    grid-template-columns: 64px minmax(300px, 0.8fr) minmax(300px, 1fr) auto;
+    gap: 30px;
+    align-items: center;
+    min-height: 220px;
+    padding: 42px 0;
+}
+
+.usadas-alert-icon {
+    width: 60px;
+    height: 60px;
+}
+
+.usadas-alert-box h2 {
+    font-size: 42px;
+}
+
 .usadas-alert-box h2 strong {
-    color: var(--us-orange);
+    color: var(--usadas-orange);
+    font-weight: inherit;
 }
 
-.usadas-alert-box p {
-    position: relative;
-    z-index: 1;
+.usadas-alert-box > p {
     margin: 0;
-    color: #d4d4d4;
-    font-size: 13.5px;
-    line-height: 1.55;
+    color: var(--usadas-muted);
+    font-size: 14px;
+    line-height: 1.65;
 }
-
-.usadas-alert-box .usadas-btn-primary {
-    position: relative;
-    z-index: 1;
-    white-space: nowrap;
-}
-
-/* =========================================================
-   COMO FUNCIONA
-   ========================================================= */
 
 .usadas-process-section {
-    padding: 0 0 78px;
+    padding: 92px 0 104px;
+    background: #070907;
 }
 
 .usadas-process-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border: 1px solid var(--us-border);
-    border-radius: var(--us-radius);
-    background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.014)),
-        rgba(12, 12, 12, 0.90);
-    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
-    overflow: hidden;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--usadas-line);
 }
 
 .usadas-process-step {
-    min-height: 150px;
-    padding: 28px 24px;
-    display: flex;
-    align-items: center;
+    position: relative;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
     gap: 18px;
-    border-right: 1px solid rgba(255, 255, 255, 0.10);
+    min-height: 210px;
+    padding: 34px 28px 20px 0;
+    border-right: 1px solid var(--usadas-line);
+}
+
+.usadas-process-step:not(:first-child) {
+    padding-left: 28px;
 }
 
 .usadas-process-step:last-child {
     border-right: 0;
 }
 
-.usadas-process-icon {
-    flex: 0 0 auto;
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    color: var(--us-orange);
-    border: 1px solid rgba(255, 90, 0, 0.42);
-    background: rgba(255, 90, 0, 0.07);
-    font-size: 28px;
-}
-
-.usadas-process-step span {
+.usadas-process-step > div:last-child > span {
     display: block;
-    margin-bottom: 4px;
-    color: var(--us-orange);
-    font-family: "Teko", "Poppins", sans-serif;
-    font-size: 42px;
-    line-height: 0.85;
+    margin-bottom: 16px;
+    color: var(--usadas-orange);
+    font: 600 17px "Teko", "Poppins", sans-serif;
 }
-
-.usadas-process-step h3 {
-    margin: 0 0 7px;
-    font-family: "Teko", "Poppins", sans-serif;
-    font-size: 25px;
-    line-height: 0.95;
-    color: #f4f4f4;
-    text-transform: uppercase;
-}
-
-.usadas-process-step p {
-    margin: 0;
-    color: #bdbdbd;
-    font-size: 12.5px;
-    line-height: 1.4;
-}
-
-.footer-contact {
-    font-style: normal;
-}
-
-/* =========================================================
-   RESPONSIVO
-   ========================================================= */
 
 @media (max-width: 1180px) {
-    .usadas-container {
-        width: min(100% - 40px, var(--us-container));
-    }
-
-    .usadas-hero-inner {
-        grid-template-columns: minmax(0, 680px);
-    }
-
-    .usadas-hero-features {
-        grid-template-columns: repeat(2, max-content);
-        gap: 20px 28px;
-    }
-
-    .usadas-filter-bar {
-        grid-template-columns: 1.2fr 1fr 1fr;
-    }
-
-    .usadas-clear-filter {
-        grid-column: span 3;
-        justify-self: end;
-    }
-
-    .usadas-products-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .usadas-alert-box {
-        grid-template-columns: auto 1fr;
-    }
-
-    .usadas-alert-box p,
-    .usadas-alert-box .usadas-btn-primary {
-        grid-column: 2 / 3;
-    }
-}
-
-@media (max-width: 980px) {
     .usadas-hero {
-        min-height: auto;
+        min-height: 620px;
     }
 
     .usadas-hero-inner {
-        grid-template-columns: 1fr;
-        min-height: auto;
-        padding: 56px 0 92px;
-        text-align: center;
+        grid-template-columns: minmax(0, 1fr) minmax(340px, 0.7fr);
+        min-height: 620px;
     }
 
-    .usadas-breadcrumb {
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .usadas-breadcrumb ol {
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .usadas-hero-copy p {
-        margin-left: auto;
-        margin-right: auto;
+    .usadas-hero h1 {
+        font-size: 78px;
     }
 
     .usadas-hero-features {
-        justify-content: center;
-    }
-
-    .usadas-benefits-grid {
-        position: relative;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-        border: 0;
-        background: transparent;
-        box-shadow: none;
-        backdrop-filter: none;
-        overflow: visible;
-    }
-
-    .usadas-benefit-card {
-        position: relative;
-        min-height: 220px;
-        padding: 24px 18px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.11);
-        border-radius: 8px;
-        background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.014)),
-            rgba(12, 12, 12, 0.94);
-    }
-
-    .usadas-benefit-card:not(:last-child)::after {
-        content: "";
-        position: absolute;
-        top: 55px;
-        right: -13px;
-        width: 13px;
-        height: 1px;
-        background: rgba(255, 90, 0, 0.42);
-    }
-
-    .usadas-benefit-card:last-child {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.11);
-    }
-
-    .usadas-benefit-icon {
-        width: 58px;
-        height: 58px;
-        font-size: 31px;
-    }
-
-    .usadas-benefit-card h2,
-    .usadas-benefit-card h3 {
-        font-size: 24px;
-    }
-
-    .usadas-benefit-card p {
-        font-size: 13px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 440px;
     }
 
     .usadas-filter-bar {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .usadas-search-box {
+        grid-column: span 2;
+    }
+
+    .usadas-products-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .usadas-benefit-card {
+        padding-inline: 24px;
+    }
+
+    .usadas-alert-box {
+        grid-template-columns: 60px minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .usadas-alert-box .usadas-btn-primary {
+        grid-column: 2 / -1;
+        justify-self: start;
+    }
+}
+
+@media (max-width: 900px) {
+    .usadas-container {
+        width: min(100% - 36px, 820px);
+    }
+
+    .usadas-hero,
+    .usadas-hero-inner {
+        min-height: 660px;
+    }
+
+    .usadas-hero-inner {
+        grid-template-columns: minmax(0, 1fr) 280px;
+        padding-top: 68px;
+    }
+
+    .usadas-hero-copy {
+        padding-block: 42px;
+    }
+
+    .usadas-hero h1 {
+        font-size: 72px;
+    }
+
+    .usadas-hero-copy > p {
+        max-width: 520px;
+        font-size: 14px;
+    }
+
+    .usadas-hero-media {
+        right: -16%;
+        width: 58%;
+        opacity: 0.58;
+    }
+
+    .usadas-benefits-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .usadas-benefit-card,
+    .usadas-benefit-card:first-child {
+        min-height: auto;
+        padding: 24px 18px;
+        border-right: 0;
+        border-left: 0;
+        border-bottom: 1px solid var(--usadas-line);
+    }
+
+    .usadas-benefit-card:last-child {
+        border-bottom: 0;
+    }
+
+    .usadas-products-section,
+    .usadas-process-section {
+        padding-block: 72px;
+    }
+
+    .usadas-section-title {
+        align-items: start;
+    }
+
+    .usadas-section-title h2 {
+        font-size: 50px;
+    }
+
+    .usadas-section-title > p {
+        max-width: 340px;
+    }
+
+    .usadas-products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .usadas-alert-box {
+        grid-template-columns: 60px minmax(0, 1fr);
+    }
+
+    .usadas-alert-box > p,
+    .usadas-alert-box .usadas-btn-primary {
+        grid-column: 2;
+    }
+
+    .usadas-process-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .usadas-process-step:nth-child(2) {
+        border-right: 0;
+    }
+
+    .usadas-process-step:nth-child(n + 3) {
+        border-top: 1px solid var(--usadas-line);
+    }
+
+    .usadas-process-step:nth-child(3) {
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .usadas-container {
+        width: calc(100% - 28px);
+    }
+
+    .usadas-hero,
+    .usadas-hero-inner {
+        min-height: 0;
+    }
+
+    .usadas-hero-inner {
+        display: block;
+        padding-top: 68px;
+    }
+
+    .usadas-hero::before {
+        background: linear-gradient(90deg, #060807 0%, rgba(6, 8, 7, 0.92) 68%, rgba(6, 8, 7, 0.74) 100%);
+    }
+
+    .usadas-hero-overlay {
+        background-size: 48px 48px;
+        opacity: 0.5;
+    }
+
+    .usadas-hero-copy {
+        padding: 26px 0 32px;
+    }
+
+    .usadas-breadcrumb ol {
+        margin-bottom: 26px;
+        font-size: 11px;
+    }
+
+    .usadas-hero-eyebrow {
+        font-size: 10px;
+    }
+
+    .usadas-hero h1 {
+        font-size: 56px;
+        line-height: 0.82;
+    }
+
+    .usadas-hero-copy > p {
+        max-width: 92%;
+        margin-top: 22px;
+        font-size: 13px;
+        line-height: 1.65;
+    }
+
+    .usadas-hero-actions {
+        display: grid;
+        gap: 8px;
+        margin-top: 24px;
+    }
+
+    .usadas-btn-primary,
+    .usadas-btn-secondary {
+        width: 100%;
+        min-height: 46px;
+        padding-inline: 14px;
+        font-size: 18px;
+    }
+
+    .usadas-hero-features {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 10px;
+        margin-top: 26px;
+        padding-top: 20px;
+    }
+
+    .usadas-hero-features span {
+        flex-basis: 32px;
+        width: 32px;
+        height: 32px;
+    }
+
+    .usadas-hero-features img {
+        width: 17px;
+        height: 17px;
+    }
+
+    .usadas-hero-features strong {
+        font-size: 14px;
+    }
+
+    .usadas-hero-media {
+        right: -38%;
+        bottom: 0;
+        width: 90%;
+        height: 72%;
+        opacity: 0.24;
+    }
+
+    .usadas-benefit-card {
+        grid-template-columns: 44px minmax(0, 1fr);
+        gap: 15px;
+        padding: 20px 0;
+    }
+
+    .usadas-benefit-icon,
+    .usadas-process-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .usadas-benefit-icon img,
+    .usadas-process-icon img {
+        width: 23px;
+        height: 23px;
+    }
+
+    .usadas-benefit-card h3,
+    .usadas-process-step h3,
+    .usadas-empty-state h3 {
+        font-size: 22px;
+    }
+
+    .usadas-products-section,
+    .usadas-process-section {
+        padding-block: 56px;
+    }
+
+    .usadas-section-title {
+        display: block;
+        margin-bottom: 26px;
+    }
+
+    .usadas-section-title h2 {
+        font-size: 43px;
+    }
+
+    .usadas-section-title > p {
+        margin-top: 14px;
+        font-size: 12px;
+    }
+
+    .usadas-filter-bar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .usadas-search-box,
+    .usadas-clear-filter {
         grid-column: 1 / -1;
     }
 
+    .usadas-search-box input,
+    .usadas-filter-bar select,
+    .usadas-search-box button,
     .usadas-clear-filter {
+        height: 44px;
+        min-height: 44px;
+    }
+
+    .usadas-filter-bar select {
+        padding-inline: 9px;
+        font-size: 10px;
+    }
+
+    .usadas-results-meta {
+        min-height: 40px;
+    }
+
+    .usadas-products-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .usadas-product-card {
+        display: grid;
+        grid-template-columns: 112px minmax(0, 1fr);
+        grid-template-rows: auto auto 1fr auto;
+        column-gap: 16px;
+        min-height: 178px;
+        padding: 14px;
+    }
+
+    .usadas-product-image {
+        grid-column: 1;
+        grid-row: 1 / -1;
+        align-self: stretch;
+        height: 100%;
+        margin: 0;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 0;
+    }
+
+    .usadas-status {
+        top: 10px;
+        left: 10px;
+        max-width: 94px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .usadas-product-card h3 {
+        grid-column: 2;
+        font-size: 29px;
+    }
+
+    .usadas-product-category {
+        grid-column: 2;
+        min-height: 0;
+        font-size: 9px;
+    }
+
+    .usadas-product-card ul {
+        grid-column: 2;
+        gap: 4px;
+        padding: 9px 0;
+        margin-top: 8px;
+        font-size: 9px;
+    }
+
+    .usadas-card-btn {
+        grid-column: 2;
+        padding-top: 9px;
+        font-size: 16px;
+    }
+
+    .usadas-empty-state {
+        grid-template-columns: 46px minmax(0, 1fr);
+        gap: 15px;
+        padding: 26px 0;
+    }
+
+    .usadas-empty-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .usadas-empty-state .usadas-btn-primary {
+        grid-column: 1 / -1;
+    }
+
+    .usadas-alert-box {
+        grid-template-columns: 48px minmax(0, 1fr);
+        gap: 16px;
+        min-height: 0;
+        padding-block: 38px;
+    }
+
+    .usadas-alert-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .usadas-alert-box h2 {
+        font-size: 32px;
+    }
+
+    .usadas-alert-box > p {
+        grid-column: 1 / -1;
+        font-size: 12px;
+    }
+
+    .usadas-alert-box .usadas-btn-primary {
         grid-column: 1 / -1;
         justify-self: stretch;
     }
 
-    .usadas-products-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .usadas-process-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .usadas-process-step:nth-child(2) {
-        border-right: 0;
-    }
-
-    .usadas-process-step:nth-child(1),
-    .usadas-process-step:nth-child(2) {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.10);
-    }
-}
-
-@media (max-width: 680px) {
-    .usadas-container {
-        width: min(100% - 28px, var(--us-container));
-    }
-
-    .usadas-btn-primary {
-        width: 100%;
-        min-height: 52px;
-        font-size: 21px;
-    }
-
-    .usadas-hero-inner {
-        padding: 44px 0 86px;
-    }
-
-    .usadas-breadcrumb {
-        font-size: 12px;
-        margin-bottom: 18px;
-    }
-
-    .usadas-breadcrumb ol {
-        font-size: 12px;
-        margin-bottom: 18px;
-    }
-
-    .usadas-hero-copy h1 {
-        font-size: clamp(58px, 18vw, 86px);
-    }
-
-    .usadas-hero-copy p {
-        font-size: 14.5px;
-    }
-
-    .usadas-hero-features {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        width: min(100%, 360px);
-        margin: 26px auto 0;
-    }
-
-    .usadas-hero-features div {
-        position: relative;
-        justify-content: space-between;
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 18px;
-        min-height: 118px;
-        padding: 14px;
-        overflow: hidden;
-        text-align: left;
-        border: 1px solid rgba(255, 255, 255, 0.10);
-        border-radius: 8px;
-        background:
-            linear-gradient(145deg, rgba(255, 255, 255, 0.042), rgba(255, 255, 255, 0.012)),
-            rgba(12, 12, 12, 0.78);
-        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
-    }
-
-    .usadas-hero-features div::before {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        color: rgba(255, 255, 255, 0.10);
-        font-family: "Teko", "Poppins", sans-serif;
-        font-size: 25px;
-        line-height: 1;
-    }
-
-    .usadas-hero-features div:nth-child(1)::before {
-        content: "01";
-    }
-
-    .usadas-hero-features div:nth-child(2)::before {
-        content: "02";
-    }
-
-    .usadas-hero-features div:nth-child(3)::before {
-        content: "03";
-    }
-
-    .usadas-hero-features div:nth-child(4)::before {
-        content: "04";
-    }
-
-    .usadas-hero-features span {
-        width: 36px;
-        height: 36px;
-        font-size: 18px;
-        border-color: rgba(255, 90, 0, 0.26);
-        background: rgba(255, 90, 0, 0.045);
-    }
-
-    .usadas-hero-features strong {
-        max-width: 118px;
-        font-size: 17px;
-        line-height: 0.9;
-    }
-
-    .usadas-benefits-section {
-        padding: 24px 0 44px;
-    }
-
-    .usadas-benefits-grid {
-        grid-template-columns: 1fr;
-        gap: 0;
-        border: 1px solid var(--us-border);
-        border-radius: var(--us-radius);
-        background:
-            linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
-            rgba(12, 12, 12, 0.94);
-        overflow: hidden;
-    }
-
-    .usadas-benefit-card {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 30px 22px;
-    }
-
-    .usadas-benefit-card:not(:last-child)::after {
-        display: none;
-    }
-
-    .usadas-benefit-card h2::after,
-    .usadas-benefit-card h3::after {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .usadas-filter-bar {
-        grid-template-columns: 1fr;
-    }
-
-    .usadas-products-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .usadas-product-card {
-        min-height: auto;
-    }
-
-    .usadas-product-image {
-        height: 210px;
-    }
-
-    .usadas-card-btn {
-        width: 100%;
-    }
-
-    .usadas-alert-box {
-        grid-template-columns: 1fr;
-        text-align: center;
-        padding: 28px 22px;
-    }
-
-    .usadas-alert-icon {
-        justify-self: center;
-    }
-
-    .usadas-alert-box p,
-    .usadas-alert-box .usadas-btn-primary {
-        grid-column: auto;
-    }
-
-    .usadas-process-section {
-        padding-bottom: 56px;
-    }
-
     .usadas-process-grid {
         grid-template-columns: 1fr;
-        gap: 12px;
-        border: 0;
-        background: transparent;
-        box-shadow: none;
-        overflow: visible;
     }
 
-    .usadas-process-step {
-        position: relative;
-        display: grid;
-        grid-template-columns: 52px 1fr;
-        align-items: start;
-        gap: 14px;
-        min-height: auto;
-        padding: 18px;
+    .usadas-process-step,
+    .usadas-process-step:not(:first-child),
+    .usadas-process-step:nth-child(3) {
+        min-height: 0;
+        padding: 24px 0;
         border-right: 0;
-        border: 1px solid rgba(255, 255, 255, 0.11);
-        border-radius: 8px;
-        background:
-            linear-gradient(135deg, rgba(255, 90, 0, 0.08), transparent 36%),
-            linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.014)),
-            rgba(12, 12, 12, 0.94);
+        border-bottom: 1px solid var(--usadas-line);
     }
 
     .usadas-process-step:last-child {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+        border-bottom: 0;
     }
 
-    .usadas-process-icon {
-        width: 48px;
-        height: 48px;
-        font-size: 23px;
-    }
-
-    .usadas-process-step > div {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        column-gap: 8px;
-        align-items: end;
-    }
-
-    .usadas-process-step span {
-        margin: 0;
-        font-size: 34px;
-        line-height: 0.85;
-    }
-
-    .usadas-process-step h3 {
-        margin: 0 0 3px;
-        font-size: 24px;
-        line-height: 0.95;
-    }
-
-    .usadas-process-step p {
-        grid-column: 1 / -1;
-        margin-top: 5px;
-        font-size: 13px;
-        line-height: 1.45;
+    .usadas-process-step > div:last-child > span {
+        margin-bottom: 8px;
     }
 }
 
-@media (max-width: 420px) {
-    .usadas-container {
-        width: min(100% - 22px, var(--us-container));
-    }
-
-    .usadas-hero-copy h1 {
-        font-size: clamp(52px, 18vw, 72px);
-    }
-
-    .usadas-section-title h2 {
-        font-size: clamp(36px, 13vw, 48px);
-    }
-
-    .usadas-product-card {
-        padding: 16px;
-    }
-
-    .usadas-product-image {
-        height: 180px;
-    }
-
-    .usadas-alert-box h2 {
-        font-size: clamp(32px, 13vw, 44px);
-    }
-
-    .usadas-process-step {
-        grid-template-columns: 46px 1fr;
-        gap: 12px;
-        padding: 16px;
-        text-align: left;
-    }
-
-    .usadas-process-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 21px;
-    }
-
-    .usadas-process-step h3 {
-        font-size: 22px;
+@media (prefers-reduced-motion: reduce) {
+    .usadas-page *,
+    .usadas-page *::before,
+    .usadas-page *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
     }
 }

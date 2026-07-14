@@ -1,41 +1,30 @@
-/* =========================================================
-   BRUTUSMAQ - PÁGINA EQUIPAMENTOS
-   Arquivo: css/equipamentos.css
-   ========================================================= */
+/* Pagina de equipamentos Brutusmaq */
 
 :root {
     --eq-orange: #ff5a00;
-    --eq-orange-2: #ff7a00;
-    --eq-black: #050505;
-    --eq-black-2: #0a0a0a;
-    --eq-card: rgba(18, 18, 18, 0.86);
-    --eq-card-2: rgba(10, 10, 10, 0.94);
-    --eq-border: rgba(255, 255, 255, 0.12);
-    --eq-border-orange: rgba(255, 90, 0, 0.48);
-    --eq-text: #f4f4f4;
-    --eq-muted: #b9b9b9;
-    --eq-muted-2: #7c7c7c;
-    --eq-radius: 14px;
-    --eq-container: 1180px;
+    --eq-orange-2: #ff7a1a;
+    --eq-green: #78b72a;
+    --eq-bg: #070908;
+    --eq-surface: #0d100f;
+    --eq-surface-2: #121513;
+    --eq-text: #f4f5f2;
+    --eq-muted: #aeb2ac;
+    --eq-line: rgba(255, 255, 255, 0.12);
+    --eq-container: 1380px;
 }
-
-/* BASE */
 
 html {
     scroll-behavior: smooth;
 }
 
 .equipamentos-page {
-    background:
-        radial-gradient(circle at 16% 10%, rgba(255, 90, 0, 0.09), transparent 30%),
-        radial-gradient(circle at 86% 30%, rgba(255, 90, 0, 0.08), transparent 28%),
-        linear-gradient(180deg, #050505 0%, #090909 48%, #050505 100%);
     color: var(--eq-text);
-    overflow: hidden;
+    background: var(--eq-bg);
+    overflow: clip;
 }
 
 .equipamentos-container {
-    width: min(var(--eq-container), calc(100% - 64px));
+    width: min(var(--eq-container), calc(100% - 96px));
     margin: 0 auto;
 }
 
@@ -44,145 +33,163 @@ html {
 }
 
 .equipamentos-page img {
-    max-width: 100%;
     display: block;
+    max-width: 100%;
 }
 
-/* Compensa o header ao clicar nos anchors */
 .equipamentos-category-section,
 .equipamentos-product {
-    scroll-margin-top: 110px;
+    scroll-margin-top: 184px;
 }
 
-/* =========================================================
-   BOTÕES
-   ========================================================= */
+#categorias {
+    scroll-margin-top: 100px;
+}
 
-.equipamentos-btn-primary {
+.equipamentos-btn-primary,
+.equipamentos-btn-secondary {
     min-height: 50px;
     padding: 0 22px;
-    border-radius: 7px;
     border: 1px solid transparent;
-    background: linear-gradient(90deg, var(--eq-orange), var(--eq-orange-2));
-    color: #fff;
-    font-family: "Teko", "Poppins", sans-serif;
-    font-size: 21px;
-    line-height: 1;
-    font-weight: 700;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
+    border-radius: 5px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    box-shadow: 0 18px 36px rgba(255, 90, 0, 0.20);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    color: #fff;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.equipamentos-btn-primary {
+    background: var(--eq-orange);
+    box-shadow: 0 18px 36px rgba(255, 90, 0, 0.2);
+}
+
+.equipamentos-btn-secondary {
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(5, 7, 6, 0.54);
+}
+
+.equipamentos-btn-primary:hover,
+.equipamentos-btn-secondary:hover {
+    transform: translateY(-2px);
 }
 
 .equipamentos-btn-primary:hover {
-    transform: translateY(-3px);
-    filter: brightness(1.06);
-    box-shadow: 0 22px 42px rgba(255, 90, 0, 0.32);
+    background: var(--eq-orange-2);
 }
 
-/* =========================================================
-   HERO
-   ========================================================= */
+.equipamentos-btn-secondary:hover {
+    border-color: var(--eq-orange);
+    background: rgba(255, 90, 0, 0.09);
+}
+
+/* Hero */
 
 .equipamentos-hero {
     position: relative;
-    min-height: 430px;
+    min-height: 640px;
+    isolation: isolate;
     display: flex;
-    align-items: center;
-    background:
-        linear-gradient(90deg, rgba(0, 0, 0, 0.96), rgba(0, 0, 0, 0.76), rgba(0, 0, 0, 0.92)),
-        radial-gradient(circle at 82% 28%, rgba(255, 90, 0, 0.15), transparent 28%),
-        linear-gradient(180deg, #050505 0%, #101010 100%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    align-items: stretch;
     overflow: hidden;
+    background:
+        linear-gradient(90deg, #050706 0%, rgba(5, 7, 6, 0.97) 43%, rgba(5, 7, 6, 0.34) 76%, #050706 100%),
+        #050706;
+    border-bottom: 1px solid var(--eq-line);
 }
 
 .equipamentos-hero::before {
     content: "";
     position: absolute;
     inset: 0;
+    z-index: -2;
     background:
-        linear-gradient(180deg, rgba(5, 5, 5, 0.06), rgba(5, 5, 5, 0.94)),
-        repeating-linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.018) 0,
-            rgba(255, 255, 255, 0.018) 1px,
-            transparent 1px,
-            transparent 90px
-        );
-    pointer-events: none;
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 108px),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 42%);
 }
 
 .equipamentos-hero::after {
     content: "";
     position: absolute;
-    right: -120px;
-    top: -170px;
-    width: 560px;
-    height: 560px;
-    background: radial-gradient(circle, rgba(255, 90, 0, 0.12), transparent 64%);
-    filter: blur(10px);
+    z-index: -1;
+    inset: auto 0 0;
+    height: 42%;
+    background: linear-gradient(180deg, transparent, #050706 92%);
     pointer-events: none;
 }
 
 .equipamentos-hero-overlay {
     position: absolute;
     inset: 0;
+    z-index: -1;
     background:
-        radial-gradient(circle at 62% 46%, transparent 0%, rgba(0, 0, 0, 0.26) 48%, rgba(0, 0, 0, 0.72) 100%);
+        radial-gradient(circle at 76% 46%, rgba(255, 90, 0, 0.2), transparent 23%),
+        radial-gradient(circle at 70% 54%, rgba(120, 183, 42, 0.08), transparent 28%);
     pointer-events: none;
 }
 
 .equipamentos-hero-inner {
     position: relative;
-    z-index: 2;
-    min-height: 430px;
-    padding: 58px 0 76px;
-    display: grid;
-    grid-template-columns: 1fr;
+    min-height: 640px;
+    padding: 72px 0 82px;
+    display: flex;
     align-items: center;
 }
 
 .equipamentos-hero-copy {
     position: relative;
     z-index: 3;
-    max-width: 850px;
+    width: min(710px, 58%);
 }
 
 .equipamentos-breadcrumb {
-    margin-bottom: 22px;
+    margin-bottom: 24px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: #b9b9b9;
+    gap: 9px;
+    color: #8f948e;
     font-size: 13px;
 }
 
 .equipamentos-breadcrumb a {
+    color: #c8cbc6;
+}
+
+.equipamentos-breadcrumb a:hover {
     color: var(--eq-orange);
-    font-weight: 700;
 }
 
 .equipamentos-breadcrumb strong {
-    color: #d7d7d7;
+    color: #fff;
     font-weight: 500;
+}
+
+.equipamentos-hero-eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--eq-orange);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
 }
 
 .equipamentos-hero-copy h1 {
     margin: 0;
+    color: #f7f8f5;
     font-family: "Teko", "Poppins", sans-serif;
-    font-size: clamp(54px, 7vw, 92px);
-    line-height: 0.88;
+    font-size: 92px;
     font-weight: 700;
-    letter-spacing: 0.8px;
-    color: #f3f3f3;
+    line-height: 0.82;
+    letter-spacing: 0;
     text-transform: uppercase;
-    text-shadow: 0 18px 40px rgba(0, 0, 0, 0.82);
+    text-shadow: 0 18px 42px rgba(0, 0, 0, 0.72);
 }
 
 .equipamentos-hero-copy h1 strong {
@@ -190,454 +197,517 @@ html {
     font-weight: 700;
 }
 
-.equipamentos-hero-copy p {
-    max-width: 720px;
-    margin: 22px 0 0;
-    color: #dedede;
+.equipamentos-hero-copy > p {
+    max-width: 610px;
+    margin: 24px 0 0;
+    color: #d4d7d1;
     font-size: 16px;
     line-height: 1.7;
 }
 
-.equipamentos-hero-features {
-    margin-top: 32px;
-    display: grid;
-    grid-template-columns: repeat(4, max-content);
-    gap: 28px;
-    align-items: center;
-}
-
-.equipamentos-hero-features div {
+.equipamentos-hero-actions {
+    margin-top: 28px;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     gap: 12px;
 }
 
+.equipamentos-hero-features {
+    margin-top: 36px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.equipamentos-hero-features div {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .equipamentos-hero-features span {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
     display: grid;
     place-items: center;
-    color: var(--eq-orange);
-    border: 1px solid rgba(255, 90, 0, 0.42);
-    background: rgba(255, 90, 0, 0.07);
-    font-size: 22px;
+    border-left: 2px solid var(--eq-orange);
+}
+
+.equipamentos-hero-features span img {
+    width: 21px;
+    height: 21px;
+    object-fit: contain;
+}
+
+.equipamentos-hero-features .equipamentos-hero-icon-fabricacao img {
+    width: 24px;
+    height: 24px;
 }
 
 .equipamentos-hero-features strong {
-    color: #f3f3f3;
+    color: #f0f2ee;
     font-family: "Teko", "Poppins", sans-serif;
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 600;
     line-height: 0.95;
+    letter-spacing: 0;
     text-transform: uppercase;
-    letter-spacing: 0.4px;
 }
 
 .equipamentos-hero-machine {
-    position: relative;
-    min-height: 390px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: absolute;
+    z-index: 1;
+    right: -74px;
+    bottom: -36px;
+    width: min(720px, 55vw);
+    pointer-events: none;
 }
 
 .equipamentos-hero-machine::before {
     content: "";
     position: absolute;
-    width: 88%;
-    height: 58%;
-    bottom: 34px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: radial-gradient(ellipse at center, rgba(255, 90, 0, 0.22), transparent 62%);
-    filter: blur(18px);
-}
-
-.equipamentos-hero-machine::after {
-    content: "";
-    position: absolute;
-    width: 90%;
-    height: 80px;
-    bottom: 34px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.92), transparent 70%);
-    filter: blur(6px);
+    right: 8%;
+    bottom: 6%;
+    width: 78%;
+    height: 24%;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.88);
+    filter: blur(28px);
 }
 
 .equipamentos-hero-machine img {
     position: relative;
-    z-index: 2;
-    width: min(610px, 112%);
-    max-height: 450px;
+    width: 100%;
+    max-height: 610px;
     object-fit: contain;
-    filter: drop-shadow(0 34px 52px rgba(0, 0, 0, 0.82));
+    filter: drop-shadow(0 32px 42px rgba(0, 0, 0, 0.75));
 }
 
-/* =========================================================
-   TABS / MENU DE CATEGORIAS
-   ========================================================= */
+/* Navegacao de categorias */
 
 .equipamentos-tabs-section {
-    position: relative;
-    z-index: 5;
-    margin-top: -46px;
-    padding-bottom: 34px;
+    position: sticky;
+    top: 92px;
+    z-index: 20;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--eq-line);
+    background: rgba(7, 9, 8, 0.94);
+    backdrop-filter: blur(18px);
 }
 
 .equipamentos-tabs {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
 }
 
 .equipamentos-tabs a {
-    min-height: 112px;
-    padding: 22px;
-    border: 1px solid var(--eq-border);
-    border-radius: 8px;
-    background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
-        rgba(12, 12, 12, 0.92);
-    color: #f4f4f4;
+    min-width: 0;
+    min-height: 70px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 5px;
     display: flex;
     align-items: center;
-    gap: 14px;
-    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.34);
-    transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+    gap: 11px;
+    color: #d7dad5;
+    background: transparent;
+    transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
-.equipamentos-tabs a:last-child {
-    grid-column: 1 / -1;
+.equipamentos-tabs a:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    background: rgba(255, 255, 255, 0.035);
 }
 
-.equipamentos-tabs a:hover,
 .equipamentos-tabs a.active {
-    transform: translateY(-3px);
-    border-color: rgba(255, 90, 0, 0.55);
-    background: linear-gradient(90deg, var(--eq-orange), var(--eq-orange-2));
+    border-color: rgba(255, 90, 0, 0.48);
+    color: #fff;
+    background: rgba(255, 90, 0, 0.1);
 }
 
 .equipamentos-tabs a > span {
     flex: 0 0 auto;
-    width: 52px;
-    height: 52px;
-    border-radius: 8px;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255, 90, 0, 0.38);
+    border-radius: 4px;
     display: grid;
     place-items: center;
-    color: var(--eq-orange);
-    border: 1px solid rgba(255, 90, 0, 0.38);
-    background: rgba(255, 90, 0, 0.07);
-    font-size: 25px;
+    background: rgba(255, 90, 0, 0.06);
 }
 
-.equipamentos-tabs a:hover > span,
-.equipamentos-tabs a.active > span {
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.34);
-    background: rgba(0, 0, 0, 0.18);
+.equipamentos-tabs a > span img {
+    width: 23px;
+    height: 23px;
+    object-fit: contain;
+}
+
+.equipamentos-tabs a > div {
+    min-width: 0;
 }
 
 .equipamentos-tabs strong {
     display: block;
     color: inherit;
     font-family: "Teko", "Poppins", sans-serif;
-    font-size: 28px;
-    line-height: 1;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: 0;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+}
+
+.equipamentos-tabs a[href="#esteiras"] strong,
+.equipamentos-tabs a[href="#usados"] strong {
+    font-size: 19px;
 }
 
 .equipamentos-tabs small {
     display: block;
-    margin-top: 7px;
-    color: #bfbfbf;
-    font-size: 13px;
+    margin-top: 4px;
+    color: #858a84;
+    font-size: 10.5px;
+    line-height: 1.2;
 }
 
-.equipamentos-tabs a:hover small,
-.equipamentos-tabs a.active small {
-    color: rgba(255, 255, 255, 0.88);
+.equipamentos-tabs a.active small,
+.equipamentos-tabs a:hover small {
+    color: #bfc3bc;
 }
 
 .equipamentos-scroll-info {
-    margin: 18px 0 0;
-    text-align: center;
-    color: #a9a9a9;
-    font-size: 13px;
+    display: none;
 }
 
-/* =========================================================
-   CATEGORIAS
-   ========================================================= */
+/* Linhas de equipamentos */
 
 .equipamentos-category-section {
-    padding: 0 0 18px;
+    padding: 80px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: #080a09;
+}
+
+#moinhos,
+#esteiras,
+#usados {
+    background: #0b0e0c;
 }
 
 .equipamentos-category-card {
-    position: relative;
     display: grid;
-    grid-template-columns: 250px 1fr;
-    gap: 28px;
-    align-items: center;
-    padding: 28px;
-    border: 1px solid var(--eq-border);
-    border-radius: var(--eq-radius);
-    background:
-        radial-gradient(circle at 20% 15%, rgba(255, 90, 0, 0.055), transparent 30%),
-        linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.014)),
-        rgba(12, 12, 12, 0.88);
-    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
-    overflow: hidden;
-}
-
-.equipamentos-category-card::after {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    border-radius: calc(var(--eq-radius) - 1px);
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 45%);
-    pointer-events: none;
+    grid-template-columns: 250px minmax(0, 1fr);
+    gap: 24px 52px;
+    align-items: start;
 }
 
 .equipamentos-category-copy {
-    position: relative;
-    z-index: 2;
+    min-width: 0;
+    padding-top: 8px;
+}
+
+.equipamentos-category-copy::before {
+    content: "Linha Brutusmaq";
+    display: block;
+    margin-bottom: 12px;
+    color: var(--eq-orange);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
 }
 
 .equipamentos-category-copy h2 {
     margin: 0;
+    color: #f4f5f2;
     font-family: "Teko", "Poppins", sans-serif;
-    font-size: clamp(38px, 4vw, 54px);
-    line-height: 0.9;
+    font-size: 52px;
     font-weight: 700;
-    color: #f4f4f4;
+    line-height: 0.88;
+    letter-spacing: 0;
     text-transform: uppercase;
 }
 
 .equipamentos-category-copy h2::after {
     content: "";
     display: block;
-    width: 52px;
+    width: 44px;
     height: 3px;
-    margin: 14px 0 0;
+    margin-top: 16px;
     background: var(--eq-orange);
-    border-radius: 99px;
 }
 
 .equipamentos-category-copy p {
-    margin: 18px 0 22px;
-    color: #c7c7c7;
-    font-size: 14px;
+    margin: 18px 0 0;
+    color: var(--eq-muted);
+    font-size: 13.5px;
     line-height: 1.65;
 }
 
 .equipamentos-products-row {
-    position: relative;
-    z-index: 2;
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
 }
 
 .equipamentos-product {
     position: relative;
-    min-height: 210px;
-    padding: 12px 12px 16px;
-    border-radius: 10px;
+    min-width: 0;
+    min-height: 318px;
+    padding: 14px 14px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
     color: #fff;
-    transition: background 0.22s ease, transform 0.22s ease;
+    background: var(--eq-surface-2);
+    overflow: hidden;
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.equipamentos-product::after {
+    content: "\2197";
+    position: absolute;
+    top: 13px;
+    right: 13px;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #a8aca6;
+    font-size: 13px;
+    transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
 .equipamentos-product:hover {
     transform: translateY(-4px);
-    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 90, 0, 0.58);
+    background: #151916;
 }
 
-.equipamentos-product:focus-visible {
+.equipamentos-product:hover::after {
+    border-color: var(--eq-orange);
+    color: #fff;
+    background: var(--eq-orange);
+}
+
+.equipamentos-product:focus-visible,
+.equipamentos-category-link:focus-visible,
+.equipamentos-tabs a:focus-visible,
+.equipamentos-btn-primary:focus-visible,
+.equipamentos-btn-secondary:focus-visible {
     outline: 2px solid var(--eq-orange);
-    outline-offset: 4px;
-    background: rgba(255, 255, 255, 0.045);
-}
-
-.equipamentos-empty-state {
-    grid-column: 1 / -1;
-    min-height: 150px;
-    padding: 28px;
-    border: 1px dashed rgba(255, 255, 255, 0.18);
-    border-radius: 8px;
-    color: #c5c5c5;
-    display: grid;
-    place-items: center;
-    text-align: center;
-    font-size: 14px;
-    line-height: 1.5;
-    background: rgba(255, 255, 255, 0.025);
+    outline-offset: 3px;
 }
 
 .equipamentos-product img {
     width: 100%;
-    height: 120px;
-    object-fit: contain;
+    height: 190px;
     margin-bottom: 12px;
-    filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.68));
-    transition: transform 0.25s ease;
+    object-fit: contain;
+    filter: drop-shadow(0 22px 24px rgba(0, 0, 0, 0.62));
+    transition: transform 220ms ease;
 }
 
 .equipamentos-product:hover img {
-    transform: scale(1.05);
+    transform: scale(1.035);
 }
 
 .equipamentos-product h3 {
-    margin: 0 0 6px;
+    margin: auto 0 6px;
+    color: #f5f6f3;
     font-family: "Teko", "Poppins", sans-serif;
-    font-size: 28px;
+    font-size: 32px;
+    font-weight: 700;
     line-height: 1;
-    color: #f3f3f3;
+    letter-spacing: 0;
     text-transform: uppercase;
 }
 
 .equipamentos-product p {
     margin: 0;
-    color: #c5c5c5;
-    font-size: 12.5px;
+    color: #aeb2ac;
+    font-size: 12px;
     line-height: 1.45;
 }
 
+.equipamentos-empty-state {
+    grid-column: 1 / -1;
+    min-height: 210px;
+    padding: 28px;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    color: #aeb2ac;
+    background: rgba(255, 255, 255, 0.02);
+    text-align: center;
+    font-size: 14px;
+}
+
 .equipamentos-category-link {
-    position: relative;
-    z-index: 2;
     grid-column: 2 / 3;
-    justify-self: center;
-    margin-top: -6px;
-    color: var(--eq-orange);
-    font-family: "Teko", "Poppins", sans-serif;
-    font-size: 19px;
-    line-height: 1;
-    font-weight: 700;
-    text-transform: uppercase;
+    justify-self: end;
+    min-height: 44px;
+    margin-top: 2px;
+    padding: 0 16px;
+    border: 1px solid rgba(255, 90, 0, 0.48);
+    border-radius: 4px;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    transition: gap 0.22s ease, color 0.22s ease;
+    justify-content: center;
+    gap: 9px;
+    color: #fff;
+    background: rgba(255, 90, 0, 0.07);
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 180ms ease, background 180ms ease;
 }
 
 .equipamentos-category-link:hover {
-    gap: 15px;
-    color: var(--eq-orange-2);
+    border-color: var(--eq-orange);
+    background: rgba(255, 90, 0, 0.15);
 }
 
-/* =========================================================
-   EQUIPAMENTOS USADOS
-   ========================================================= */
-
-.equipamentos-used-card {
-    grid-template-columns: 250px 1fr;
+.equipamentos-category-link[hidden] {
+    display: none;
 }
+
+.equipamentos-products-row .equipamentos-product-extra {
+    display: none;
+    animation: equipamentosDrawerIn 260ms ease both;
+}
+
+.equipamentos-products-row.is-expanded .equipamentos-product-extra {
+    display: flex;
+}
+
+@keyframes equipamentosDrawerIn {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Equipamentos usados */
 
 .equipamentos-used-benefits {
-    position: relative;
-    z-index: 2;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.equipamentos-used-benefits article {
-    padding: 16px 14px;
-    border-right: 1px solid rgba(255, 255, 255, 0.10);
-    display: flex;
-    align-items: center;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 14px;
 }
 
-.equipamentos-used-benefits article:last-child {
-    border-right: 0;
+.equipamentos-used-benefits article {
+    min-height: 168px;
+    padding: 22px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    background: var(--eq-surface-2);
 }
 
 .equipamentos-used-benefits span {
-    flex: 0 0 auto;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    color: var(--eq-orange);
+    width: 42px;
+    height: 42px;
+    margin-bottom: 24px;
+    border-left: 2px solid var(--eq-green);
     display: grid;
     place-items: center;
-    border: 1px solid rgba(255, 90, 0, 0.38);
-    background: rgba(255, 90, 0, 0.07);
-    font-size: 23px;
+}
+
+.equipamentos-used-benefits span img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
 }
 
 .equipamentos-used-benefits h3 {
-    margin: 0 0 6px;
+    margin: 0 0 7px;
+    color: #f2f4f0;
     font-family: "Teko", "Poppins", sans-serif;
-    font-size: 22px;
+    font-size: 23px;
+    font-weight: 600;
     line-height: 1;
-    color: #f4f4f4;
+    letter-spacing: 0;
     text-transform: uppercase;
 }
 
 .equipamentos-used-benefits p {
     margin: 0;
-    color: #c5c5c5;
-    font-size: 12.5px;
-    line-height: 1.4;
+    color: #aeb2ac;
+    font-size: 12px;
+    line-height: 1.5;
 }
 
 .equipamentos-used-card .equipamentos-category-link {
     grid-column: 2 / 3;
 }
 
-/* =========================================================
-   CTA FINAL
-   ========================================================= */
+/* CTA final */
 
 .equipamentos-cta-section {
-    padding: 18px 0 78px;
+    padding: 72px 0;
+    background: #070908;
 }
 
 .equipamentos-cta-box {
     position: relative;
-    min-height: 150px;
-    padding: 30px 34px;
-    border: 1px solid var(--eq-border-orange);
-    border-radius: 8px;
-    background:
-        linear-gradient(90deg, rgba(0, 0, 0, 0.94), rgba(0, 0, 0, 0.66)),
-        radial-gradient(circle at 80% 50%, rgba(255, 90, 0, 0.18), transparent 34%),
-        rgba(15, 15, 15, 0.9);
+    min-height: 220px;
+    padding: 38px 42px;
+    border-top: 1px solid rgba(255, 90, 0, 0.62);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr auto;
-    gap: 28px;
+    grid-template-columns: 1.15fr 0.75fr auto;
+    gap: 34px;
     align-items: center;
     overflow: hidden;
+    background:
+        linear-gradient(90deg, rgba(13, 16, 15, 0.98), rgba(13, 16, 15, 0.76)),
+        var(--eq-surface);
 }
 
 .equipamentos-cta-box::before {
     content: "";
     position: absolute;
-    inset: 0;
-    background:
-        repeating-linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.018) 0,
-            rgba(255, 255, 255, 0.018) 1px,
-            transparent 1px,
-            transparent 70px
-        );
+    right: 4%;
+    top: -70%;
+    width: 360px;
+    height: 360px;
+    border: 1px solid rgba(255, 90, 0, 0.18);
+    transform: rotate(24deg);
     pointer-events: none;
 }
 
-.equipamentos-cta-box h2 {
+.equipamentos-cta-box > * {
     position: relative;
     z-index: 1;
+}
+
+.equipamentos-cta-box h2 {
     margin: 0;
+    color: #f4f5f2;
     font-family: "Teko", "Poppins", sans-serif;
-    font-size: clamp(34px, 4vw, 52px);
-    line-height: 0.95;
-    color: #f4f4f4;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: 0;
     text-transform: uppercase;
 }
 
@@ -646,110 +716,177 @@ html {
 }
 
 .equipamentos-cta-box p {
-    position: relative;
-    z-index: 1;
     margin: 0;
-    color: #d5d5d5;
+    color: #c4c8c1;
     font-size: 14px;
-    line-height: 1.55;
+    line-height: 1.6;
 }
 
 .equipamentos-cta-box .equipamentos-btn-primary {
-    position: relative;
-    z-index: 1;
     white-space: nowrap;
 }
 
-/* =========================================================
-   RESPONSIVO
-   ========================================================= */
+/* Tablet amplo */
 
 @media (max-width: 1180px) {
     .equipamentos-container {
-        width: min(100% - 40px, var(--eq-container));
+        width: min(var(--eq-container), calc(100% - 48px));
+    }
+
+    .equipamentos-hero-copy {
+        width: min(650px, 62%);
+    }
+
+    .equipamentos-hero-copy h1 {
+        font-size: 78px;
+    }
+
+    .equipamentos-hero-machine {
+        right: -120px;
+        width: 62vw;
     }
 
     .equipamentos-hero-features {
-        grid-template-columns: repeat(2, max-content);
-        gap: 20px 28px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 500px;
     }
 
-    .equipamentos-tabs {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .equipamentos-tabs strong {
+        font-size: 19px;
+    }
+
+    .equipamentos-tabs a[href="#esteiras"] strong,
+    .equipamentos-tabs a[href="#usados"] strong {
+        font-size: 17px;
+    }
+
+    .equipamentos-tabs small {
+        display: none;
     }
 
     .equipamentos-category-card {
-        grid-template-columns: 230px 1fr;
-        gap: 20px;
-        padding: 24px;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 22px 34px;
     }
 
-    .equipamentos-used-card {
-        grid-template-columns: 230px 1fr;
+    .equipamentos-products-row {
+        gap: 10px;
     }
 
-    .equipamentos-used-card .equipamentos-category-link {
-        grid-column: 2 / 3;
+    .equipamentos-product {
+        min-height: 286px;
     }
 
+    .equipamentos-product img {
+        height: 158px;
+    }
+
+    .equipamentos-cta-box {
+        grid-template-columns: 1fr 0.8fr;
+    }
+
+    .equipamentos-cta-box .equipamentos-btn-primary {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
 }
 
+/* Tablet */
+
 @media (max-width: 980px) {
-    .equipamentos-hero {
-        min-height: auto;
+    .equipamentos-category-section,
+    .equipamentos-product {
+        scroll-margin-top: 166px;
+    }
+
+
+    #categorias {
+        scroll-margin-top: 90px;
+    }
+
+    .equipamentos-hero,
+    .equipamentos-hero-inner {
+        min-height: 610px;
     }
 
     .equipamentos-hero-inner {
-        grid-template-columns: 1fr;
-        min-height: auto;
-        padding: 56px 0 86px;
-        text-align: center;
+        padding: 58px 0 68px;
     }
 
-    .equipamentos-breadcrumb {
-        justify-content: center;
-        flex-wrap: wrap;
+    .equipamentos-hero-copy {
+        width: min(620px, 76%);
     }
 
-    .equipamentos-hero-copy p {
-        margin-left: auto;
-        margin-right: auto;
+    .equipamentos-hero-copy h1 {
+        font-size: 70px;
     }
 
-    .equipamentos-hero-features {
-        justify-content: center;
+    .equipamentos-hero-machine {
+        right: -150px;
+        bottom: -18px;
+        width: 70vw;
+        opacity: 0.48;
     }
 
     .equipamentos-tabs-section {
-        margin-top: -42px;
+        top: 82px;
     }
 
     .equipamentos-tabs {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: 205px;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scroll-snap-type: inline proximity;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 90, 0, 0.7) rgba(255, 255, 255, 0.06);
+    }
+
+    .equipamentos-tabs a {
+        scroll-snap-align: start;
+    }
+
+    .equipamentos-tabs strong,
+    .equipamentos-tabs a[href="#esteiras"] strong,
+    .equipamentos-tabs a[href="#usados"] strong {
+        font-size: 19px;
+    }
+
+    .equipamentos-category-section {
+        padding: 64px 0;
     }
 
     .equipamentos-category-card,
     .equipamentos-used-card {
         grid-template-columns: 1fr;
+        gap: 28px;
     }
 
     .equipamentos-category-copy {
-        text-align: center;
+        max-width: 650px;
+        padding-top: 0;
     }
 
-    .equipamentos-category-copy h2::after {
-        margin-left: auto;
-        margin-right: auto;
+    .equipamentos-category-copy h2 {
+        font-size: 48px;
     }
 
     .equipamentos-category-copy p {
-        max-width: 560px;
-        margin-left: auto;
-        margin-right: auto;
+        max-width: 570px;
     }
 
     .equipamentos-products-row {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .equipamentos-product {
+        min-height: 330px;
+    }
+
+    .equipamentos-product img {
+        height: 200px;
     }
 
     .equipamentos-category-link,
@@ -758,246 +895,279 @@ html {
     }
 
     .equipamentos-used-benefits {
-        grid-template-columns: 1fr;
-    }
-
-    .equipamentos-used-benefits article {
-        border-right: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.10);
-        justify-content: center;
-        text-align: left;
-    }
-
-    .equipamentos-used-benefits article:last-child {
-        border-bottom: 0;
-    }
-
-    .equipamentos-cta-box {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .equipamentos-cta-box .equipamentos-btn-primary {
-        justify-self: center;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
+
+/* Mobile */
 
 @media (max-width: 680px) {
     .equipamentos-container {
         width: min(100% - 28px, var(--eq-container));
     }
 
-    .equipamentos-btn-primary {
-        width: 100%;
-        min-height: 52px;
-        font-size: 21px;
+    .equipamentos-category-section,
+    .equipamentos-product {
+        scroll-margin-top: 158px;
+    }
+
+    #categorias {
+        scroll-margin-top: 86px;
+    }
+
+    .equipamentos-hero,
+    .equipamentos-hero-inner {
+        min-height: auto;
     }
 
     .equipamentos-hero-inner {
-        padding: 34px 0 64px;
+        padding: 32px 0 36px;
+        align-items: flex-start;
+    }
+
+    .equipamentos-hero-copy {
+        width: 100%;
     }
 
     .equipamentos-breadcrumb {
-        font-size: 12px;
         margin-bottom: 18px;
+        font-size: 11px;
+    }
+
+    .equipamentos-hero-eyebrow {
+        margin-bottom: 10px;
+        font-size: 10px;
     }
 
     .equipamentos-hero-copy h1 {
-        font-size: clamp(42px, 13vw, 62px);
+        max-width: 360px;
+        font-size: 58px;
+        line-height: 0.84;
     }
 
-    .equipamentos-hero-copy p {
-        font-size: 14.5px;
+    .equipamentos-hero-copy > p {
+        max-width: 500px;
+        margin-top: 18px;
+        font-size: 13.5px;
         line-height: 1.55;
     }
 
-    .equipamentos-hero-features {
-        grid-template-columns: 1fr 1fr;
-        gap: 18px 16px;
-        margin-top: 26px;
+    .equipamentos-hero-actions {
+        margin-top: 20px;
+        gap: 8px;
     }
 
-    .equipamentos-hero-features div {
-        justify-content: flex-start;
-        gap: 9px;
-        min-height: auto;
-        padding: 0 0 0 10px;
-        border-left: 2px solid rgba(255, 90, 0, 0.75);
-    }
-
-    .equipamentos-hero-features span {
-        width: auto;
-        height: auto;
-        border: 0;
-        background: transparent;
+    .equipamentos-btn-primary,
+    .equipamentos-btn-secondary {
+        min-height: 46px;
+        padding: 0 16px;
         font-size: 18px;
     }
 
+    .equipamentos-hero-features {
+        max-width: 100%;
+        margin-top: 22px;
+        padding-top: 16px;
+        gap: 14px 8px;
+    }
+
+    .equipamentos-hero-features span {
+        width: 26px;
+        height: 30px;
+    }
+
+    .equipamentos-hero-features span img {
+        width: 17px;
+        height: 17px;
+    }
+
+    .equipamentos-hero-features .equipamentos-hero-icon-fabricacao img {
+        width: 20px;
+        height: 20px;
+    }
+
     .equipamentos-hero-features strong {
-        font-size: 17px;
-        text-align: left;
+        font-size: 15px;
+    }
+
+    .equipamentos-hero-machine {
+        display: none;
+    }
+
+    .equipamentos-tabs-section {
+        top: 80px;
+        padding: 8px 0;
     }
 
     .equipamentos-tabs {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-        margin-top: 14px;
+        grid-auto-columns: 174px;
+        gap: 7px;
     }
 
     .equipamentos-tabs a {
-        min-height: 128px;
-        padding: 14px;
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 12px;
+        min-height: 60px;
+        padding: 8px 9px;
+        gap: 8px;
     }
 
     .equipamentos-tabs a > span {
-        width: 40px;
-        height: 40px;
-        font-size: 19px;
+        width: 34px;
+        height: 34px;
     }
 
-    .equipamentos-tabs strong {
-        font-size: 22px;
-        line-height: 0.92;
+    .equipamentos-tabs a > span img {
+        width: 20px;
+        height: 20px;
     }
 
-    .equipamentos-tabs small {
-        margin-top: 6px;
-        font-size: 11px;
-        line-height: 1.25;
+    .equipamentos-tabs strong,
+    .equipamentos-tabs a[href="#esteiras"] strong,
+    .equipamentos-tabs a[href="#usados"] strong {
+        font-size: 17px;
     }
 
-    .equipamentos-category-card {
-        padding: 22px 16px;
+    .equipamentos-category-section {
+        padding: 38px 0;
     }
 
+    .equipamentos-category-card,
     .equipamentos-used-card {
-        gap: 16px;
-        padding: 22px 16px;
+        gap: 20px;
     }
 
+    .equipamentos-category-copy::before {
+        margin-bottom: 9px;
+        font-size: 10px;
+    }
+
+    .equipamentos-category-copy h2,
+    #titulo-esteiras,
     .equipamentos-used-card .equipamentos-category-copy h2 {
-        font-size: clamp(34px, 10.5vw, 46px);
+        max-width: 100%;
+        font-size: 40px;
+        line-height: 0.9;
+        overflow-wrap: normal;
     }
 
-    .equipamentos-used-card .equipamentos-category-copy h2::after {
-        margin-top: 10px;
+    .equipamentos-category-copy h2::after {
+        margin-top: 12px;
     }
 
-    .equipamentos-used-card .equipamentos-category-copy p {
-        margin: 14px auto 0;
-        font-size: 13.5px;
-        line-height: 1.5;
-    }
-
-    .equipamentos-category-copy .equipamentos-btn-primary {
-        display: none;
+    .equipamentos-category-copy p {
+        margin-top: 14px;
+        font-size: 12.5px;
+        line-height: 1.55;
     }
 
     .equipamentos-products-row {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 9px;
     }
 
     .equipamentos-product {
-        min-height: auto;
-        padding: 16px 14px 18px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015)),
-            rgba(10, 10, 10, 0.72);
-        text-align: center;
+        min-height: 124px;
+        padding: 10px 44px 10px 10px;
+        display: grid;
+        grid-template-columns: 112px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        column-gap: 13px;
+        row-gap: 2px;
+        align-items: center;
+    }
+
+    .equipamentos-product::after {
+        top: 12px;
+        right: 10px;
+        width: 25px;
+        height: 25px;
     }
 
     .equipamentos-product img {
-        height: 145px;
-        margin-bottom: 10px;
+        grid-row: 1 / 3;
+        width: 112px;
+        height: 98px;
+        margin: 0;
     }
 
     .equipamentos-product h3 {
-        font-size: 31px;
+        align-self: end;
+        margin: 0 0 2px;
+        font-size: 27px;
     }
 
     .equipamentos-product p {
-        max-width: 250px;
-        margin: 0 auto;
-        font-size: 12.5px;
+        align-self: start;
+        display: -webkit-box;
+        overflow: hidden;
+        font-size: 11.5px;
+        line-height: 1.35;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
     }
 
-    .equipamentos-category-link {
+    .equipamentos-products-row.is-expanded .equipamentos-product-extra {
+        display: grid;
+    }
+
+    .equipamentos-category-link,
+    .equipamentos-used-card .equipamentos-category-link {
         width: 100%;
-        min-height: 48px;
-        margin-top: 8px;
-        padding: 0 18px;
-        border: 1px solid rgba(255, 90, 0, 0.56);
-        border-radius: 7px;
-        background: rgba(255, 90, 0, 0.08);
-        text-align: center;
-        justify-content: center;
-        color: #fff;
-        font-size: 18px;
-        box-shadow: 0 16px 30px rgba(255, 90, 0, 0.12);
-    }
-
-    .equipamentos-category-link:hover {
-        gap: 10px;
-        color: #fff;
-        background: rgba(255, 90, 0, 0.16);
+        min-height: 46px;
+        justify-self: stretch;
+        margin-top: 2px;
+        font-size: 17px;
     }
 
     .equipamentos-used-benefits {
+        grid-template-columns: 1fr;
         gap: 8px;
     }
 
     .equipamentos-used-benefits article {
         min-height: auto;
-        padding: 11px 12px;
-        border-right: 0;
-        border-bottom: 0;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.035);
-        text-align: left;
-        align-items: center;
+        padding: 14px;
         display: grid;
-        grid-template-columns: 46px 1fr;
-        gap: 10px;
-    }
-
-    .equipamentos-used-benefits article:last-child {
-        border-bottom: 0;
+        grid-template-columns: 42px 1fr;
+        gap: 11px;
+        align-items: center;
     }
 
     .equipamentos-used-benefits span {
-        width: 34px;
-        height: 34px;
-        font-size: 17px;
-        justify-self: center;
+        width: 38px;
+        height: 38px;
+        margin: 0;
     }
 
     .equipamentos-used-benefits h3 {
-        margin-bottom: 3px;
-        font-size: 18px;
+        font-size: 20px;
     }
 
     .equipamentos-used-benefits p {
-        font-size: 11.5px;
-        line-height: 1.3;
-    }
-
-    .equipamentos-used-card .equipamentos-category-link {
-        min-height: 46px;
-        margin-top: 6px;
-        font-size: 17px;
+        font-size: 11px;
     }
 
     .equipamentos-cta-section {
-        padding-bottom: 56px;
+        padding: 40px 0;
     }
 
     .equipamentos-cta-box {
-        padding: 28px 22px;
+        min-height: auto;
+        padding: 28px 20px;
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .equipamentos-cta-box h2 {
+        font-size: 38px;
+    }
+
+    .equipamentos-cta-box p {
+        font-size: 12.5px;
+    }
+
+    .equipamentos-cta-box .equipamentos-btn-primary {
+        width: 100%;
+        justify-self: stretch;
     }
 }
 
@@ -1007,22 +1177,42 @@ html {
     }
 
     .equipamentos-hero-copy h1 {
-        font-size: clamp(38px, 14vw, 54px);
+        font-size: 50px;
     }
 
-    .equipamentos-hero-features {
-        grid-template-columns: 1fr 1fr;
+    .equipamentos-hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
     }
 
-    .equipamentos-category-copy h2 {
-        font-size: clamp(36px, 13vw, 48px);
+    .equipamentos-category-copy h2,
+    #titulo-esteiras,
+    .equipamentos-used-card .equipamentos-category-copy h2 {
+        font-size: 36px;
+    }
+
+    .equipamentos-product {
+        grid-template-columns: 96px minmax(0, 1fr);
+        column-gap: 10px;
     }
 
     .equipamentos-product img {
-        height: 135px;
+        width: 96px;
+        height: 88px;
     }
 
-    .equipamentos-cta-box h2 {
-        font-size: clamp(32px, 13vw, 44px);
+    .equipamentos-product h3 {
+        font-size: 25px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .equipamentos-page *,
+    .equipamentos-page *::before,
+    .equipamentos-page *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
     }
 }

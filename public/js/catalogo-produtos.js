@@ -1,7 +1,7 @@
 window.brutusmaqProdutosNovos = [
     {
-        id: "tr-700",
-        modelo: "TR-700",
+        id: "SHESHE",
+        modelo: "SHESHE",
         categoriaSlug: "trituradores",
         categoria: "Triturador de Duplo Eixo",
         linha: "Trituradores",
@@ -80,6 +80,168 @@ window.brutusmaqProdutosNovos = [
             "Facas intercambiaveis",
             "Manutencao facilitada"
         ]
+    },{
+        id: "SHESHE",
+        modelo: "SHESHE",
+        categoriaSlug: "trituradores",
+        categoria: "Triturador de Duplo Eixo",
+        linha: "Trituradores",
+        descricao: "Equipamento robusto e eficiente para trituracao de diversos materiais, com alta produtividade, baixo consumo energetico e manutencao simplificada.",
+        resumo: "Triturador compacto para demandas industriais de alta exigencia.",
+        aplicacao: "Reducao de volume",
+        garantia: "12 meses",
+        fabricacao: "100% nacional",
+        imagem: "assets/main/tr-700.png",
+        alt: "Triturador industrial TR-700 Brutusmaq",
+        tipoImagem: "ilustrativa",
+        // Use tipoImagem: "real", "ilustrativa" ou "mista".
+        // Se preferir texto livre, use observacaoImagens: "Texto que aparece abaixo da galeria."
+        galeria: [
+            { src: "assets/main/tr-700.png", alt: "Vista principal do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Vista lateral do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Conjunto mecanico do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Detalhe construtivo do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Detalhe das facas do triturador TR-700 Brutusmaq" }
+        ],
+        youtubeBusca: "Brutusmaq TR-700 funcionando",
+        // Quando tiver o video real, use youtubeId: "ID_DO_VIDEO" ou youtubeEmbed: "https://www.youtube.com/embed/ID_DO_VIDEO"
+        // Downloads aparecem somente quando cadastrados:
+        // downloads: {
+        //     catalogoTecnico: "assets/downloads/tr-700/catalogo-tecnico.pdf",
+        //     manualOperacao: "assets/downloads/tr-700/manual-operacao.pdf",
+        //     desenhoTecnico: "assets/downloads/tr-700/desenho-tecnico.pdf",
+        //     certificadoNr12: "assets/downloads/tr-700/certificado-nr12.pdf"
+        // },
+        specs: [
+            ["Modelo", "TR-700"],
+            ["Tipo", "Triturador de Duplo Eixo"],
+            ["Boca de alimentacao", "700 x 600 mm"],
+            ["Comprimento da caixa", "700 mm"],
+            ["Diametro do rotor", "350 mm"],
+            ["Quantidade de facas", "20 unidades"],
+            ["Potencia instalada", "2 x 30 CV"],
+            ["Rotacao", "24 - 36 RPM"],
+            ["Producao aproximada", "1 a 3 t/h*"],
+            ["Peso aproximado", "1.800 kg"],
+            ["Dimensoes (C x L x A)", "2.000 x 1.450 x 1.750 mm"],
+            ["Tensao", "220 / 380 / 440 V"],
+            ["Sistema de reversao", "Automatica"]
+        ],
+        recursos: [
+            "Alta resistencia e durabilidade",
+            "Facas em aco especial de alta liga",
+            "Redutores de alto desempenho",
+            "Sistema de reversao automatica",
+            "Ideal para materiais industriais e reciclaveis"
+        ]
+    },{
+        id: "SHESHE",
+        modelo: "SHESHE",
+        categoriaSlug: "trituradores",
+        categoria: "Triturador de Duplo Eixo",
+        linha: "Trituradores",
+        descricao: "Equipamento robusto e eficiente para trituracao de diversos materiais, com alta produtividade, baixo consumo energetico e manutencao simplificada.",
+        resumo: "Triturador compacto para demandas industriais de alta exigencia.",
+        aplicacao: "Reducao de volume",
+        garantia: "12 meses",
+        fabricacao: "100% nacional",
+        imagem: "assets/main/tr-700.png",
+        alt: "Triturador industrial TR-700 Brutusmaq",
+        tipoImagem: "ilustrativa",
+        // Use tipoImagem: "real", "ilustrativa" ou "mista".
+        // Se preferir texto livre, use observacaoImagens: "Texto que aparece abaixo da galeria."
+        galeria: [
+            { src: "assets/main/tr-700.png", alt: "Vista principal do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Vista lateral do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Conjunto mecanico do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Detalhe construtivo do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Detalhe das facas do triturador TR-700 Brutusmaq" }
+        ],
+        youtubeBusca: "Brutusmaq TR-700 funcionando",
+        // Quando tiver o video real, use youtubeId: "ID_DO_VIDEO" ou youtubeEmbed: "https://www.youtube.com/embed/ID_DO_VIDEO"
+        // Downloads aparecem somente quando cadastrados:
+        // downloads: {
+        //     catalogoTecnico: "assets/downloads/tr-700/catalogo-tecnico.pdf",
+        //     manualOperacao: "assets/downloads/tr-700/manual-operacao.pdf",
+        //     desenhoTecnico: "assets/downloads/tr-700/desenho-tecnico.pdf",
+        //     certificadoNr12: "assets/downloads/tr-700/certificado-nr12.pdf"
+        // },
+        specs: [
+            ["Modelo", "TR-700"],
+            ["Tipo", "Triturador de Duplo Eixo"],
+            ["Boca de alimentacao", "700 x 600 mm"],
+            ["Comprimento da caixa", "700 mm"],
+            ["Diametro do rotor", "350 mm"],
+            ["Quantidade de facas", "20 unidades"],
+            ["Potencia instalada", "2 x 30 CV"],
+            ["Rotacao", "24 - 36 RPM"],
+            ["Producao aproximada", "1 a 3 t/h*"],
+            ["Peso aproximado", "1.800 kg"],
+            ["Dimensoes (C x L x A)", "2.000 x 1.450 x 1.750 mm"],
+            ["Tensao", "220 / 380 / 440 V"],
+            ["Sistema de reversao", "Automatica"]
+        ],
+        recursos: [
+            "Alta resistencia e durabilidade",
+            "Facas em aco especial de alta liga",
+            "Redutores de alto desempenho",
+            "Sistema de reversao automatica",
+            "Ideal para materiais industriais e reciclaveis"
+        ]
+    },{
+        id: "SHESHE",
+        modelo: "SHESHE",
+        categoriaSlug: "trituradores",
+        categoria: "Triturador de Duplo Eixo",
+        linha: "Trituradores",
+        descricao: "Equipamento robusto e eficiente para trituracao de diversos materiais, com alta produtividade, baixo consumo energetico e manutencao simplificada.",
+        resumo: "Triturador compacto para demandas industriais de alta exigencia.",
+        aplicacao: "Reducao de volume",
+        garantia: "12 meses",
+        fabricacao: "100% nacional",
+        imagem: "assets/main/tr-700.png",
+        alt: "Triturador industrial TR-700 Brutusmaq",
+        tipoImagem: "ilustrativa",
+        // Use tipoImagem: "real", "ilustrativa" ou "mista".
+        // Se preferir texto livre, use observacaoImagens: "Texto que aparece abaixo da galeria."
+        galeria: [
+            { src: "assets/main/tr-700.png", alt: "Vista principal do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Vista lateral do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Conjunto mecanico do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Detalhe construtivo do triturador TR-700 Brutusmaq" },
+            { src: "assets/main/tr-700.png", alt: "Detalhe das facas do triturador TR-700 Brutusmaq" }
+        ],
+        youtubeBusca: "Brutusmaq TR-700 funcionando",
+        // Quando tiver o video real, use youtubeId: "ID_DO_VIDEO" ou youtubeEmbed: "https://www.youtube.com/embed/ID_DO_VIDEO"
+        // Downloads aparecem somente quando cadastrados:
+        // downloads: {
+        //     catalogoTecnico: "assets/downloads/tr-700/catalogo-tecnico.pdf",
+        //     manualOperacao: "assets/downloads/tr-700/manual-operacao.pdf",
+        //     desenhoTecnico: "assets/downloads/tr-700/desenho-tecnico.pdf",
+        //     certificadoNr12: "assets/downloads/tr-700/certificado-nr12.pdf"
+        // },
+        specs: [
+            ["Modelo", "TR-700"],
+            ["Tipo", "Triturador de Duplo Eixo"],
+            ["Boca de alimentacao", "700 x 600 mm"],
+            ["Comprimento da caixa", "700 mm"],
+            ["Diametro do rotor", "350 mm"],
+            ["Quantidade de facas", "20 unidades"],
+            ["Potencia instalada", "2 x 30 CV"],
+            ["Rotacao", "24 - 36 RPM"],
+            ["Producao aproximada", "1 a 3 t/h*"],
+            ["Peso aproximado", "1.800 kg"],
+            ["Dimensoes (C x L x A)", "2.000 x 1.450 x 1.750 mm"],
+            ["Tensao", "220 / 380 / 440 V"],
+            ["Sistema de reversao", "Automatica"]
+        ],
+        recursos: [
+            "Alta resistencia e durabilidade",
+            "Facas em aco especial de alta liga",
+            "Redutores de alto desempenho",
+            "Sistema de reversao automatica",
+            "Ideal para materiais industriais e reciclaveis"
+        ]
     },
     {
         id: "tr-1000",
@@ -106,6 +268,85 @@ window.brutusmaqProdutosNovos = [
             "Alto torque",
             "Protecoes integradas",
             "Configuracao sob demanda"
+        ]
+    },
+    {
+        id: "tr-1100",
+        modelo: "TR-1100",
+        categoriaSlug: "trituradores",
+        categoria: "Triturador de Duplo Eixo",
+        linha: "Trituradores",
+        descricao: "Triturador de duplo eixo para operacoes que precisam de maior produtividade com estrutura reforcada e configuracao conforme material.",
+        resumo: "Alta produtividade para processamento continuo.",
+        aplicacao: "Reducao de volume",
+        garantia: "12 meses",
+        fabricacao: "100% nacional",
+        imagem: "assets/main/tr-700.png",
+        alt: "Triturador industrial TR-1100 Brutusmaq",
+        specs: [
+            ["Modelo", "TR-1100"],
+            ["Tipo", "Triturador de Duplo Eixo"],
+            ["Boca de alimentacao", "1.100 x 800 mm"],
+            ["Potencia instalada", "Conforme projeto"],
+            ["Sistema de reversao", "Automatica"]
+        ],
+        recursos: [
+            "Alta produtividade",
+            "Eixos macicos usinados",
+            "Facas intercambiaveis",
+            "Manutencao facilitada"
+        ]
+    },{
+        id: "tr-1500",
+        modelo: "TR-1500",
+        categoriaSlug: "trituradores",
+        categoria: "Triturador de Duplo Eixo",
+        linha: "Trituradores",
+        descricao: "Triturador de duplo eixo para operacoes que precisam de maior produtividade com estrutura reforcada e configuracao conforme material.",
+        resumo: "Alta produtividade para processamento continuo.",
+        aplicacao: "Reducao de volume",
+        garantia: "12 meses",
+        fabricacao: "100% nacional",
+        imagem: "assets/main/tr-700.png",
+        alt: "Triturador industrial TR-1500 Brutusmaq",
+        specs: [
+            ["Modelo", "TR-1500"],
+            ["Tipo", "Triturador de Duplo Eixo"],
+            ["Boca de alimentacao", "1.500 x 800 mm"],
+            ["Potencia instalada", "Conforme projeto"],
+            ["Sistema de reversao", "Automatica"]
+        ],
+        recursos: [
+            "Alta produtividade",
+            "Eixos macicos usinados",
+            "Facas intercambiaveis",
+            "Manutencao facilitada"
+        ]
+    },{
+        id: "tr-2000",
+        modelo: "TR-2000",
+        categoriaSlug: "trituradores",
+        categoria: "Triturador de Duplo Eixo",
+        linha: "Trituradores",
+        descricao: "Triturador de duplo eixo para operacoes que precisam de maior produtividade com estrutura reforcada e configuracao conforme material.",
+        resumo: "Alta produtividade para processamento continuo.",
+        aplicacao: "Reducao de volume",
+        garantia: "12 meses",
+        fabricacao: "100% nacional",
+        imagem: "assets/main/tr-700.png",
+        alt: "Triturador industrial TR-2000 Brutusmaq",
+        specs: [
+            ["Modelo", "TR-2000"],
+            ["Tipo", "Triturador de Duplo Eixo"],
+            ["Boca de alimentacao", "2.000 x 800 mm"],
+            ["Potencia instalada", "Conforme projeto"],
+            ["Sistema de reversao", "Automatica"]
+        ],
+        recursos: [
+            "Alta produtividade",
+            "Eixos macicos usinados",
+            "Facas intercambiaveis",
+            "Manutencao facilitada"
         ]
     },
     {

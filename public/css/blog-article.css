@@ -623,6 +623,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     color: var(--article-green);
     font-family: var(--article-display);
     font-size: 1.02rem;

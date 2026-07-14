@@ -419,10 +419,10 @@ a {
 .reason-option {
     position: relative;
     display: grid;
-    gap: 6px;
+    gap: 9px;
     place-items: center;
-    min-height: 76px;
-    padding: 10px 8px;
+    min-height: 86px;
+    padding: 12px 8px;
     border: 1px solid var(--contact-border);
     border-radius: 4px;
     background: rgba(255, 255, 255, 0.035);
@@ -445,9 +445,38 @@ a {
 }
 
 .reason-option span {
-    font-size: 0.73rem;
-    font-weight: 600;
-    line-height: 1.18;
+    width: 22px;
+    height: 22px;
+    display: block;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    font-size: 0;
+    line-height: 0;
+}
+
+.reason-option:nth-of-type(1) span {
+    background-image: url("../assets/icones-brancos/icone-proposta-branco.svg");
+}
+
+.reason-option:nth-of-type(2) span {
+    background-image: url("../assets/icones-brancos/icone-usadas-branco.svg");
+}
+
+.reason-option:nth-of-type(3) span {
+    background-image: url("../assets/icones-brancos/icone-comprar-branco.svg");
+}
+
+.reason-option:nth-of-type(4) span {
+    background-image: url("../assets/icones-brancos/icone-assistencia-branco.svg");
+}
+
+.reason-option:nth-of-type(5) span {
+    background-image: url("../assets/icones-brancos/icone-duvidas-branco.svg");
+}
+
+.reason-option:nth-of-type(6) span {
+    background-image: url("../assets/icones-brancos/icone-outros-branco.svg");
 }
 
 .reason-option.active,
@@ -598,6 +627,85 @@ a {
     cursor: pointer;
 }
 
+.contact-submit:disabled {
+    cursor: wait;
+    opacity: 0.72;
+    transform: none;
+}
+
+.contact-honeypot {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.contact-form-status {
+    display: none;
+    margin: 12px 0 0;
+    padding: 11px 13px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.contact-form-status.is-sending,
+.contact-form-status.is-success,
+.contact-form-status.is-error {
+    display: block;
+}
+
+.contact-form-status.is-sending {
+    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.contact-form-status.is-success {
+    border-color: rgba(126, 197, 29, 0.38);
+    background: rgba(126, 197, 29, 0.1);
+    color: #dff2c7;
+}
+
+.contact-form-status.is-error {
+    border-color: rgba(255, 82, 0, 0.42);
+    background: rgba(255, 82, 0, 0.1);
+    color: #ffd8c7;
+}
+
+.contact-form-status a,
+.contact-safe-note a {
+    color: inherit;
+    font-weight: 600;
+    text-underline-offset: 2px;
+}
+
+.contact-form-status-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.contact-form-status-actions a {
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.contact-form-status-actions a:hover,
+.contact-form-status-actions a:focus-visible {
+    color: #fff;
+    background: rgba(255, 82, 0, 0.22);
+}
+
 .contact-safe-note {
     display: block;
     margin-top: 10px;
@@ -667,20 +775,30 @@ a {
 
 .contact-green-card {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 12px;
     min-height: 150px;
+    padding: 30px 28px;
     overflow: hidden;
+    background:
+        linear-gradient(90deg, rgba(5, 8, 6, 0.96) 0%, rgba(5, 8, 6, 0.86) 58%, rgba(5, 8, 6, 0.62) 100%),
+        url("../assets/imagens-fundo/imagem-fundo-div-contato-TTSP.png") center / cover no-repeat;
 }
 
 .contact-green-card::after {
-    content: "";
-    position: absolute;
-    right: 22px;
-    bottom: -28px;
-    width: 86px;
-    height: 86px;
-    border: 10px solid currentColor;
-    border-radius: 50%;
-    color: rgba(126, 197, 29, 0.14);
+    content: none;
+}
+
+.contact-green-card > span {
+    width: 30px;
+    height: 30px;
+    display: block;
+    flex: 0 0 auto;
+    background: url("../assets/icones-verdes/icone-folha-sustentabilidade-verde.svg") center / contain no-repeat;
+    font-size: 0;
+    line-height: 0;
 }
 
 .contact-green-card h2 strong,
@@ -691,8 +809,18 @@ a {
 }
 
 .contact-green-card h2 {
-    max-width: 310px;
-    margin-bottom: 12px;
+    max-width: 360px;
+    margin: 0;
+    font-size: clamp(1.72rem, 2.2vw, 2.15rem);
+    line-height: 1.16;
+    text-wrap: balance;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+}
+
+.contact-green-card p {
+    max-width: 390px;
+    line-height: 1.58;
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.52);
 }
 
 .contact-process-card {

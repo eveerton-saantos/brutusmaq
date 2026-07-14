@@ -129,7 +129,7 @@
     <link rel="stylesheet" href="css/footer.css">
 </head>
 
-<body>
+<body class="equipamentos-body">
 
     <!-- HEADER -->
             <header class="header flex">
@@ -226,13 +226,13 @@
                         <a href="index.html">Início</a>
                         <span>/</span>
                         <strong>Equipamentos</strong>
-                        <span>/</span>
-                        <strong>Todas as categorias</strong>
                     </nav>
 
+                    <span class="equipamentos-hero-eyebrow">Catálogo industrial Brutusmaq</span>
+
                     <h1 id="equipamentos-title">
-                        Todas as nossas <br>
-                        <strong>linhas de equipamentos</strong>
+                        Equipamentos <br>
+                        <strong>industriais</strong>
                     </h1>
 
                     <p>
@@ -240,28 +240,37 @@
                         Escolha a categoria ideal para sua necessidade.
                     </p>
 
+                    <div class="equipamentos-hero-actions">
+                        <a href="#categorias" class="equipamentos-btn-primary">Explorar linhas</a>
+                        <a href="contato.html" class="equipamentos-btn-secondary">Falar com especialista</a>
+                    </div>
+
                     <div class="equipamentos-hero-features" role="list" aria-label="Diferenciais dos equipamentos Brutusmaq">
                         <div role="listitem">
-                            <span aria-hidden="true">▱</span>
+                            <span class="equipamentos-hero-icon-fabricacao" aria-hidden="true"><img src="assets/icones-laranjas/icone-fabricacao-laranja.svg" alt=""></span>
                             <strong>Fabricação<br>100% nacional</strong>
                         </div>
 
                         <div role="listitem">
-                            <span aria-hidden="true">⚙</span>
+                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-alvo-laranja.svg" alt=""></span>
                             <strong>Alta<br>performance</strong>
                         </div>
 
                         <div role="listitem">
-                            <span aria-hidden="true">♢</span>
+                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-atendimento-laranja.svg" alt=""></span>
                             <strong>Assistência<br>especializada</strong>
                         </div>
 
                         <div role="listitem">
-                            <span aria-hidden="true">✓</span>
+                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-necessidade-laranja.svg" alt=""></span>
                             <strong>Projetos<br>personalizados</strong>
                         </div>
                     </div>
 
+                </div>
+
+                <div class="equipamentos-hero-machine" aria-hidden="true">
+                    <img src="assets/main/tr-700.png" alt="">
                 </div>
 
             </div>
@@ -269,12 +278,12 @@
 
 
         <!-- MENU DE CATEGORIAS -->
-        <section class="equipamentos-tabs-section" aria-label="Atalhos para categorias de equipamentos">
+        <section class="equipamentos-tabs-section" id="categorias" aria-label="Atalhos para categorias de equipamentos">
             <div class="equipamentos-container">
 
                 <nav class="equipamentos-tabs" aria-label="Categorias de equipamentos">
                     <a href="#trituradores" class="active" aria-current="true">
-                        <span aria-hidden="true">▦</span>
+                        <span aria-hidden="true"><img src="assets/icones-brancos/icone-triturador-branco.svg" alt=""></span>
                         <div>
                             <strong>Trituradores</strong>
                             <small>Redução de volume</small>
@@ -282,7 +291,7 @@
                     </a>
 
                     <a href="#moinhos">
-                        <span aria-hidden="true">⚙</span>
+                        <span aria-hidden="true"><img src="assets/icones-brancos/icone-moinho-branco.svg" alt=""></span>
                         <div>
                             <strong>Moinhos</strong>
                             <small>Moagem eficiente</small>
@@ -290,7 +299,7 @@
                     </a>
 
                     <a href="#picadores">
-                        <span aria-hidden="true">♢</span>
+                        <span aria-hidden="true"><img src="assets/icones-brancos/icone-picador-branco.svg" alt=""></span>
                         <div>
                             <strong>Picadores</strong>
                             <small>Corte e fragmentação</small>
@@ -298,7 +307,7 @@
                     </a>
 
                     <a href="#esteiras">
-                        <span aria-hidden="true">▱</span>
+                        <span aria-hidden="true"><img src="assets/icones-brancos/icone-esteira-branco.svg" alt=""></span>
                         <div>
                             <strong>Esteiras transportadoras</strong>
                             <small>Transporte contínuo</small>
@@ -306,17 +315,13 @@
                     </a>
 
                     <a href="#usados">
-                        <span aria-hidden="true">♻</span>
+                        <span aria-hidden="true"><img src="assets/icones-brancos/icone-usadas-branco.svg" alt=""></span>
                         <div>
                             <strong>Equipamentos usados</strong>
                             <small>Revisados e com garantia</small>
                         </div>
                     </a>
                 </nav>
-
-                <p class="equipamentos-scroll-info">
-                    Clique em uma categoria ou role a página para ver todas as linhas.
-                </p>
 
             </div>
         </section>
@@ -365,10 +370,10 @@
 
                     </div>
 
-                    <a href="trituradores.html" class="equipamentos-category-link">
-                        Ver todos os trituradores
-                        <span>→</span>
-                    </a>
+                    <button type="button" class="equipamentos-category-link" data-category-toggle="trituradores" aria-expanded="false">
+                        Ver mais trituradores
+                        <span aria-hidden="true">↓</span>
+                    </button>
 
                 </div>
 
@@ -419,10 +424,10 @@
 
                     </div>
 
-                    <a href="moinhos.html" class="equipamentos-category-link">
-                        Ver todos os moinhos
-                        <span>→</span>
-                    </a>
+                    <button type="button" class="equipamentos-category-link" data-category-toggle="moinhos" aria-expanded="false">
+                        Ver mais moinhos
+                        <span aria-hidden="true">↓</span>
+                    </button>
 
                 </div>
 
@@ -473,10 +478,10 @@
 
                     </div>
 
-                    <a href="picadores.html" class="equipamentos-category-link">
-                        Ver todos os picadores
-                        <span>→</span>
-                    </a>
+                    <button type="button" class="equipamentos-category-link" data-category-toggle="picadores" aria-expanded="false">
+                        Ver mais picadores
+                        <span aria-hidden="true">↓</span>
+                    </button>
 
                 </div>
 
@@ -527,10 +532,10 @@
 
                     </div>
 
-                    <a href="esteiras.html" class="equipamentos-category-link">
-                        Ver todas as esteiras
-                        <span>→</span>
-                    </a>
+                    <button type="button" class="equipamentos-category-link" data-category-toggle="esteiras" aria-expanded="false">
+                        Ver mais esteiras
+                        <span aria-hidden="true">↓</span>
+                    </button>
 
                 </div>
 
@@ -555,7 +560,7 @@
                     <div class="equipamentos-used-benefits">
 
                         <article>
-                            <span>⚙</span>
+                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-avaliacao-laranja.svg" alt=""></span>
                             <div>
                                 <h3>Revisados e testados</h3>
                                 <p>Equipamentos preparados e prontos para uso.</p>
@@ -563,7 +568,7 @@
                         </article>
 
                         <article>
-                            <span>▱</span>
+                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-garantia-laranja.svg" alt=""></span>
                             <div>
                                 <h3>Garantia</h3>
                                 <p>Tenha um equipamento com garantia Brutusmaq.</p>
@@ -571,7 +576,7 @@
                         </article>
 
                         <article>
-                            <span>$</span>
+                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-fechamento-laranja.svg" alt=""></span>
                             <div>
                                 <h3>Condições especiais</h3>
                                 <p>Ótima opção de investimento para sua produção.</p>
@@ -657,7 +662,7 @@
             <div class="footer-contact">
                 <h4>Contato</h4>
                 <p>(041) 3797-1123</p>
-                <p>comercial@brutusmaq.com.br</p>
+                <p>contato@brutusmaq.com.br</p>
                 <p>Contenda - PR, Brasil</p>
             </div>
         </div>

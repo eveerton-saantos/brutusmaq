@@ -451,26 +451,87 @@ function configurarGaleria() {
 function configurarModal() {
     const modal = document.getElementById("solicitacaoVideoModal");
     const abrir = document.getElementById("abrirSolicitacaoVideo");
+    const abrirProposta = [...document.querySelectorAll("[data-open-proposal-modal]")];
     const fechar = document.getElementById("fecharSolicitacaoVideo");
     const form = document.getElementById("formSolicitacaoVideo");
+    const continuarFormulario = document.getElementById("continuarFormularioProposta");
+    const materialInput = document.getElementById("modalMaterial");
+    const detalhesInput = document.getElementById("modalDetalhes");
 
-    if (!modal || !abrir || !fechar || !form) {
+    if (!modal || !fechar || !form) {
         return;
     }
 
-    abrir.addEventListener("click", () => {
+    function obterContextoProposta() {
+        return {
+            tipo: "proposta-tecnica",
+            produto: produtoParametro("id") || produtoParametro("produto") || "",
+            modelo: document.getElementById("modalProduto")?.value || document.getElementById("produtoTitulo")?.textContent || "Equipamento novo",
+            categoria: document.getElementById("produtoCategoria")?.textContent || "",
+            material: materialInput?.value || "",
+            detalhes: detalhesInput?.value.trim() || "",
+            pagina: window.location.href,
+            origem: "Página do produto"
+        };
+    }
+
+    function atualizarContinuacaoFormulario() {
+        if (!continuarFormulario) {
+            return;
+        }
+
+        const contexto = obterContextoProposta();
+        const urlFormulario = new URL("contato.html", window.location.href);
+
+        ["tipo", "produto", "modelo", "categoria", "material", "pagina", "origem"].forEach((chave) => {
+            if (contexto[chave]) {
+                urlFormulario.searchParams.set(chave, contexto[chave]);
+            }
+        });
+
+        urlFormulario.hash = "proposta-tecnica";
+        continuarFormulario.href = urlFormulario.href;
+    }
+
+    function abrirModal(event) {
+        event?.preventDefault();
+        if (modal.open) {
+            return;
+        }
+
+        atualizarContinuacaoFormulario();
+
         if (typeof modal.showModal === "function") {
             modal.showModal();
+        } else {
+            modal.setAttribute("open", "");
         }
+    }
+
+    abrir?.addEventListener("click", abrirModal);
+    abrirProposta.forEach((botao) => {
+        botao.addEventListener("click", abrirModal);
     });
 
     fechar.addEventListener("click", () => modal.close());
 
+    materialInput?.addEventListener("change", atualizarContinuacaoFormulario);
+    detalhesInput?.addEventListener("input", atualizarContinuacaoFormulario);
+
+    continuarFormulario?.addEventListener("click", () => {
+        try {
+            window.sessionStorage.setItem("brutusmaq:proposta-contexto", JSON.stringify(obterContextoProposta()));
+        } catch (error) {
+            // Os parametros essenciais continuam na URL quando o armazenamento estiver indisponivel.
+        }
+    });
+
     form.addEventListener("submit", () => {
-        const produto = document.getElementById("modalProduto")?.value || "equipamento novo";
-        const material = document.getElementById("modalMaterial")?.value || "material";
-        const detalhes = document.getElementById("modalDetalhes")?.value || "sem detalhes adicionais";
-        const mensagem = `Ola, tenho interesse no ${produto}. Gostaria de solicitar proposta/teste para o material: ${material}. Detalhes: ${detalhes}`;
+        const contexto = obterContextoProposta();
+        const produto = contexto.modelo;
+        const material = contexto.material || "material";
+        const detalhes = contexto.detalhes || "sem detalhes adicionais";
+        const mensagem = `Ola, tenho interesse no ${produto}. Gostaria de solicitar uma proposta para o material: ${material}. Detalhes: ${detalhes}`;
         window.open(`https://wa.me/5541988754003?text=${encodeURIComponent(mensagem)}`, "_blank", "noopener");
     });
 }
