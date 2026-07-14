@@ -39,7 +39,7 @@
                 "name": "Brutusmaq",
                 "url": "https://www.brutusmaq.com.br/",
                 "logo": "https://www.brutusmaq.com.br/assets/logo/logo-brutusmaq.svg",
-                "email": "comercial@brutusmaq.com.br",
+                "email": "contato@brutusmaq.com.br",
                 "telephone": "+55-41-98875-4003",
                 "address": {
                     "@type": "PostalAddress",
@@ -177,10 +177,10 @@
         <section class="contact-channel-section" id="canais-atendimento" aria-label="Canais de atendimento">
             <div class="contact-container contact-channel-grid">
                 <article class="contact-channel-card">
-                    <span class="channel-icon channel-whatsapp" aria-hidden="true">◔</span>
+                    <span class="channel-icon channel-whatsapp" aria-hidden="true"><img class="whatsapp-btn-icon" src="assets/icones-verdes/icone-whatsapp-verde.svg" alt=""></span>
                     <h2>WhatsApp</h2>
                     <p>Fale diretamente com nossa equipe para tirar dúvidas, solicitar proposta ou consultar máquinas disponíveis.</p>
-                    <a class="channel-action channel-action-whatsapp" href="https://wa.me/5541988754003" target="_blank" rel="noopener">Conversar no WhatsApp <span aria-hidden="true">◉</span></a>
+                    <a class="channel-action channel-action-whatsapp" href="https://wa.me/5541988754003" target="_blank" rel="noopener"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Conversar no WhatsApp</a>
                 </article>
 
                 <article class="contact-channel-card">
@@ -194,7 +194,7 @@
                     <span class="channel-icon" aria-hidden="true">✉</span>
                     <h2>E-mail</h2>
                     <p>Envie sua solicitação com detalhes do projeto e receba uma resposta personalizada.</p>
-                    <a class="channel-action" href="mailto:comercial@brutusmaq.com.br">Enviar e-mail <span aria-hidden="true">→</span></a>
+                    <a class="channel-action" href="mailto:contato@brutusmaq.com.br">Enviar e-mail <span aria-hidden="true">→</span></a>
                 </article>
 
                 <article class="contact-channel-card">
@@ -211,7 +211,7 @@
                 <article class="contact-form-card" aria-labelledby="form-title">
                     <h2 id="form-title">Envie sua solicitação</h2>
 
-                    <form class="contact-form" action="mailto:comercial@brutusmaq.com.br" method="post" enctype="text/plain">
+                    <form class="contact-form" action="https://formsubmit.co/contato@brutusmaq.com.br" method="post" data-ajax-submit>
                         <fieldset class="contact-reason">
                             <legend>1. Qual o motivo do contato?</legend>
                             <label class="reason-option active">
@@ -314,9 +314,26 @@
                         </label>
 
                         <input type="hidden" name="contexto_do_atendimento" id="contactContextInput" value="Solicitar proposta técnica">
+                        <input type="hidden" name="equipamento_solicitado" id="contactProductInput" value="">
+                        <input type="hidden" name="categoria_do_equipamento" id="contactProductCategoryInput" value="">
+                        <input type="hidden" name="material_solicitado" id="contactMaterialInput" value="">
+                        <input type="hidden" name="pagina_do_equipamento" id="contactProductUrlInput" value="">
+                        <input type="hidden" name="origem_da_solicitacao" id="contactSourceInput" value="Página de contato">
+                        <input type="hidden" name="_subject" id="contactSubjectInput" value="Nova solicitação pelo site da Brutusmaq">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_next" value="https://www.brutusmaq.com.br/contato.html?enviado=1#proposta-tecnica">
+                        <input type="hidden" name="_url" value="https://www.brutusmaq.com.br/contato.html">
+                        <input type="hidden" name="_replyto" id="contactReplyTo" value="">
+
+                        <div class="contact-honeypot" aria-hidden="true">
+                            <label for="contactWebsite">Não preencha este campo</label>
+                            <input type="text" name="_honey" id="contactWebsite" tabindex="-1" autocomplete="off">
+                        </div>
 
                         <button type="submit" class="contact-submit" id="contactSubmit">Enviar solicitação <span aria-hidden="true">→</span></button>
-                        <p class="contact-safe-note">Seus dados estão seguros. Não enviamos spam.</p>
+                        <p class="contact-form-status" id="contactFormStatus" role="status" aria-live="polite"></p>
+                        <p class="contact-safe-note">Usaremos seus dados apenas para responder à solicitação, conforme nossa <a href="politica-de-privacidade.html">Política de Privacidade</a>.</p>
                     </form>
                 </article>
 
@@ -425,7 +442,7 @@
                 </div>
                 <div class="contact-final-actions">
                     <a href="#proposta-tecnica" class="contact-final-primary" data-contact-reason="Solicitar proposta técnica">Solicitar proposta técnica <span aria-hidden="true">→</span></a>
-                    <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="contact-final-outline">Falar no WhatsApp <span aria-hidden="true">◉</span></a>
+                    <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="contact-final-outline"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -468,7 +485,7 @@
             <div class="footer-contact">
                 <h4>Contato</h4>
                 <p>(041) 3797-1123</p>
-                <p>comercial@brutusmaq.com.br</p>
+                <p>contato@brutusmaq.com.br</p>
                 <p>Contenda - PR, Brasil</p>
             </div>
         </div>

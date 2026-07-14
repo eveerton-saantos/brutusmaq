@@ -102,7 +102,7 @@
         </nav>
 
         <div class="home-header-actions" aria-label="Atendimento Brutusmaq">
-            <a href="contato.html" class="header-cta">Solicitar proposta</a>
+            <a href="contato.html" class="header-cta" data-open-proposal-modal>Solicitar proposta</a>
         </div>
     </header>
 
@@ -154,15 +154,15 @@
                     </ul>
 
                     <div class="product-actions">
-                        <a href="contato.html?tipo=proposta-tecnica" class="product-btn product-btn-primary">Solicitar proposta</a>
-                        <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="product-btn product-btn-whatsapp">Falar no WhatsApp</a>
+                        <button type="button" class="product-btn product-btn-primary" data-open-proposal-modal>Solicitar proposta</button>
+                        <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="product-btn product-btn-whatsapp"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
                     </div>
 
                     <div class="product-trust-grid">
-                        <div><span aria-hidden="true">◇</span><strong>Fabricacao</strong><small id="produtoFabricacao">100% nacional</small></div>
-                        <div><span aria-hidden="true">⚙</span><strong>Assistencia</strong><small>Em todo Brasil</small></div>
-                        <div><span aria-hidden="true">G</span><strong>Garantia</strong><small id="produtoGarantia">12 meses</small></div>
-                        <div><span aria-hidden="true">✦</span><strong>Suporte tecnico</strong><small>Especializado</small></div>
+                        <div><span class="product-trust-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-fabricacao-laranja.svg" alt=""></span><strong>Fabricacao</strong><small id="produtoFabricacao">100% nacional</small></div>
+                        <div><span class="product-trust-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-assistencia-tecnica-laranja.svg" alt=""></span><strong>Assistencia</strong><small>Em todo Brasil</small></div>
+                        <div><span class="product-trust-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-garantia-laranja.svg" alt=""></span><strong>Garantia</strong><small id="produtoGarantia">12 meses</small></div>
+                        <div><span class="product-trust-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-atendimento-laranja.svg" alt=""></span><strong>Suporte tecnico</strong><small>Especializado</small></div>
                     </div>
                 </aside>
             </section>
@@ -174,10 +174,10 @@
                     <p>E a escolha ideal para industrias, recicladoras, madeireiras, empresas de gestao de residuos e diversos segmentos que buscam produtividade e confiabilidade.</p>
 
                     <div class="product-benefits">
-                        <div><span aria-hidden="true">⚙</span><strong>Alto desempenho</strong><small>Trituracao eficiente com alto torque e forca.</small></div>
-                        <div><span aria-hidden="true">⌘</span><strong>Baixa manutencao</strong><small>Projeto inteligente que facilita inspecoes e trocas.</small></div>
-                        <div><span aria-hidden="true">✹</span><strong>Robustez comprovada</strong><small>Estrutura reforcada para trabalho continuo.</small></div>
-                        <div><span aria-hidden="true">S</span><strong>Seguranca operacional</strong><small>Sistema de reversao e protecoes integradas.</small></div>
+                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-desempenho-laranja.svg" alt=""></span><strong>Alto desempenho</strong><small>Trituracao eficiente com alto torque e forca.</small></div>
+                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-baixa-manutencao-laranja.svg" alt=""></span><strong>Baixa manutencao</strong><small>Projeto inteligente que facilita inspecoes e trocas.</small></div>
+                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-robustez-laranja.svg" alt=""></span><strong>Robustez comprovada</strong><small>Estrutura reforcada para trabalho continuo.</small></div>
+                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-seguranca-laranja.svg" alt=""></span><strong>Seguranca operacional</strong><small>Sistema de reversao e protecoes integradas.</small></div>
                     </div>
                 </article>
 
@@ -253,8 +253,8 @@
                     <p>Fale com nossos especialistas e encontre o equipamento ideal para sua necessidade.</p>
                 </div>
                 <div class="product-cta-actions">
-                    <a href="contato.html?tipo=proposta-tecnica" class="product-btn product-btn-primary">Solicitar proposta tecnica</a>
-                    <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="product-btn product-btn-whatsapp">Falar no WhatsApp</a>
+                    <button type="button" class="product-btn product-btn-primary" data-open-proposal-modal>Solicitar proposta tecnica</button>
+                    <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="product-btn product-btn-whatsapp"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -263,13 +263,13 @@
     <dialog class="produto-video-modal" id="solicitacaoVideoModal" aria-labelledby="modalVideoTitulo">
         <form method="dialog" class="produto-video-modal-card" id="formSolicitacaoVideo">
             <button type="button" class="produto-modal-close" id="fecharSolicitacaoVideo" aria-label="Fechar solicitacao">x</button>
-            <h2 id="modalVideoTitulo">Solicitar teste ou proposta</h2>
-            <p>Conte para a equipe qual material voce quer processar. A solicitacao sera enviada pelo WhatsApp.</p>
+            <h2 id="modalVideoTitulo">Solicitar proposta</h2>
+            <p>Conte para a equipe qual material voce quer processar. A solicitacao sera enviada pelo WhatsApp sem sair desta pagina.</p>
 
             <label for="modalProduto">Equipamento</label>
             <input id="modalProduto" name="produto" type="text" value="TR-700 novo" readonly>
 
-            <label for="modalMaterial">Material para teste</label>
+            <label for="modalMaterial">Material do projeto</label>
             <select id="modalMaterial" name="material">
                 <option value="Plastico">Plastico</option>
                 <option value="Madeira">Madeira</option>
@@ -280,12 +280,12 @@
                 <option value="Outro material">Outro material</option>
             </select>
 
-            <label for="modalDetalhes">Detalhes do projeto</label>
+            <label for="modalDetalhes">Detalhes para orcamento</label>
             <textarea id="modalDetalhes" name="detalhes" rows="4" placeholder="Ex.: material, volume por hora, granulometria desejada, espaco disponivel, tensao eletrica..."></textarea>
 
             <div class="produto-modal-actions">
-                <button type="submit" class="product-btn product-btn-primary">Enviar pelo WhatsApp</button>
-                <a href="contato.html?tipo=proposta-tecnica" class="product-btn product-btn-whatsapp">Ir para formulario</a>
+                <button type="submit" class="product-btn product-btn-primary"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Enviar pelo WhatsApp</button>
+                <a href="contato.html?tipo=proposta-tecnica#proposta-tecnica" class="product-btn product-btn-email" id="continuarFormularioProposta">Continuar por e-mail</a>
             </div>
         </form>
     </dialog>
@@ -327,7 +327,7 @@
             <div class="footer-contact">
                 <h4>Contato</h4>
                 <p>(041) 3797-1123</p>
-                <p>comercial@brutusmaq.com.br</p>
+                <p>contato@brutusmaq.com.br</p>
                 <p>Contenda - PR, Brasil</p>
             </div>
         </div>

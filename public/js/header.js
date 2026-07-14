@@ -1,31 +1,32 @@
 const headerToggle = document.querySelector('.menu-toggle');
 const headerNav = document.querySelector('.header-nav');
 const headerList = headerNav?.querySelector('ul');
+const HOME_MEGA_PRODUCT_LIMIT = 4;
 
 const headerCategoryConfig = {
     trituradores: {
         title: 'Trituradores',
-        fallbackImage: 'assets/main/tr-700.png',
+        description: 'Redução de volume',
+        icon: 'assets/icones-brancos/icone-triturador-branco.svg',
         mediaHref: 'equipamentos.html#trituradores',
-        mediaLabel: 'Ver trituradores'
     },
     moinhos: {
         title: 'Moinhos',
-        fallbackImage: 'assets/main/robustez.svg',
+        description: 'Moagem eficiente',
+        icon: 'assets/icones-brancos/icone-moinho-branco.svg',
         mediaHref: 'equipamentos.html#moinhos',
-        mediaLabel: 'Ver moinhos'
     },
     picadores: {
         title: 'Picadores',
-        fallbackImage: 'assets/main/tecnologia.svg',
+        description: 'Corte e fragmentação',
+        icon: 'assets/icones-brancos/icone-picador-branco.svg',
         mediaHref: 'equipamentos.html#picadores',
-        mediaLabel: 'Ver picadores'
     },
     esteiras: {
         title: 'Esteiras',
-        fallbackImage: 'assets/main/manutencao.svg',
+        description: 'Transporte contínuo',
+        icon: 'assets/icones-brancos/icone-esteira-branco.svg',
         mediaHref: 'equipamentos.html#esteiras',
-        mediaLabel: 'Ver esteiras transportadoras'
     }
 };
 
@@ -42,55 +43,98 @@ const getHeaderProductUrl = (product) => {
     return `produto.html?produto=${encodeURIComponent(id)}`;
 };
 
-const renderEquipmentMegaMenu = () => {
-    const equipmentDropdownGrid = document.querySelector('.home-mega-grid');
-    const products = Array.isArray(window.brutusmaqProdutosNovos) ? window.brutusmaqProdutosNovos : [];
+const getHeaderModelNumber = (product) => {
+    const match = String(product.modelo || product.id || '').match(/\d+/);
 
-    if (!equipmentDropdownGrid || !products.length) {
-        return;
-    }
+    return match ? Number(match[0]) : Number.MAX_SAFE_INTEGER;
+};
 
-    const categoryColumns = Object.entries(headerCategoryConfig).map(([slug, config]) => {
-        const productsByCategory = products.filter((product) => product.categoriaSlug === slug);
+const getUniqueSortedHeaderProducts = (products) => {
+    const uniqueProducts = new Map();
 
-        if (!productsByCategory.length) {
-            return '';
+    products.forEach((product) => {
+        const key = String(product.id || product.modelo || '').trim().toLowerCase();
+
+        if (key && !uniqueProducts.has(key)) {
+            uniqueProducts.set(key, product);
+        }
+    });
+
+    return [...uniqueProducts.values()].sort((productA, productB) => {
+        const numberDifference = getHeaderModelNumber(productA) - getHeaderModelNumber(productB);
+
+        if (numberDifference !== 0) {
+            return numberDifference;
         }
 
-        const firstProduct = productsByCategory[0];
-        const image = firstProduct.imagem || config.fallbackImage;
-        const alt = firstProduct.alt || `${config.title} Brutusmaq`;
-        const links = productsByCategory.map((product) => {
+        return String(productA.modelo || productA.id || '').localeCompare(
+            String(productB.modelo || productB.id || ''),
+            'pt-BR',
+            { numeric: true }
+        );
+    });
+};
+
+const renderCompactEquipmentMegaMenu = (equipmentDropdownGrid, products) => {
+    const categoryColumns = Object.entries(headerCategoryConfig).map(([slug, config]) => {
+        const categoryProducts = getUniqueSortedHeaderProducts(
+            products.filter((product) => product.categoriaSlug === slug)
+        );
+        const productLinks = categoryProducts.slice(0, HOME_MEGA_PRODUCT_LIMIT).map((product) => {
             const label = product.modelo || product.nome || product.id || 'Equipamento';
 
             return `<a role="menuitem" href="${getHeaderProductUrl(product)}">${escapeHeaderHtml(label)}</a>`;
         }).join('');
+        const totalLabel = `${categoryProducts.length} ${categoryProducts.length === 1 ? 'modelo' : 'modelos'}`;
+        const allLabel = categoryProducts.length > HOME_MEGA_PRODUCT_LIMIT
+            ? `Ver todos (${categoryProducts.length})`
+            : 'Conhecer a linha';
 
         return `
-                            <section class="home-mega-column" aria-labelledby="mega-${slug}">
-                                <a class="home-mega-media" href="${config.mediaHref}" aria-label="${config.mediaLabel}">
-                                    <img src="${escapeHeaderHtml(image)}" alt="${escapeHeaderHtml(alt)}">
+                            <section class="home-mega-column home-mega-category-column">
+                                <a class="home-mega-category-head" role="menuitem" href="${config.mediaHref}">
+                                    <span class="home-mega-category-icon" aria-hidden="true"><img src="${config.icon}" alt=""></span>
+                                    <span>
+                                        <strong class="home-mega-category-name">${escapeHeaderHtml(config.title)}</strong>
+                                        <small>${escapeHeaderHtml(config.description)}</small>
+                                    </span>
+                                    <span class="home-mega-category-count">${escapeHeaderHtml(totalLabel)}</span>
                                 </a>
-                                <div>
-                                    <h2 id="mega-${slug}">${config.title}</h2>
-                                    ${links}
+                                <div class="home-mega-product-links">
+                                    ${productLinks || '<span class="home-mega-empty">Modelos sob consulta</span>'}
                                 </div>
+                                <a class="home-mega-all" role="menuitem" href="${config.mediaHref}">${allLabel}</a>
                             </section>`;
     }).join('');
 
+    equipmentDropdownGrid.classList.add('home-mega-grid-compact');
     equipmentDropdownGrid.innerHTML = `${categoryColumns}
 
-                            <section class="home-mega-column home-mega-highlight" aria-labelledby="mega-usados">
-                                <a class="home-mega-media" href="usadas.html" aria-label="Ver equipamentos usados">
-                                    <img src="assets/main/tr-800-disp-mobile.png" alt="">
+                            <section class="home-mega-column home-mega-category-column home-mega-highlight">
+                                <a class="home-mega-category-head" role="menuitem" href="usadas.html">
+                                    <span class="home-mega-category-icon" aria-hidden="true"><img src="assets/icones-brancos/icone-usadas-branco.svg" alt=""></span>
+                                    <span>
+                                        <strong class="home-mega-category-name">Equipamentos usados</strong>
+                                        <small>Revisados e testados</small>
+                                    </span>
                                 </a>
-                                <div>
-                                    <h2 id="mega-usados">Equipamentos usados</h2>
+                                <div class="home-mega-product-links">
                                     <a role="menuitem" href="usadas.html">Disponíveis para venda</a>
-                                    <a role="menuitem" href="usadas.html">Máquinas revisadas</a>
                                     <a role="menuitem" href="contato.html#proposta-tecnica">Solicitar indicação técnica</a>
                                 </div>
+                                <a class="home-mega-all" role="menuitem" href="usadas.html">Ver equipamentos usados</a>
                             </section>`;
+};
+
+const renderEquipmentMegaMenu = () => {
+    const equipmentDropdownGrid = document.querySelector('.home-mega-grid');
+    const products = Array.isArray(window.brutusmaqProdutosNovos) ? window.brutusmaqProdutosNovos : [];
+
+    if (!equipmentDropdownGrid) {
+        return;
+    }
+
+    renderCompactEquipmentMegaMenu(equipmentDropdownGrid, products);
 };
 
 if (headerList) {
