@@ -1,3 +1,16 @@
+/*
+Ao cadastrar um equipamento novo, use `imagemPrincipal` para definir a imagem
+de capa do produto. Ela tambem participa automaticamente do destaque rotativo
+da pagina de equipamentos. Prefira PNG ou WebP recortado e otimizado.
+
+Galeria recomendada: 5 imagens (principal, duas vistas externas, um detalhe
+tecnico e uma foto real em operacao). O minimo seguro e 3 imagens diferentes.
+A pagina aceita menos imagens sem quebrar e nao repete arquivos duplicados.
+
+Campos opcionais da ficha: `sobreTitulo`, `sobre` (lista de paragrafos),
+`beneficios` (ate 4 itens), `aplicacoes`, `materiais`, `destaques`,
+`notaTecnica`, `youtubeId` e `downloads`.
+*/
 window.brutusmaqProdutosNovos = [
     {
         id: "SHESHE",
@@ -10,6 +23,7 @@ window.brutusmaqProdutosNovos = [
         aplicacao: "Reducao de volume",
         garantia: "12 meses",
         fabricacao: "100% nacional",
+        imagemPrincipal: "assets/main/tr-700.png",
         imagem: "assets/main/tr-700.png",
         alt: "Triturador industrial TR-700 Brutusmaq",
         tipoImagem: "ilustrativa",
@@ -374,32 +388,6 @@ window.brutusmaqProdutosNovos = [
             "Estrutura industrial",
             "Projeto conforme aplicacao"
         ]
-    },
-    {
-        id: "p-650",
-        modelo: "P-650",
-        categoriaSlug: "picadores",
-        categoria: "Picador Industrial",
-        linha: "Picadores",
-        descricao: "Picador industrial para corte e fragmentacao de madeira, residuos organicos e materiais diversos.",
-        resumo: "Corte robusto para materiais diversos.",
-        aplicacao: "Picagem",
-        garantia: "12 meses",
-        fabricacao: "100% nacional",
-        imagem: "assets/main/tr-700.png",
-        alt: "Picador industrial P-650 Brutusmaq",
-        specs: [
-            ["Modelo", "P-650"],
-            ["Tipo", "Picador Industrial"],
-            ["Aplicacao", "Corte e fragmentacao"],
-            ["Potencia instalada", "Conforme projeto"]
-        ],
-        recursos: [
-            "Corte eficiente",
-            "Facas reforcadas",
-            "Operacao continua",
-            "Configuracao por material"
-        ]
     }
 ];
 
@@ -409,6 +397,8 @@ window.brutusmaqMaquinasUsadas = [
     {
         id: "slug-da-maquina-usada",
         modelo: "Nome do modelo",
+        // A categoria e livre: prensa, enfardadeira, peneira, separador etc.
+        // categoriaSlug e opcional; o filtro cria um identificador automaticamente.
         categoriaSlug: "trituradores",
         categoria: "Triturador industrial",
         statusSlug: "disponivel",
@@ -420,11 +410,26 @@ window.brutusmaqMaquinasUsadas = [
         condicao: "Revisado e testado",
         garantia: "Garantia Brutusmaq",
         localizacao: "Contenda - PR, Brasil",
-        especificacoes: ["Motor: informar", "Boca: informar", "Ano: informar"],
+        especificacoes: ["Motor: informar", "Boca: informar", "Horas de uso: informar se houver"],
         specs: [
             ["Modelo", "Nome do modelo"],
-            ["Ano", "Informar"],
-            ["Condicao", "Revisado e testado"]
+            ["Condicao", "Revisado e testado"],
+            ["Horas de uso", "Informar se houver"]
+        ],
+        oQueAcompanha: [
+            "Item que sera entregue com a maquina",
+            "Outro componente ou acessorio incluso"
+        ],
+        avaliacaoTecnica: [
+            "Componente inspecionado e resultado real",
+            "Teste realizado ou manutencao ainda necessaria"
+        ],
+        informacoesComerciais: [
+            ["Preco", "Consultar valor"],
+            ["Disponibilidade", "Sujeita a confirmacao"],
+            ["Prazo de entrega", "A combinar"],
+            ["Condicoes de pagamento", "Conforme proposta"],
+            ["Transporte", "A combinar"]
         ],
         descricao: "Descricao real da maquina usada.",
         youtubeBusca: "Brutusmaq nome do equipamento usado funcionando",
@@ -432,4 +437,114 @@ window.brutusmaqMaquinasUsadas = [
         cta: "Ver detalhes"
     }
     */
+    // Produtos de demonstracao: substitua pelos dados reais antes da publicacao.
+    {
+        id: "tr-700-usado-demo",
+        modelo: "TR-700",
+        categoriaSlug: "trituradores-industriais",
+        categoria: "Triturador industrial",
+        statusSlug: "disponivel",
+        status: "Disponível",
+        statusClasse: "status-disponivel",
+        imagemPrincipal: "assets/main/tr-700.png",
+        imagem: "assets/main/tr-700.png",
+        alt: "Triturador industrial TR-700 usado - imagem demonstrativa",
+        ano: "2021",
+        condicao: "Revisado e testado",
+        garantia: "Condições sob consulta",
+        localizacao: "Contenda - PR, Brasil",
+        especificacoes: [
+            "Potência: 2 x 30 CV",
+            "Boca: 700 x 600 mm",
+            "Condição: revisado e testado"
+        ],
+        oQueAcompanha: [
+            "Triturador com base de sustentação",
+            "Motores e redutores instalados",
+            "Painel elétrico",
+            "Conjunto de facas instalado"
+        ],
+        avaliacaoTecnica: [
+            "Estrutura e base avaliadas",
+            "Eixos, facas e rolamentos verificados",
+            "Motores e redutores testados",
+            "Teste operacional realizado"
+        ],
+        informacoesComerciais: [
+            ["Preço", "Consultar valor"],
+            ["Disponibilidade", "Sujeita à confirmação"],
+            ["Prazo de entrega", "A combinar"],
+            ["Condições de pagamento", "Conforme proposta"],
+            ["Máquina na troca", "Sob avaliação"],
+            ["Transporte", "A combinar"]
+        ],
+        observacaoImagens: "Imagem demonstrativa. Solicite fotos e vídeo atualizados desta unidade.",
+        specs: [
+            ["Modelo", "TR-700"],
+            ["Categoria", "Triturador industrial"],
+            ["Condição", "Revisado e testado"],
+            ["Potência instalada", "2 x 30 CV"],
+            ["Boca de alimentação", "700 x 600 mm"],
+            ["Localização", "Contenda - PR"],
+            ["Disponibilidade", "Sujeita à confirmação"]
+        ],
+        descricao: "Unidade usada de demonstração para visualizar o catálogo, a ficha técnica e o fluxo de contato da página de máquinas usadas.",
+        youtubeBusca: "Brutusmaq TR-700 funcionando",
+        url: "maquina-usada.html?id=tr-700-usado-demo",
+        cta: "Ver detalhes"
+    },
+    {
+        id: "tr-800-usado-demo",
+        modelo: "TR-800",
+        categoriaSlug: "trituradores-industriais",
+        categoria: "Triturador industrial",
+        statusSlug: "revisao",
+        status: "Em revisão",
+        statusClasse: "status-revisao",
+        imagemPrincipal: "assets/main/tr-800-disp-mobile.png",
+        imagem: "assets/main/tr-800-disp-mobile.png",
+        alt: "Triturador industrial TR-800 usado - imagem demonstrativa",
+        ano: "2020",
+        condicao: "Em revisão técnica",
+        garantia: "Definida após a revisão",
+        localizacao: "Contenda - PR, Brasil",
+        especificacoes: [
+            "Potência: conforme configuração",
+            "Boca: 800 x 700 mm",
+            "Condição: em revisão técnica"
+        ],
+        oQueAcompanha: [
+            "Triturador com estrutura principal",
+            "Conjunto de acionamento instalado",
+            "Componentes confirmados após a revisão"
+        ],
+        avaliacaoTecnica: [
+            "Inspeção estrutural em andamento",
+            "Conjunto de corte em avaliação",
+            "Acionamento e painel serão testados",
+            "Relatório final disponível após a revisão"
+        ],
+        informacoesComerciais: [
+            ["Preço", "Definido após a revisão"],
+            ["Disponibilidade", "Após conclusão da revisão"],
+            ["Prazo de entrega", "A confirmar"],
+            ["Condições de pagamento", "Conforme proposta"],
+            ["Máquina na troca", "Sob avaliação"],
+            ["Transporte", "A combinar"]
+        ],
+        observacaoImagens: "Imagem demonstrativa. As fotos reais serão atualizadas após a conclusão da revisão.",
+        specs: [
+            ["Modelo", "TR-800"],
+            ["Categoria", "Triturador industrial"],
+            ["Condição", "Em revisão técnica"],
+            ["Potência instalada", "Conforme configuração"],
+            ["Boca de alimentação", "800 x 700 mm"],
+            ["Localização", "Contenda - PR"],
+            ["Disponibilidade", "Após conclusão da revisão"]
+        ],
+        descricao: "Unidade usada de demonstração em processo de revisão, criada para validar estados, filtros e apresentação da página de detalhes.",
+        youtubeBusca: "Brutusmaq TR-800 funcionando",
+        url: "maquina-usada.html?id=tr-800-usado-demo",
+        cta: "Ver detalhes"
+    }
 ];

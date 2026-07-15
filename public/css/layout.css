@@ -1,0 +1,112 @@
+/* Padrao global de largura e alinhamento Brutusmaq */
+
+:root {
+    --site-container: 1240px;
+    --site-gutter: 5%;
+}
+
+:is(
+    .home-container,
+    .about-container,
+    .blog-container,
+    .article-container,
+    .contact-container,
+    .equipamentos-container,
+    .produto-usado-container,
+    .privacy-container,
+    .product-container,
+    .terms-container,
+    .usadas-container
+) {
+    width: min(90%, var(--site-container));
+    max-width: var(--site-container);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Header e rodape acompanham as mesmas linhas verticais do conteudo. */
+body .header {
+    padding-right: max(var(--site-gutter), calc((100% - var(--site-container)) / 2));
+    padding-left: max(var(--site-gutter), calc((100% - var(--site-container)) / 2));
+}
+
+.header .product-dropdown-grid.home-mega-grid,
+.header .product-dropdown-grid.home-mega-grid-compact {
+    width: min(90%, var(--site-container));
+    max-width: var(--site-container);
+}
+
+body .footer {
+    padding-right: max(var(--site-gutter), calc((100% - var(--site-container)) / 2));
+    padding-left: max(var(--site-gutter), calc((100% - var(--site-container)) / 2));
+}
+
+body .footer-top,
+body .footer-bottom {
+    width: 100%;
+    max-width: var(--site-container);
+}
+
+@media (max-width: 1120px) {
+    :root {
+        --site-gutter: 4%;
+    }
+
+    :is(
+        .home-container,
+        .about-container,
+        .blog-container,
+        .article-container,
+        .contact-container,
+        .equipamentos-container,
+        .produto-usado-container,
+        .privacy-container,
+        .product-container,
+        .terms-container,
+        .usadas-container
+    ) {
+        width: min(92%, 1040px);
+        max-width: 1040px;
+    }
+
+    .header .product-dropdown-grid.home-mega-grid,
+    .header .product-dropdown-grid.home-mega-grid-compact {
+        width: min(92%, 1040px);
+        max-width: 1040px;
+    }
+}
+
+@media (max-width: 560px) {
+    :root {
+        --site-gutter: 16px;
+    }
+
+    :is(
+        .home-container,
+        .about-container,
+        .blog-container,
+        .article-container,
+        .contact-container,
+        .equipamentos-container,
+        .produto-usado-container,
+        .privacy-container,
+        .product-container,
+        .terms-container,
+        .usadas-container
+    ) {
+        width: calc(100% - 32px);
+        max-width: none;
+    }
+
+    body .header,
+    body .footer {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+
+    .header .product-dropdown-grid.home-mega-grid,
+    .header .product-dropdown-grid.home-mega-grid-compact {
+        width: 100%;
+        max-width: none;
+    }
+}

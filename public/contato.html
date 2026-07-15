@@ -22,10 +22,12 @@
     </style>
 
     <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
+    <link rel="preload" as="image" href="assets/imagens-fundo/contato-brutusmaq-background.png" fetchpriority="high">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/contact-page.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/layout.css">
 
     <script type="application/ld+json">
         {
@@ -74,7 +76,7 @@
             <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="header-logo">
         </a>
 
-        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
             <span></span>
             <span></span>
             <span></span>
@@ -109,16 +111,6 @@
                                 </div>
                             </section>
 
-                            <section class="home-mega-column" aria-labelledby="mega-picadores">
-                                <a class="home-mega-media" href="equipamentos.html#picadores" aria-label="Ver picadores">
-                                    <img src="assets/main/tr-700.png" alt="Picador industrial P-650 Brutusmaq">
-                                </a>
-                                <div>
-                                    <h2 id="mega-picadores">Picadores</h2>
-                                    <a role="menuitem" href="produto.html?produto=p-650">P-650</a>
-                                </div>
-                            </section>
-
                             <section class="home-mega-column home-mega-highlight" aria-labelledby="mega-usados">
                                 <a class="home-mega-media" href="usadas.html" aria-label="Ver equipamentos usados">
                                     <img src="assets/main/tr-800-disp-mobile.png" alt="">
@@ -143,7 +135,7 @@
         </nav>
 
         <div class="home-header-actions" aria-label="Atendimento Brutusmaq">
-            <a href="contato.html" class="header-cta">Solicitar proposta</a>
+            <a href="contato.html?tipo=proposta-tecnica#proposta-tecnica" class="header-cta">Solicitar proposta</a>
         </div>
     </header>
 
@@ -158,6 +150,7 @@
                         <strong aria-current="page">Contato</strong>
                     </nav>
 
+                    <span class="contact-hero-eyebrow">Atendimento comercial e técnico</span>
                     <h1 id="contact-title">Fale com a <strong>Brutusmaq</strong></h1>
                     <p>
                         Nossa equipe está pronta para entender sua necessidade e indicar a melhor solução
@@ -165,10 +158,10 @@
                     </p>
 
                     <div class="contact-hero-features" aria-label="Diferenciais do atendimento">
-                        <div><span aria-hidden="true">☏</span><strong>Atendimento técnico</strong></div>
-                        <div><span aria-hidden="true">▣</span><strong>Propostas personalizadas</strong></div>
-                        <div><span aria-hidden="true">⚙</span><strong>Assistência especializada</strong></div>
-                        <div class="feature-green"><span aria-hidden="true">◇</span><strong>Soluções para um futuro sustentável</strong></div>
+                        <div><span aria-hidden="true"><img src="assets/icones-laranjas/icone-atendimento-laranja.svg" alt=""></span><strong>Atendimento técnico</strong></div>
+                        <div><span aria-hidden="true"><img src="assets/icones-laranjas/icone-necessidade-laranja.svg" alt=""></span><strong>Propostas personalizadas</strong></div>
+                        <div><span aria-hidden="true"><img src="assets/icones-laranjas/icone-assistencia-tecnica-laranja.svg" alt=""></span><strong>Assistência especializada</strong></div>
+                        <div class="feature-green"><span aria-hidden="true"><img src="assets/icones-verdes/icone-folha-sustentabilidade-verde.svg" alt=""></span><strong>Soluções para um futuro sustentável</strong></div>
                     </div>
                 </div>
             </div>
@@ -177,28 +170,28 @@
         <section class="contact-channel-section" id="canais-atendimento" aria-label="Canais de atendimento">
             <div class="contact-container contact-channel-grid">
                 <article class="contact-channel-card">
-                    <span class="channel-icon channel-whatsapp" aria-hidden="true"><img class="whatsapp-btn-icon" src="assets/icones-verdes/icone-whatsapp-verde.svg" alt=""></span>
+                    <span class="channel-icon channel-whatsapp" aria-hidden="true"><img src="assets/icones-verdes/icone-whatsapp-verde.svg" alt=""></span>
                     <h2>WhatsApp</h2>
                     <p>Fale diretamente com nossa equipe para tirar dúvidas, solicitar proposta ou consultar máquinas disponíveis.</p>
                     <a class="channel-action channel-action-whatsapp" href="https://wa.me/5541988754003" target="_blank" rel="noopener"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Conversar no WhatsApp</a>
                 </article>
 
                 <article class="contact-channel-card">
-                    <span class="channel-icon" aria-hidden="true">☏</span>
+                    <span class="channel-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-telefone-laranja.svg" alt=""></span>
                     <h2>Telefone</h2>
                     <p>Atendimento rápido com nosso time comercial especializado.</p>
                     <a class="channel-action" href="tel:+5541988754003">Ligar agora <span aria-hidden="true">⌕</span></a>
                 </article>
 
                 <article class="contact-channel-card">
-                    <span class="channel-icon" aria-hidden="true">✉</span>
+                    <span class="channel-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-email-laranja.svg" alt=""></span>
                     <h2>E-mail</h2>
                     <p>Envie sua solicitação com detalhes do projeto e receba uma resposta personalizada.</p>
                     <a class="channel-action" href="mailto:contato@brutusmaq.com.br">Enviar e-mail <span aria-hidden="true">→</span></a>
                 </article>
 
                 <article class="contact-channel-card">
-                    <span class="channel-icon" aria-hidden="true">⚙</span>
+                    <span class="channel-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-assistencia-tecnica-laranja.svg" alt=""></span>
                     <h2>Assistência técnica</h2>
                     <p>Suporte para manutenção, peças, revisões e acompanhamento dos equipamentos Brutusmaq.</p>
                     <a class="channel-action" href="#assistencia-tecnica" data-contact-reason="Assistência técnica">Solicitar suporte <span aria-hidden="true">→</span></a>
@@ -209,11 +202,18 @@
         <section class="contact-main-section" id="proposta-tecnica">
             <div class="contact-container contact-main-grid">
                 <article class="contact-form-card" aria-labelledby="form-title">
-                    <h2 id="form-title">Envie sua solicitação</h2>
+                    <div class="contact-form-heading">
+                        <div>
+                            <span class="contact-section-label">Resposta direcionada</span>
+                            <h2 id="form-title">Conte o que você precisa</h2>
+                            <p>Leva cerca de 1 minuto. Você pode enviar mais detalhes depois.</p>
+                        </div>
+                        <span class="contact-form-time" aria-label="Tempo estimado de preenchimento">~ 1 min</span>
+                    </div>
 
                     <form class="contact-form" action="https://formsubmit.co/contato@brutusmaq.com.br" method="post" data-ajax-submit>
                         <fieldset class="contact-reason">
-                            <legend>1. Qual o motivo do contato?</legend>
+                            <legend>Como podemos ajudar?</legend>
                             <label class="reason-option active">
                                 <input type="radio" name="motivo" value="Solicitar proposta técnica" checked>
                                 <span aria-hidden="true">▣</span>
@@ -261,46 +261,32 @@
 
                         <div class="contact-form-row">
                             <label>
-                                <span>Nome completo*</span>
-                                <input type="text" name="nome" required autocomplete="name" placeholder="Nome completo*">
+                                <span>Seu nome <strong>Obrigatório</strong></span>
+                                <input type="text" name="nome" required autocomplete="name" placeholder="Como podemos chamar você?">
                             </label>
                             <label>
-                                <span>E-mail*</span>
-                                <input type="email" name="email" required autocomplete="email" placeholder="E-mail*">
+                                <span>Telefone / WhatsApp <strong>Obrigatório</strong></span>
+                                <input type="tel" name="telefone" required autocomplete="tel" inputmode="tel" maxlength="20" placeholder="(00) 00000-0000">
                             </label>
                         </div>
 
                         <div class="contact-form-row">
                             <label>
-                                <span>Telefone / WhatsApp*</span>
-                                <input type="tel" name="telefone" required autocomplete="tel" placeholder="Telefone / WhatsApp*">
+                                <span>E-mail <small>Opcional</small></span>
+                                <input type="email" name="email" autocomplete="email" placeholder="seuemail@empresa.com.br">
                             </label>
                             <label>
-                                <span>Empresa</span>
-                                <input type="text" name="empresa" autocomplete="organization" placeholder="Empresa">
+                                <span>CNPJ <small>Opcional</small></span>
+                                <input type="text" name="cnpj" inputmode="numeric" maxlength="18" placeholder="00.000.000/0000-00">
                             </label>
                         </div>
-
-                        <div class="contact-form-row">
-                            <label>
-                                <span>CNPJ</span>
-                                <input type="text" name="cnpj" placeholder="CNPJ">
-                            </label>
-                            <label>
-                                <span>Cidade / Estado</span>
-                                <input type="text" name="cidade_estado" autocomplete="address-level2" placeholder="Cidade / Estado">
-                            </label>
-                        </div>
-
-                        <div class="contact-dynamic-fields" id="contactDynamicFields"></div>
 
                         <label>
-                            <span>2. Material ou equipamento de interesse</span>
+                            <span>O que você procura?</span>
                             <select name="interesse" id="contactInterestSelect">
-                                <option value="">Selecione uma opção</option>
+                                <option value="">Ainda não sei / quero orientação</option>
                                 <option>Trituradores</option>
                                 <option>Moinhos</option>
-                                <option>Picadores</option>
                                 <option>Esteiras transportadoras</option>
                                 <option>Equipamentos usados</option>
                                 <option>Peças e assistência</option>
@@ -309,9 +295,30 @@
                         </label>
 
                         <label>
-                            <span>3. Descreva sua necessidade</span>
-                            <textarea name="mensagem" id="contactMessage" rows="5" placeholder="Conte-nos detalhes sobre sua operação, material, capacidade desejada, aplicação, prazo ou equipamento de interesse."></textarea>
+                            <span>Conte o essencial <small>Opcional</small></span>
+                            <textarea name="mensagem" id="contactMessage" rows="4" maxlength="1200" placeholder="Exemplo: preciso triturar plástico e quero produzir cerca de 500 kg por hora."></textarea>
                         </label>
+
+                        <details class="contact-optional-details">
+                            <summary>
+                                <span>Adicionar detalhes técnicos</span>
+                                <small>Opcional, ajuda a acelerar a análise</small>
+                            </summary>
+                            <div class="contact-optional-content">
+                                <div class="contact-form-row">
+                                    <label>
+                                        <span>Nome da empresa <small>Opcional</small></span>
+                                        <input type="text" name="empresa" autocomplete="organization" placeholder="Nome da empresa">
+                                    </label>
+                                    <label>
+                                        <span>Cidade / Estado <small>Opcional</small></span>
+                                        <input type="text" name="cidade_estado" autocomplete="address-level2" placeholder="Ex.: Curitiba / PR">
+                                    </label>
+                                </div>
+
+                                <div class="contact-dynamic-fields" id="contactDynamicFields"></div>
+                            </div>
+                        </details>
 
                         <input type="hidden" name="contexto_do_atendimento" id="contactContextInput" value="Solicitar proposta técnica">
                         <input type="hidden" name="equipamento_solicitado" id="contactProductInput" value="">
@@ -331,7 +338,13 @@
                             <input type="text" name="_honey" id="contactWebsite" tabindex="-1" autocomplete="off">
                         </div>
 
-                        <button type="submit" class="contact-submit" id="contactSubmit">Enviar solicitação <span aria-hidden="true">→</span></button>
+                        <div class="contact-form-actions">
+                            <button type="submit" class="contact-submit" id="contactSubmit">Enviar solicitação <span aria-hidden="true">→</span></button>
+                            <a class="contact-whatsapp-shortcut" id="contactWhatsAppShortcut" href="https://wa.me/5541988754003" target="_blank" rel="noopener">
+                                <img class="whatsapp-btn-icon" src="assets/icones-verdes/icone-whatsapp-verde.svg" alt="" aria-hidden="true">
+                                Prefiro enviar pelo WhatsApp
+                            </a>
+                        </div>
                         <p class="contact-form-status" id="contactFormStatus" role="status" aria-live="polite"></p>
                         <p class="contact-safe-note">Usaremos seus dados apenas para responder à solicitação, conforme nossa <a href="politica-de-privacidade.html">Política de Privacidade</a>.</p>
                     </form>
@@ -341,7 +354,7 @@
                     <article class="contact-info-card">
                         <h2>Informações importantes</h2>
                         <div class="contact-info-item">
-                            <span aria-hidden="true">▷</span>
+                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-relogio-laranja.svg" alt=""></span>
                             <div>
                                 <h3>Horário de atendimento</h3>
                                 <p>Segunda a quinta: 8h às 17:30h</p>
@@ -349,7 +362,7 @@
                             </div>
                         </div>
                         <div class="contact-info-item">
-                            <span aria-hidden="true">⌖</span>
+                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-mapa-brasil-laranja.svg" alt=""></span>
                             <div>
                                 <h3>Endereço</h3>
                                 <p><strong>Brutusmaq</strong></p>
@@ -448,52 +461,61 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="footer-logo">
-                <p>Tecnologia, eficiência e compromisso com a sustentabilidade para transformar materiais e construir um futuro melhor.</p>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/brutusmaq/" target="_blank" rel="noopener">Instagram</a>
-                    <a href="https://www.youtube.com/@brutusmaq" target="_blank" rel="noopener">YouTube</a>
-                    <a href="https://www.linkedin.com/company/brutusmaq/" target="_blank" rel="noopener">LinkedIn</a>
-                </div>
-            </div>
+<footer class="footer site-footer">
+        <div class="site-footer-main">
+            <div class="site-footer-container site-footer-grid">
+                <section class="site-footer-brand" aria-label="Brutusmaq">
+                    <a href="index.html" aria-label="Página inicial da Brutusmaq">
+                        <img src="assets/logo/logo-brutusmaq.svg" alt="Brutusmaq">
+                    </a>
+                    <p>Equipamentos industriais com engenharia brasileira, fabricação nacional e suporte especializado.</p>
+                </section>
 
-            <div class="footer-column">
-                <h4>Equipamentos</h4>
-                <ul>
-                    <li><a href="equipamentos.html#trituradores">Trituradores</a></li>
-                    <li><a href="equipamentos.html#moinhos">Moinhos</a></li>
-                    <li><a href="equipamentos.html#picadores">Picadores</a></li>
-                    <li><a href="equipamentos.html#esteiras">Esteiras transportadoras</a></li>
-                    <li><a href="usadas.html">Equipamentos usados</a></li>
-                </ul>
-            </div>
+                <nav class="site-footer-navigation" aria-label="Navegação do rodapé">
+                    <section aria-label="Explorar">
+                        <h2>Explorar</h2>
+                        <ul>
+                            <li><a href="equipamentos.html">Equipamentos</a></li>
+                            <li><a href="usadas.html">Máquinas usadas</a></li>
+                            <li><a href="sobre-nos.html">Sobre nós</a></li>
+                            <li><a href="blog.html">Conteúdo técnico</a></li>
+                        </ul>
+                    </section>
 
-            <div class="footer-column">
-                <h4>Institucional</h4>
-                <ul>
-                    <li><a href="sobre-nos.html">Sobre nós</a></li>
-                    <li><a href="index.html#sustentabilidade">Sustentabilidade</a></li>
-                    <li><a href="equipamentos.html">Soluções industriais</a></li>
-                    <li><a href="contato.html#assistencia-tecnica">Assistência técnica</a></li>
-                    <li><a href="contato.html">Contato</a></li>
-                </ul>
-            </div>
+                    <section aria-label="Atendimento">
+                        <h2>Atendimento</h2>
+                        <ul>
+                            <li><a href="contato.html?tipo=proposta-tecnica#proposta-tecnica">Solicitar proposta</a></li>
+                            <li><a href="contato.html?tipo=assistencia-tecnica#proposta-tecnica">Assistência técnica</a></li>
+                            <li><a href="contato.html">Todos os canais</a></li>
+                        </ul>
+                    </section>
+                </nav>
 
-            <div class="footer-contact">
-                <h4>Contato</h4>
-                <p>(041) 3797-1123</p>
-                <p>contato@brutusmaq.com.br</p>
-                <p>Contenda - PR, Brasil</p>
+                <address class="site-footer-contact">
+                    <h2>Contato</h2>
+                    <div class="site-footer-phones">
+                        <a href="tel:+554137971123">(41) 3797-1123</a>
+                        <span aria-hidden="true">|</span>
+                        <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" aria-label="WhatsApp (41) 98875-4003">(41) 98875-4003</a>
+                    </div>
+                    <a href="mailto:contato@brutusmaq.com.br">contato@brutusmaq.com.br</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Brutusmaq%20Contenda%20PR" target="_blank" rel="noopener" class="site-footer-location">Contenda - PR, Brasil</a>
+                </address>
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <p>&copy; 2026 BRUTUSMAQ. Todos os direitos reservados.</p>
-            <a href="politica-de-privacidade.html">Política de Privacidade</a>
-            <a href="termos-de-uso.html">Termos de Uso</a>
+        <div class="site-footer-container site-footer-bottom">
+            <p>&copy; 2026 BRUTUSMAQ</p>
+            <div class="site-footer-social" aria-label="Redes sociais">
+                <a href="https://www.instagram.com/brutusmaq/" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.youtube.com/@brutusmaq" target="_blank" rel="noopener">YouTube</a>
+                <a href="https://www.linkedin.com/company/brutusmaq/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+            <nav class="site-footer-legal" aria-label="Links legais">
+                <a href="politica-de-privacidade.html">Privacidade</a>
+                <a href="termos-de-uso.html">Termos</a>
+            </nav>
         </div>
     </footer>
 

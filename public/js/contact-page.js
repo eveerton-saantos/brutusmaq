@@ -45,14 +45,17 @@ if (contactForm) {
     const productUrlInput = document.querySelector('#contactProductUrlInput');
     const sourceInput = document.querySelector('#contactSourceInput');
     const subjectInput = document.querySelector('#contactSubjectInput');
+    const whatsappShortcut = document.querySelector('#contactWhatsAppShortcut');
+    const phoneInput = contactForm.querySelector('input[name="telefone"]');
+    const cnpjInput = contactForm.querySelector('input[name="cnpj"]');
 
     const configs = {
         'Solicitar proposta técnica': {
             badge: 'Proposta técnica',
             title: 'Conte-nos sobre sua operação',
             text: 'Informe o material processado, produção desejada e condições de operação para indicarmos o equipamento ideal.',
-            tips: ['Tipo e volume do material', 'Capacidade esperada por hora', 'Objetivo: triturar, moer, picar ou transportar'],
-            options: ['Trituradores', 'Moinhos', 'Picadores', 'Esteiras transportadoras', 'Linha completa de reciclagem', 'Ainda não sei qual equipamento'],
+            tips: ['Tipo e volume do material', 'Capacidade esperada por hora', 'Objetivo: triturar, moer ou transportar'],
+            options: ['Trituradores', 'Moinhos', 'Esteiras transportadoras', 'Linha completa de reciclagem', 'Ainda não sei qual equipamento'],
             placeholder: 'Exemplo: preciso triturar bombonas plásticas, cerca de 500 kg/h, com alimentação manual e saída para esteira.',
             submit: 'Enviar pedido de proposta',
             fields: [
@@ -65,7 +68,7 @@ if (contactForm) {
             title: 'Vamos encontrar uma máquina revisada para você',
             text: 'Ajude nossa equipe a entender a aplicação, urgência e condição comercial desejada para apresentar equipamentos disponíveis.',
             tips: ['Tipo de equipamento usado desejado', 'Material que será processado', 'Prazo para compra ou visita técnica'],
-            options: ['Triturador usado', 'Moinho usado', 'Picador usado', 'Esteira usada', 'Equipamento revisado disponível', 'Quero receber opções'],
+            options: ['Triturador usado', 'Moinho usado', 'Esteira usada', 'Equipamento revisado disponível', 'Quero receber opções'],
             placeholder: 'Conte qual equipamento usado procura, material de trabalho, faixa de investimento, prazo e se deseja vídeo de funcionamento.',
             submit: 'Consultar máquinas usadas',
             fields: [
@@ -141,7 +144,7 @@ if (contactForm) {
     };
 
     const renderOptions = (options) => {
-        interestSelect.innerHTML = '<option value="">Selecione uma opção</option>';
+        interestSelect.innerHTML = '<option value="">Ainda não sei / quero orientação</option>';
 
         options.forEach((option) => {
             const item = document.createElement('option');
@@ -226,6 +229,67 @@ if (contactForm) {
             : `${submit.dataset.label || 'Enviar solicitação'} <span aria-hidden="true">→</span>`;
     };
 
+    const onlyDigits = (value) => String(value || '').replace(/\D/g, '');
+
+    const formatPhone = (value) => {
+        const digits = onlyDigits(value).slice(0, 13);
+        const local = digits.startsWith('55') && digits.length > 11 ? digits.slice(2) : digits;
+
+        if (local.length <= 2) return local;
+        if (local.length <= 6) return `(${local.slice(0, 2)}) ${local.slice(2)}`;
+        if (local.length <= 10) return `(${local.slice(0, 2)}) ${local.slice(2, 6)}-${local.slice(6)}`;
+        return `(${local.slice(0, 2)}) ${local.slice(2, 7)}-${local.slice(7, 11)}`;
+    };
+
+    const formatCnpj = (value) => {
+        const digits = onlyDigits(value).slice(0, 14);
+
+        return digits
+            .replace(/^(\d{2})(\d)/, '$1.$2')
+            .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+            .replace(/\.(\d{3})(\d)/, '.$1/$2')
+            .replace(/(\d{4})(\d)/, '$1-$2');
+    };
+
+    const buildWhatsAppMessage = () => {
+        const reason = contactForm.querySelector('input[name="motivo"]:checked')?.value || 'Atendimento';
+        const name = contactForm.querySelector('input[name="nome"]')?.value.trim();
+        const company = contactForm.querySelector('input[name="empresa"]')?.value.trim();
+        const interest = interestSelect.value;
+        const details = message.value.trim();
+
+        return [
+            `Olá, quero falar com a Brutusmaq sobre: ${reason}.`,
+            name ? `Meu nome é ${name}${company ? `, da empresa ${company}` : ''}.` : '',
+            interest ? `Interesse: ${interest}.` : '',
+            details ? `Detalhes: ${details}` : ''
+        ].filter(Boolean).join('\n');
+    };
+
+    const updateWhatsAppShortcut = () => {
+        if (whatsappShortcut) {
+            whatsappShortcut.href = `https://wa.me/5541988754003?text=${encodeURIComponent(buildWhatsAppMessage())}`;
+        }
+    };
+
+    phoneInput?.addEventListener('input', () => {
+        phoneInput.value = formatPhone(phoneInput.value);
+        phoneInput.setCustomValidity('');
+    });
+
+    phoneInput?.addEventListener('blur', () => {
+        if (phoneInput.value && onlyDigits(phoneInput.value).length < 10) {
+            phoneInput.setCustomValidity('Informe um telefone com DDD.');
+        }
+    });
+
+    cnpjInput?.addEventListener('input', () => {
+        cnpjInput.value = formatCnpj(cnpjInput.value);
+    });
+
+    contactForm.addEventListener('input', updateWhatsAppShortcut);
+    contactForm.addEventListener('change', updateWhatsAppShortcut);
+
     const getStoredProposalContext = () => {
         try {
             const stored = window.sessionStorage.getItem('brutusmaq:proposta-contexto');
@@ -241,7 +305,6 @@ if (contactForm) {
         const categoryNames = {
             triturad: 'Trituradores',
             moinho: 'Moinhos',
-            picador: 'Picadores',
             esteira: 'Esteiras transportadoras'
         };
         const targetValue = Object.entries(categoryNames).find(([fragment]) => normalized.includes(fragment))?.[1];
@@ -362,6 +425,10 @@ if (contactForm) {
     };
 
     contactForm.addEventListener('submit', async (event) => {
+        if (phoneInput && onlyDigits(phoneInput.value).length < 10) {
+            phoneInput.setCustomValidity('Informe um telefone com DDD.');
+        }
+
         if (!contactForm.checkValidity()) {
             event.preventDefault();
             contactForm.reportValidity();
@@ -419,4 +486,5 @@ if (contactForm) {
     const selectedReason = contactForm.querySelector('input[name="motivo"]:checked');
     setReason(selectedReason?.value || 'Solicitar proposta técnica');
     configureUrlContext();
+    updateWhatsAppShortcut();
 }

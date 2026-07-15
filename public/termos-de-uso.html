@@ -15,17 +15,19 @@
     <meta property="og:title" content="Termos de Uso | Brutusmaq">
     <meta property="og:description" content="Condições para uso do site, conteúdos, formulários, informações técnicas e canais digitais da Brutusmaq.">
     <meta property="og:url" content="https://www.brutusmaq.com.br/termos-de-uso.html">
-    <meta property="og:image" content="https://www.brutusmaq.com.br/assets/main/tr-700.png">
+    <meta property="og:image" content="https://www.brutusmaq.com.br/assets/imagens-fundo/tcu-brutusmaq-background.png">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Teko:wght@400;500;600;700&display=swap');
     </style>
 
     <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
+    <link rel="preload" as="image" href="assets/imagens-fundo/tcu-brutusmaq-background.png" fetchpriority="high">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/termos.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/layout.css">
 
     <script type="application/ld+json">
         {
@@ -52,7 +54,7 @@
                     "availableLanguage": "pt-BR"
                 }
             },
-            "dateModified": "2026-07-08"
+            "dateModified": "2026-07-15"
         }
     </script>
 </head>
@@ -63,7 +65,7 @@
             <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="header-logo">
         </a>
 
-        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
             <span></span>
             <span></span>
             <span></span>
@@ -98,16 +100,6 @@
                                 </div>
                             </section>
 
-                            <section class="home-mega-column" aria-labelledby="mega-picadores">
-                                <a class="home-mega-media" href="equipamentos.html#picadores" aria-label="Ver picadores">
-                                    <img src="assets/main/tr-700.png" alt="Picador industrial P-650 Brutusmaq">
-                                </a>
-                                <div>
-                                    <h2 id="mega-picadores">Picadores</h2>
-                                    <a role="menuitem" href="produto.html?produto=p-650">P-650</a>
-                                </div>
-                            </section>
-
                             <section class="home-mega-column home-mega-highlight" aria-labelledby="mega-usados">
                                 <a class="home-mega-media" href="usadas.html" aria-label="Ver equipamentos usados">
                                     <img src="assets/main/tr-800-disp-mobile.png" alt="">
@@ -132,7 +124,7 @@
         </nav>
 
         <div class="home-header-actions" aria-label="Atendimento Brutusmaq">
-            <a href="contato.html" class="header-cta">Solicitar proposta</a>
+            <a href="contato.html?tipo=proposta-tecnica#proposta-tecnica" class="header-cta">Solicitar proposta</a>
         </div>
     </header>
 
@@ -141,37 +133,67 @@
             <div class="terms-hero-overlay" aria-hidden="true"></div>
             <div class="terms-container terms-hero-inner">
                 <nav class="terms-breadcrumb" aria-label="Breadcrumb">
-                    <a href="index.html">Início</a>
-                    <span aria-hidden="true">›</span>
-                    <strong aria-current="page">Termos de Uso</strong>
+                    <ol>
+                        <li><a href="index.html">Início</a></li>
+                        <li aria-current="page">Termos de Uso</li>
+                    </ol>
                 </nav>
 
                 <div class="terms-hero-copy">
                     <span class="terms-eyebrow">Uso do site e canais digitais</span>
                     <h1 id="terms-title">Termos de <strong>Uso</strong></h1>
                     <p>
-                        Estes termos orientam a navegação e o uso das informações, formulários, páginas de produtos,
-                        equipamentos usados, conteúdos técnicos e canais digitais da Brutusmaq.
+                        Conheça as condições para navegar, consultar informações técnicas e utilizar os canais
+                        digitais da Brutusmaq com transparência e segurança.
                     </p>
                     <div class="terms-meta">
-                        <span>Última atualização: 08 de julho de 2026</span>
+                        <span>Última atualização: 15 de julho de 2026</span>
                         <span>Aplicável ao site brutusmaq.com.br</span>
                     </div>
                 </div>
             </div>
         </section>
 
+        <section class="terms-principles" aria-label="Condições essenciais de uso do site">
+            <div class="terms-container terms-principles-grid">
+                <article>
+                    <strong>Conteúdo informativo</strong>
+                    <span>Dados do site orientam a consulta inicial e não substituem análise técnica.</span>
+                </article>
+                <article>
+                    <strong>Validação necessária</strong>
+                    <span>Especificações e disponibilidade devem ser confirmadas com a equipe.</span>
+                </article>
+                <article>
+                    <strong>Proposta formal</strong>
+                    <span>Uma solicitação só gera contratação após confirmação comercial.</span>
+                </article>
+                <article>
+                    <strong>Uso responsável</strong>
+                    <span>Navegação e conteúdos devem respeitar a lei e os direitos da Brutusmaq.</span>
+                </article>
+            </div>
+        </section>
+
         <section class="terms-content-section">
             <div class="terms-container terms-layout">
-                <aside class="terms-summary" aria-label="Resumo dos termos">
-                    <h2>Em resumo</h2>
-                    <ul>
-                        <li>As informações do site são apresentadas para fins comerciais e informativos.</li>
-                        <li>Especificações, imagens e disponibilidade podem variar conforme projeto ou negociação.</li>
-                        <li>Propostas comerciais dependem de análise técnica e confirmação formal da Brutusmaq.</li>
-                        <li>O uso do site deve respeitar a lei, a marca e os direitos da Brutusmaq.</li>
-                    </ul>
-                    <a href="contato.html" class="terms-summary-link">Falar com a equipe</a>
+                <aside class="terms-summary" aria-label="Índice dos termos">
+                    <span class="terms-section-label">Navegue pelo documento</span>
+                    <h2>Encontre rapidamente</h2>
+                    <nav class="terms-directory" aria-label="Seções principais dos termos">
+                        <a href="#informacoes-tecnicas"><span>03</span>Informações técnicas</a>
+                        <a href="#orcamentos"><span>04</span>Propostas e negociações</a>
+                        <a href="#equipamentos-usados"><span>05</span>Equipamentos usados</a>
+                        <a href="#uso-permitido"><span>06</span>Uso permitido</a>
+                        <a href="#propriedade-intelectual"><span>07</span>Propriedade intelectual</a>
+                        <a href="#limitacao"><span>09</span>Responsabilidades</a>
+                        <a href="#privacidade"><span>10</span>Privacidade</a>
+                        <a href="#contato"><span>13</span>Fale conosco</a>
+                    </nav>
+                    <div class="terms-summary-help">
+                        <strong>Ficou com dúvida?</strong>
+                        <a href="mailto:contato@brutusmaq.com.br">contato@brutusmaq.com.br</a>
+                    </div>
                 </aside>
 
                 <article class="terms-policy">
@@ -318,64 +340,76 @@
             </div>
         </section>
 
-        <section class="terms-cta-section">
+        <section class="terms-cta-section" aria-labelledby="terms-cta-title">
             <div class="terms-container terms-cta">
                 <div>
-                    <h2>Tem alguma dúvida sobre o uso do site?</h2>
-                    <p>Fale com a Brutusmaq para esclarecer informações técnicas, comerciais ou institucionais.</p>
+                    <span class="terms-section-label">Transparência em cada contato</span>
+                    <h2 id="terms-cta-title">Precisa esclarecer alguma condição?</h2>
+                    <p>Nossa equipe pode orientar sobre o uso do site, informações técnicas ou condições comerciais.</p>
                 </div>
-                <a href="contato.html" class="terms-btn terms-btn-primary">Entrar em contato <span aria-hidden="true">→</span></a>
-                <a href="politica-de-privacidade.html" class="terms-btn terms-btn-outline">Ver privacidade <span aria-hidden="true">→</span></a>
+                <div class="terms-cta-actions">
+                    <a href="contato.html" class="terms-btn terms-btn-primary">Entrar em contato</a>
+                    <a href="politica-de-privacidade.html" class="terms-btn terms-btn-outline">Consultar privacidade</a>
+                </div>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="footer-logo">
-                <p>Tecnologia, eficiência e compromisso com a sustentabilidade para transformar materiais e construir um futuro melhor.</p>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/brutusmaq/" target="_blank" rel="noopener">Instagram</a>
-                    <a href="https://www.youtube.com/@brutusmaq" target="_blank" rel="noopener">YouTube</a>
-                    <a href="https://www.linkedin.com/company/brutusmaq/" target="_blank" rel="noopener">LinkedIn</a>
-                </div>
-            </div>
+<footer class="footer site-footer">
+        <div class="site-footer-main">
+            <div class="site-footer-container site-footer-grid">
+                <section class="site-footer-brand" aria-label="Brutusmaq">
+                    <a href="index.html" aria-label="Página inicial da Brutusmaq">
+                        <img src="assets/logo/logo-brutusmaq.svg" alt="Brutusmaq">
+                    </a>
+                    <p>Equipamentos industriais com engenharia brasileira, fabricação nacional e suporte especializado.</p>
+                </section>
 
-            <div class="footer-column">
-                <h4>Equipamentos</h4>
-                <ul>
-                    <li><a href="equipamentos.html#trituradores">Trituradores</a></li>
-                    <li><a href="equipamentos.html#moinhos">Moinhos</a></li>
-                    <li><a href="equipamentos.html#picadores">Picadores</a></li>
-                    <li><a href="equipamentos.html#esteiras">Esteiras transportadoras</a></li>
-                    <li><a href="usadas.html">Equipamentos usados</a></li>
-                </ul>
-            </div>
+                <nav class="site-footer-navigation" aria-label="Navegação do rodapé">
+                    <section aria-label="Explorar">
+                        <h2>Explorar</h2>
+                        <ul>
+                            <li><a href="equipamentos.html">Equipamentos</a></li>
+                            <li><a href="usadas.html">Máquinas usadas</a></li>
+                            <li><a href="sobre-nos.html">Sobre nós</a></li>
+                            <li><a href="blog.html">Conteúdo técnico</a></li>
+                        </ul>
+                    </section>
 
-            <div class="footer-column">
-                <h4>Institucional</h4>
-                <ul>
-                    <li><a href="sobre-nos.html">Sobre nós</a></li>
-                    <li><a href="index.html#sustentabilidade">Sustentabilidade</a></li>
-                    <li><a href="equipamentos.html">Soluções industriais</a></li>
-                    <li><a href="contato.html#assistencia-tecnica">Assistência técnica</a></li>
-                    <li><a href="contato.html">Contato</a></li>
-                </ul>
-            </div>
+                    <section aria-label="Atendimento">
+                        <h2>Atendimento</h2>
+                        <ul>
+                            <li><a href="contato.html?tipo=proposta-tecnica#proposta-tecnica">Solicitar proposta</a></li>
+                            <li><a href="contato.html?tipo=assistencia-tecnica#proposta-tecnica">Assistência técnica</a></li>
+                            <li><a href="contato.html">Todos os canais</a></li>
+                        </ul>
+                    </section>
+                </nav>
 
-            <div class="footer-contact">
-                <h4>Contato</h4>
-                <p>(041) 3797-1123</p>
-                <p>contato@brutusmaq.com.br</p>
-                <p>Contenda - PR, Brasil</p>
+                <address class="site-footer-contact">
+                    <h2>Contato</h2>
+                    <div class="site-footer-phones">
+                        <a href="tel:+554137971123">(41) 3797-1123</a>
+                        <span aria-hidden="true">|</span>
+                        <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" aria-label="WhatsApp (41) 98875-4003">(41) 98875-4003</a>
+                    </div>
+                    <a href="mailto:contato@brutusmaq.com.br">contato@brutusmaq.com.br</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Brutusmaq%20Contenda%20PR" target="_blank" rel="noopener" class="site-footer-location">Contenda - PR, Brasil</a>
+                </address>
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <p>&copy; 2026 BRUTUSMAQ. Todos os direitos reservados.</p>
-            <a href="politica-de-privacidade.html">Política de Privacidade</a>
-            <a href="termos-de-uso.html">Termos de Uso</a>
+        <div class="site-footer-container site-footer-bottom">
+            <p>&copy; 2026 BRUTUSMAQ</p>
+            <div class="site-footer-social" aria-label="Redes sociais">
+                <a href="https://www.instagram.com/brutusmaq/" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.youtube.com/@brutusmaq" target="_blank" rel="noopener">YouTube</a>
+                <a href="https://www.linkedin.com/company/brutusmaq/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+            <nav class="site-footer-legal" aria-label="Links legais">
+                <a href="politica-de-privacidade.html">Privacidade</a>
+                <a href="termos-de-uso.html">Termos</a>
+            </nav>
         </div>
     </footer>
 
