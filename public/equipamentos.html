@@ -5,19 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipamentos Industriais para Reciclagem | Brutusmaq</title>
-    <meta name="description" content="Conheça as linhas de equipamentos industriais Brutusmaq: trituradores, moinhos, picadores, esteiras transportadoras e máquinas usadas revisadas para reciclagem e processamento de materiais.">
+    <meta name="description" content="Conheça as linhas de equipamentos industriais Brutusmaq: trituradores, moinhos, esteiras transportadoras e máquinas usadas revisadas para reciclagem e processamento de materiais.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.brutusmaq.com.br/equipamentos.html">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="pt_BR">
     <meta property="og:site_name" content="Brutusmaq">
     <meta property="og:title" content="Equipamentos Industriais para Reciclagem | Brutusmaq">
-    <meta property="og:description" content="Trituradores, moinhos, picadores, esteiras transportadoras e equipamentos usados revisados para operações industriais e reciclagem.">
+    <meta property="og:description" content="Trituradores, moinhos, esteiras transportadoras e equipamentos usados revisados para operações industriais e reciclagem.">
     <meta property="og:url" content="https://www.brutusmaq.com.br/equipamentos.html">
     <meta property="og:image" content="https://www.brutusmaq.com.br/assets/main/tr-700.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Equipamentos Industriais para Reciclagem | Brutusmaq">
-    <meta name="twitter:description" content="Linhas Brutusmaq para trituração, moagem, picagem, transporte de materiais e máquinas usadas revisadas.">
+    <meta name="twitter:description" content="Linhas Brutusmaq para trituração, moagem, transporte de materiais e máquinas usadas revisadas.">
     <meta name="twitter:image" content="https://www.brutusmaq.com.br/assets/main/tr-700.png">
 
     <style>
@@ -56,7 +56,7 @@
                     "@id": "https://www.brutusmaq.com.br/equipamentos.html#webpage",
                     "url": "https://www.brutusmaq.com.br/equipamentos.html",
                     "name": "Equipamentos Industriais para Reciclagem | Brutusmaq",
-                    "description": "Catálogo de linhas de equipamentos industriais Brutusmaq para trituração, moagem, picagem, transporte de materiais e máquinas usadas revisadas.",
+                    "description": "Catálogo de linhas de equipamentos industriais Brutusmaq para trituração, moagem, transporte de materiais e máquinas usadas revisadas.",
                     "isPartOf": {
                         "@id": "https://www.brutusmaq.com.br/#website"
                     },
@@ -82,18 +82,12 @@
                             {
                                 "@type": "ListItem",
                                 "position": 3,
-                                "name": "Picadores",
-                                "url": "https://www.brutusmaq.com.br/equipamentos.html#picadores"
-                            },
-                            {
-                                "@type": "ListItem",
-                                "position": 4,
                                 "name": "Esteiras transportadoras",
                                 "url": "https://www.brutusmaq.com.br/equipamentos.html#esteiras"
                             },
                             {
                                 "@type": "ListItem",
-                                "position": 5,
+                                "position": 4,
                                 "name": "Equipamentos usados",
                                 "url": "https://www.brutusmaq.com.br/equipamentos.html#usados"
                             }
@@ -127,6 +121,7 @@
     <link rel="stylesheet" href="css/equipamentos.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/layout.css">
 </head>
 
 <body class="equipamentos-body">
@@ -137,7 +132,7 @@
             <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="header-logo">
         </a>
 
-        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
             <span></span>
             <span></span>
             <span></span>
@@ -172,16 +167,6 @@
                                 </div>
                             </section>
 
-                            <section class="home-mega-column" aria-labelledby="mega-picadores">
-                                <a class="home-mega-media" href="equipamentos.html#picadores" aria-label="Ver picadores">
-                                    <img src="assets/main/tr-700.png" alt="Picador industrial P-650 Brutusmaq">
-                                </a>
-                                <div>
-                                    <h2 id="mega-picadores">Picadores</h2>
-                                    <a role="menuitem" href="produto.html?produto=p-650">P-650</a>
-                                </div>
-                            </section>
-
                             <section class="home-mega-column home-mega-highlight" aria-labelledby="mega-usados">
                                 <a class="home-mega-media" href="usadas.html" aria-label="Ver equipamentos usados">
                                     <img src="assets/main/tr-800-disp-mobile.png" alt="">
@@ -206,7 +191,7 @@
         </nav>
 
         <div class="home-header-actions" aria-label="Atendimento Brutusmaq">
-            <a href="contato.html" class="header-cta">Solicitar proposta</a>
+            <a href="contato.html?tipo=proposta-tecnica#proposta-tecnica" class="header-cta">Solicitar proposta</a>
         </div>
     </header>
 
@@ -236,7 +221,7 @@
                     </h1>
 
                     <p>
-                        Soluções completas para trituração, moagem, picagem e transporte de materiais.
+                        Soluções completas para trituração, moagem e transporte de materiais.
                         Escolha a categoria ideal para sua necessidade.
                     </p>
 
@@ -270,7 +255,8 @@
                 </div>
 
                 <div class="equipamentos-hero-machine" aria-hidden="true">
-                    <img src="assets/main/tr-700.png" alt="">
+                    <img id="equipamentosHeroImage" data-fallback-src="assets/main/tr-700.png" alt="" fetchpriority="high" decoding="async">
+                    <noscript><img class="is-loaded" src="assets/main/tr-700.png" alt=""></noscript>
                 </div>
 
             </div>
@@ -295,14 +281,6 @@
                         <div>
                             <strong>Moinhos</strong>
                             <small>Moagem eficiente</small>
-                        </div>
-                    </a>
-
-                    <a href="#picadores">
-                        <span aria-hidden="true"><img src="assets/icones-brancos/icone-picador-branco.svg" alt=""></span>
-                        <div>
-                            <strong>Picadores</strong>
-                            <small>Corte e fragmentação</small>
                         </div>
                     </a>
 
@@ -435,60 +413,6 @@
         </section>
 
 
-        <!-- PICADORES -->
-        <section class="equipamentos-category-section" id="picadores" aria-labelledby="titulo-picadores">
-            <div class="equipamentos-container">
-
-                <div class="equipamentos-category-card">
-
-                    <div class="equipamentos-category-copy">
-                        <h2 id="titulo-picadores">Picadores</h2>
-                        <p>
-                            Soluções ideais para corte e fragmentação de resíduos orgânicos,
-                            madeira e materiais diversos.
-                        </p>
-
-                    </div>
-
-                    <div class="equipamentos-products-row">
-
-                        <a class="equipamentos-product" id="p-200" href="produto.html?produto=p-200" aria-label="Ver produto P-200">
-                            <img src="assets/main/tr-700.png" alt="Picador P-200">
-                            <h3>P-200</h3>
-                            <p>Compacto e de fácil operação.</p>
-                        </a>
-
-                        <a class="equipamentos-product" id="p-400" href="produto.html?produto=p-400" aria-label="Ver produto P-400">
-                            <img src="assets/main/tr-700.png" alt="Picador P-400">
-                            <h3>P-400</h3>
-                            <p>Mais potência para produção contínua.</p>
-                        </a>
-
-                        <a class="equipamentos-product" id="p-650" href="produto.html?produto=p-650" aria-label="Ver produto P-650">
-                            <img src="assets/main/tr-700.png" alt="Picador P-650">
-                            <h3>P-650</h3>
-                            <p>Robustez e eficiência no corte.</p>
-                        </a>
-
-                        <a class="equipamentos-product" id="p-900" href="produto.html?produto=p-900" aria-label="Ver produto P-900">
-                            <img src="assets/main/tr-700.png" alt="Picador P-900">
-                            <h3>P-900</h3>
-                            <p>Alto desempenho para grandes volumes.</p>
-                        </a>
-
-                    </div>
-
-                    <button type="button" class="equipamentos-category-link" data-category-toggle="picadores" aria-expanded="false">
-                        Ver mais picadores
-                        <span aria-hidden="true">↓</span>
-                    </button>
-
-                </div>
-
-            </div>
-        </section>
-
-
         <!-- ESTEIRAS -->
         <section class="equipamentos-category-section" id="esteiras" aria-labelledby="titulo-esteiras">
             <div class="equipamentos-container">
@@ -595,6 +519,45 @@
         </section>
 
 
+        <!-- COMO ESCOLHER -->
+        <section class="equipamentos-spec-section" aria-labelledby="titulo-especificacao">
+            <div class="equipamentos-container equipamentos-spec-layout">
+                <div class="equipamentos-spec-heading">
+                    <span class="equipamentos-section-label">Engenharia aplicada</span>
+                    <h2 id="titulo-especificacao">A máquina certa começa pelo seu material.</h2>
+                    <p>
+                        Capacidade, granulometria e rotina de operação orientam a configuração do equipamento.
+                        Nossa equipe técnica analisa o processo antes de recomendar uma solução.
+                    </p>
+                </div>
+
+                <ol class="equipamentos-spec-steps">
+                    <li>
+                        <span>01</span>
+                        <div>
+                            <h3>Entendemos a aplicação</h3>
+                            <p>Material, volume por hora, alimentação e resultado esperado.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span>02</span>
+                        <div>
+                            <h3>Definimos a configuração</h3>
+                            <p>Modelo, potência, facas, peneiras e integração com a linha.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span>03</span>
+                        <div>
+                            <h3>Entregamos suporte</h3>
+                            <p>Orientação técnica, fabricação nacional e assistência especializada.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+
         <!-- CTA FINAL -->
         <section class="equipamentos-cta-section" aria-labelledby="titulo-consultoria">
             <div class="equipamentos-container">
@@ -608,8 +571,8 @@
                     </div>
 
                     <p>
-                        Nossa equipe está pronta para entender sua necessidade e indicar
-                        a melhor solução.
+                        Conte qual material será processado, a capacidade desejada e o resultado esperado.
+                        Nossa equipe prepara uma indicação técnica para sua operação.
                     </p>
 
                     <a href="contato.html" class="equipamentos-btn-primary">
@@ -625,52 +588,61 @@
 
 
     <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="footer-logo">
-                <p>Tecnologia, eficiência e compromisso com a sustentabilidade para transformar materiais e construir um futuro melhor.</p>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/brutusmaq/" target="_blank" rel="noopener">Instagram</a>
-                    <a href="https://www.youtube.com/@brutusmaq" target="_blank" rel="noopener">YouTube</a>
-                    <a href="https://www.linkedin.com/company/brutusmaq/" target="_blank" rel="noopener">LinkedIn</a>
-                </div>
-            </div>
+<footer class="footer site-footer">
+        <div class="site-footer-main">
+            <div class="site-footer-container site-footer-grid">
+                <section class="site-footer-brand" aria-label="Brutusmaq">
+                    <a href="index.html" aria-label="Página inicial da Brutusmaq">
+                        <img src="assets/logo/logo-brutusmaq.svg" alt="Brutusmaq">
+                    </a>
+                    <p>Equipamentos industriais com engenharia brasileira, fabricação nacional e suporte especializado.</p>
+                </section>
 
-            <div class="footer-column">
-                <h4>Equipamentos</h4>
-                <ul>
-                    <li><a href="equipamentos.html#trituradores">Trituradores</a></li>
-                    <li><a href="equipamentos.html#moinhos">Moinhos</a></li>
-                    <li><a href="equipamentos.html#picadores">Picadores</a></li>
-                    <li><a href="equipamentos.html#esteiras">Esteiras transportadoras</a></li>
-                    <li><a href="usadas.html">Equipamentos usados</a></li>
-                </ul>
-            </div>
+                <nav class="site-footer-navigation" aria-label="Navegação do rodapé">
+                    <section aria-label="Explorar">
+                        <h2>Explorar</h2>
+                        <ul>
+                            <li><a href="equipamentos.html">Equipamentos</a></li>
+                            <li><a href="usadas.html">Máquinas usadas</a></li>
+                            <li><a href="sobre-nos.html">Sobre nós</a></li>
+                            <li><a href="blog.html">Conteúdo técnico</a></li>
+                        </ul>
+                    </section>
 
-            <div class="footer-column">
-                <h4>Institucional</h4>
-                <ul>
-                    <li><a href="sobre-nos.html">Sobre nós</a></li>
-                    <li><a href="index.html#sustentabilidade">Sustentabilidade</a></li>
-                    <li><a href="equipamentos.html">Soluções industriais</a></li>
-                    <li><a href="contato.html#assistencia-tecnica">Assistência técnica</a></li>
-                    <li><a href="contato.html">Contato</a></li>
-                </ul>
-            </div>
+                    <section aria-label="Atendimento">
+                        <h2>Atendimento</h2>
+                        <ul>
+                            <li><a href="contato.html?tipo=proposta-tecnica#proposta-tecnica">Solicitar proposta</a></li>
+                            <li><a href="contato.html?tipo=assistencia-tecnica#proposta-tecnica">Assistência técnica</a></li>
+                            <li><a href="contato.html">Todos os canais</a></li>
+                        </ul>
+                    </section>
+                </nav>
 
-            <div class="footer-contact">
-                <h4>Contato</h4>
-                <p>(041) 3797-1123</p>
-                <p>contato@brutusmaq.com.br</p>
-                <p>Contenda - PR, Brasil</p>
+                <address class="site-footer-contact">
+                    <h2>Contato</h2>
+                    <div class="site-footer-phones">
+                        <a href="tel:+554137971123">(41) 3797-1123</a>
+                        <span aria-hidden="true">|</span>
+                        <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" aria-label="WhatsApp (41) 98875-4003">(41) 98875-4003</a>
+                    </div>
+                    <a href="mailto:contato@brutusmaq.com.br">contato@brutusmaq.com.br</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Brutusmaq%20Contenda%20PR" target="_blank" rel="noopener" class="site-footer-location">Contenda - PR, Brasil</a>
+                </address>
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <p>&copy; 2026 BRUTUSMAQ. Todos os direitos reservados.</p>
-            <a href="politica-de-privacidade.html">Política de Privacidade</a>
-            <a href="termos-de-uso.html">Termos de Uso</a>
+        <div class="site-footer-container site-footer-bottom">
+            <p>&copy; 2026 BRUTUSMAQ</p>
+            <div class="site-footer-social" aria-label="Redes sociais">
+                <a href="https://www.instagram.com/brutusmaq/" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.youtube.com/@brutusmaq" target="_blank" rel="noopener">YouTube</a>
+                <a href="https://www.linkedin.com/company/brutusmaq/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+            <nav class="site-footer-legal" aria-label="Links legais">
+                <a href="politica-de-privacidade.html">Privacidade</a>
+                <a href="termos-de-uso.html">Termos</a>
+            </nav>
         </div>
     </footer>
 

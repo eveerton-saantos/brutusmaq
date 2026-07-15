@@ -16,12 +16,6 @@ const headerCategoryConfig = {
         icon: 'assets/icones-brancos/icone-moinho-branco.svg',
         mediaHref: 'equipamentos.html#moinhos',
     },
-    picadores: {
-        title: 'Picadores',
-        description: 'Corte e fragmentação',
-        icon: 'assets/icones-brancos/icone-picador-branco.svg',
-        mediaHref: 'equipamentos.html#picadores',
-    },
     esteiras: {
         title: 'Esteiras',
         description: 'Transporte contínuo',

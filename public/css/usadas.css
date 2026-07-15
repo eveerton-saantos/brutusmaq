@@ -1120,3 +1120,513 @@
         transition-duration: 0.01ms !important;
     }
 }
+
+/* Atualizacao visual 2026: catalogo operacional alinhado ao institucional */
+.usadas-page {
+    color: #111212;
+    background: #f1f1ee;
+}
+
+.usadas-hero {
+    min-height: 650px;
+    background-color: #090a0a;
+    background-image: url("../assets/imagens-fundo/maquinas-usadas-brutusmaq-background.png");
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+}
+
+.usadas-hero::before {
+    background: linear-gradient(90deg, rgba(6, 8, 7, 0.97) 0%, rgba(6, 8, 7, 0.86) 42%, rgba(6, 8, 7, 0.24) 72%, rgba(6, 8, 7, 0.2) 100%);
+}
+
+.usadas-hero-media {
+    display: none;
+}
+
+.usadas-hero-inner {
+    min-height: 650px;
+}
+
+.usadas-hero-copy {
+    width: min(100%, 700px);
+}
+
+.usadas-hero-eyebrow,
+.usadas-section-title > div > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--text-logo);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.usadas-hero-eyebrow::before,
+.usadas-section-title > div > span::before {
+    content: "";
+    flex: 0 0 34px;
+    width: 34px;
+    height: 2px;
+    background: currentColor;
+}
+
+.usadas-hero h1 {
+    margin-top: 18px;
+    font-size: 72px;
+    line-height: 0.88;
+}
+
+.usadas-hero-copy > p {
+    max-width: 620px;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 16px;
+}
+
+.usadas-hero-features span {
+    border-radius: 4px;
+    background: rgba(255, 90, 0, 0.06);
+}
+
+.usadas-hero-features > div {
+    min-height: 62px;
+    gap: 8px;
+    padding: 10px 8px;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-left: 2px solid var(--usadas-orange);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.045);
+}
+
+.usadas-hero-features strong {
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.usadas-benefits-section {
+    color: #111212;
+    background: #f1f1ee;
+    border-bottom-color: rgba(15, 16, 16, 0.14);
+}
+
+.usadas-benefit-card,
+.usadas-benefit-card:first-child {
+    min-height: 176px;
+    border-color: rgba(15, 16, 16, 0.14);
+}
+
+.usadas-benefit-icon {
+    border-color: rgba(232, 88, 0, 0.38);
+    background: rgba(232, 88, 0, 0.06);
+}
+
+.usadas-benefit-card h3 {
+    color: #151616;
+}
+
+.usadas-benefit-card p {
+    color: #555858;
+}
+
+.usadas-products-section {
+    padding: 98px 0 106px;
+    color: #111212;
+    background: #f1f1ee;
+}
+
+#maquinas-disponiveis {
+    scroll-margin-top: 150px;
+}
+
+.usadas-section-title {
+    margin-bottom: 34px;
+}
+
+.usadas-section-title h2 {
+    color: #111212;
+    font-size: 52px;
+}
+
+.usadas-section-title > p {
+    color: #5c5f5e;
+}
+
+.usadas-filter-bar {
+    grid-template-columns: minmax(300px, 1.6fr) repeat(3, minmax(150px, 0.72fr)) auto;
+    gap: 12px;
+    align-items: end;
+    padding: 18px;
+    border-color: #d2d4d0;
+    border-radius: 6px;
+    background: #ffffff;
+    box-shadow: 0 12px 32px rgba(17, 18, 18, 0.07);
+}
+
+.usadas-filter-field {
+    min-width: 0;
+}
+
+.usadas-filter-field > label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333535;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.usadas-search-box {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.usadas-search-box input,
+.usadas-filter-bar select {
+    height: 50px;
+    color: #171818;
+    border-color: #cfd1cd;
+    background: #f7f7f5;
+    font-size: 12px;
+}
+
+.usadas-search-box input {
+    padding: 0 14px;
+    border-radius: 4px 0 0 4px;
+}
+
+.usadas-search-box input::placeholder {
+    color: #747876;
+}
+
+.usadas-search-box button {
+    position: static;
+    width: auto;
+    height: 50px;
+    padding: 0 18px;
+    color: #ffffff;
+    border-radius: 0 4px 4px 0;
+    background: var(--usadas-orange);
+    font-family: var(--text-logo);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.usadas-search-box button:hover,
+.usadas-search-box button:focus-visible {
+    background: #dc5000;
+}
+
+.usadas-search-box input:focus,
+.usadas-filter-bar select:focus {
+    border-color: #e85800;
+    box-shadow: 0 0 0 3px rgba(232, 88, 0, 0.12);
+}
+
+.usadas-filter-bar select:disabled {
+    color: #8a8d8b;
+    cursor: not-allowed;
+    opacity: 0.72;
+}
+
+.usadas-clear-filter {
+    min-height: 50px;
+    color: #4b4e4d;
+    border-color: #cfd1cd;
+    background: #ffffff;
+}
+
+.usadas-filter-bar:not(.has-active-filters) .usadas-clear-filter {
+    opacity: 0.58;
+}
+
+.usadas-results-meta {
+    min-height: 56px;
+    justify-content: space-between;
+    gap: 20px;
+    color: #686b69;
+    border-bottom: 1px solid rgba(17, 18, 18, 0.12);
+}
+
+.usadas-results-meta p {
+    color: #303231;
+    font-weight: 600;
+}
+
+.usadas-results-meta span {
+    font-size: 11px;
+}
+
+.usadas-products-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    padding-top: 22px;
+}
+
+.usadas-product-card {
+    min-height: 100%;
+    padding: 14px;
+    color: #161717;
+    border-color: #d4d6d2;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(17, 18, 18, 0.05);
+}
+
+.usadas-product-card:hover,
+.usadas-product-card:focus-visible {
+    border-color: rgba(232, 88, 0, 0.72);
+    background: #ffffff;
+    box-shadow: 0 16px 34px rgba(17, 18, 18, 0.1);
+}
+
+.usadas-product-image {
+    aspect-ratio: 4 / 3;
+    margin-bottom: 14px;
+    background: #f0f1ee;
+    border-bottom-color: #dedfdb;
+}
+
+.usadas-status {
+    color: #ffffff;
+    border: 0;
+    background: #303332;
+}
+
+.status-disponivel {
+    color: #ffffff;
+    background: #237a43;
+}
+
+.status-nao-revisado,
+.status-revisao {
+    color: #1c1d1c;
+    background: #ffb24e;
+}
+
+.status-vendida,
+.status-vendido {
+    color: #ffffff;
+    background: #6a6e6c;
+}
+
+.usadas-product-category {
+    order: 2;
+    min-height: 0;
+    margin: 0 0 4px;
+    color: #d85100;
+    font-size: 10px;
+}
+
+.usadas-product-card h3 {
+    order: 3;
+    color: #111212;
+    font-size: 31px;
+}
+
+.usadas-product-card > meta,
+.usadas-product-card > .sr-only {
+    order: 4;
+}
+
+.usadas-product-card ul {
+    order: 5;
+    gap: 5px;
+    padding: 11px 0;
+    margin-top: 11px;
+    color: #5e6260;
+    border-top-color: #e0e1de;
+    font-size: 10.5px;
+}
+
+.usadas-card-btn {
+    order: 6;
+    padding-top: 12px;
+    color: #151616;
+    border-top-color: #e0e1de;
+    font-size: 17px;
+}
+
+.usadas-empty-state {
+    color: #171818;
+    border-color: rgba(17, 18, 18, 0.14);
+    background: #ffffff;
+}
+
+.usadas-empty-state p {
+    color: #5b5e5c;
+}
+
+.usadas-alert-section {
+    background: #101211;
+}
+
+.usadas-process-section {
+    color: #ffffff;
+    background: #090a0a;
+}
+
+.usadas-process-section .usadas-section-title h2 {
+    color: #ffffff;
+}
+
+.usadas-process-section .usadas-section-title > p {
+    color: rgba(255, 255, 255, 0.68);
+}
+
+@media (max-width: 1180px) {
+    .usadas-filter-bar {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .usadas-filter-search {
+        grid-column: span 2;
+    }
+
+    .usadas-clear-filter {
+        align-self: end;
+    }
+
+    .usadas-products-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .usadas-hero {
+        background-position: 68% center;
+    }
+
+    .usadas-hero h1 {
+        font-size: 64px;
+    }
+
+    .usadas-products-section {
+        padding-block: 76px;
+    }
+
+    .usadas-filter-bar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .usadas-filter-search {
+        grid-column: 1 / -1;
+    }
+
+    .usadas-products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .usadas-hero {
+        background-position: 70% center;
+    }
+
+    .usadas-hero::before {
+        background: linear-gradient(90deg, rgba(6, 8, 7, 0.97) 0%, rgba(6, 8, 7, 0.9) 62%, rgba(6, 8, 7, 0.62) 100%);
+    }
+
+    .usadas-hero h1 {
+        font-size: 54px;
+    }
+
+    .usadas-hero-eyebrow,
+    .usadas-section-title > div > span {
+        font-size: 15px;
+    }
+
+    .usadas-hero-eyebrow::before,
+    .usadas-section-title > div > span::before {
+        flex-basis: 24px;
+        width: 24px;
+    }
+
+    .usadas-products-section {
+        padding-block: 58px;
+    }
+
+    .usadas-section-title h2 {
+        font-size: 42px;
+    }
+
+    .usadas-filter-bar {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 14px;
+    }
+
+    .usadas-filter-search,
+    .usadas-clear-filter {
+        grid-column: auto;
+    }
+
+    .usadas-search-box input,
+    .usadas-filter-bar select,
+    .usadas-search-box button,
+    .usadas-clear-filter {
+        height: 48px;
+        min-height: 48px;
+    }
+
+    .usadas-results-meta {
+        min-height: 68px;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        gap: 3px;
+    }
+
+    .usadas-products-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding-top: 16px;
+    }
+
+    .usadas-product-card {
+        display: grid;
+        grid-template-columns: 112px minmax(0, 1fr);
+        grid-template-rows: auto auto 1fr auto;
+        column-gap: 16px;
+        min-height: 178px;
+        padding: 14px;
+    }
+
+    .usadas-product-image {
+        grid-column: 1;
+        grid-row: 1 / -1;
+        order: initial;
+        aspect-ratio: auto;
+        height: 100%;
+        margin: 0;
+        border-right: 1px solid #dedfdb;
+        border-bottom: 0;
+    }
+
+    .usadas-product-category,
+    .usadas-product-card h3,
+    .usadas-product-card ul,
+    .usadas-card-btn {
+        grid-column: 2;
+    }
+
+    .usadas-product-category {
+        grid-row: 1;
+        align-self: end;
+    }
+
+    .usadas-product-card h3 {
+        grid-row: 2;
+    }
+
+    .usadas-product-card ul {
+        grid-row: 3;
+    }
+
+    .usadas-card-btn {
+        grid-row: 4;
+    }
+}

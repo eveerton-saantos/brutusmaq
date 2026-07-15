@@ -284,7 +284,13 @@ html {
     width: 100%;
     max-height: 610px;
     object-fit: contain;
+    opacity: 0;
     filter: drop-shadow(0 32px 42px rgba(0, 0, 0, 0.75));
+    transition: opacity 220ms ease;
+}
+
+.equipamentos-hero-machine img.is-loaded {
+    opacity: 1;
 }
 
 /* Navegacao de categorias */
@@ -301,7 +307,7 @@ html {
 
 .equipamentos-tabs {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
 }
 
@@ -1214,5 +1220,575 @@ html {
         transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
+    }
+}
+
+/* Alinhamento visual 2026: mesma linguagem editorial da pagina Sobre nos */
+
+.equipamentos-page {
+    --eq-orange: #e85800;
+    --eq-orange-2: #ff6a0a;
+    --eq-green: #73b942;
+    --eq-paper: #f1f1ee;
+    --eq-ink: #111212;
+    --eq-copy: #5d5f5f;
+}
+
+.equipamentos-hero-eyebrow,
+.equipamentos-section-label,
+.equipamentos-category-copy::before {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--eq-orange);
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.equipamentos-hero-eyebrow::before,
+.equipamentos-section-label::before,
+.equipamentos-category-copy::before {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 2px;
+    background: currentColor;
+}
+
+.equipamentos-category-copy::before {
+    content: "";
+    display: block;
+    margin: 0 0 18px;
+}
+
+.equipamentos-hero {
+    min-height: 650px;
+    background:
+        linear-gradient(90deg, rgba(4, 5, 5, 0.99) 0%, rgba(4, 5, 5, 0.93) 48%, rgba(4, 5, 5, 0.3) 100%),
+        #050706;
+}
+
+.equipamentos-hero::before {
+    background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px) 0 0 / 112px 100%,
+        linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 44%);
+}
+
+.equipamentos-hero-overlay {
+    background: radial-gradient(circle at 76% 48%, rgba(232, 88, 0, 0.23), transparent 27%);
+}
+
+.equipamentos-hero-copy h1 {
+    font-size: 86px;
+    line-height: 0.86;
+}
+
+.equipamentos-hero-copy > p {
+    max-width: 570px;
+}
+
+.equipamentos-hero-features {
+    max-width: 680px;
+}
+
+.equipamentos-tabs-section {
+    background: rgba(9, 10, 10, 0.97);
+}
+
+.equipamentos-tabs a.active {
+    border-color: rgba(232, 88, 0, 0.62);
+    background: #e85800;
+}
+
+.equipamentos-tabs a.active > span {
+    border-color: rgba(255, 255, 255, 0.34);
+    background: rgba(0, 0, 0, 0.12);
+}
+
+.equipamentos-tabs a.active small {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.equipamentos-category-section,
+#moinhos,
+#esteiras {
+    padding: 94px 0 100px;
+    border-bottom-color: rgba(17, 18, 18, 0.12);
+    color: var(--eq-ink);
+    background: var(--eq-paper);
+}
+
+#moinhos,
+#esteiras {
+    background: #e9e9e5;
+}
+
+.equipamentos-category-card {
+    grid-template-columns: minmax(220px, 0.72fr) minmax(0, 2.28fr);
+    gap: 28px 64px;
+}
+
+.equipamentos-category-copy {
+    padding-top: 6px;
+}
+
+.equipamentos-category-copy h2 {
+    color: var(--eq-ink);
+    font-size: 50px;
+    line-height: 0.94;
+}
+
+.equipamentos-category-copy h2::after {
+    display: none;
+}
+
+.equipamentos-category-copy p {
+    max-width: 330px;
+    margin-top: 18px;
+    color: var(--eq-copy);
+    font-size: 14px;
+    line-height: 1.72;
+}
+
+.equipamentos-products-row {
+    gap: 12px;
+}
+
+.equipamentos-product {
+    min-height: 390px;
+    padding: 14px 16px 18px;
+    border-color: rgba(17, 18, 18, 0.14);
+    color: var(--eq-ink);
+    background: #ffffff;
+    box-shadow: none;
+}
+
+.equipamentos-product::after {
+    display: none;
+}
+
+.equipamentos-product:hover {
+    border-color: rgba(232, 88, 0, 0.58);
+    background: #ffffff;
+}
+
+.equipamentos-product-media {
+    min-height: 205px;
+    margin: 0 0 16px;
+    display: grid;
+    place-items: center;
+    border-radius: 4px;
+    background: #f3f3f0;
+    overflow: hidden;
+}
+
+.equipamentos-product img,
+.equipamentos-product-media img {
+    width: 100%;
+    height: 185px;
+    margin: 0;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 20px rgba(17, 18, 18, 0.18));
+}
+
+.equipamentos-product-meta {
+    display: block;
+    margin-bottom: 8px;
+    color: #e85800;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-transform: uppercase;
+}
+
+.equipamentos-product h3 {
+    margin: 0 0 7px;
+    color: var(--eq-ink);
+    font-size: 31px;
+}
+
+.equipamentos-product p {
+    color: #656767;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.equipamentos-product-action {
+    margin-top: auto;
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(17, 18, 18, 0.1);
+    color: var(--eq-ink);
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.equipamentos-product-action span {
+    color: #e85800;
+}
+
+.equipamentos-empty-state {
+    border-color: rgba(17, 18, 18, 0.22);
+    color: var(--eq-copy);
+    background: rgba(255, 255, 255, 0.45);
+}
+
+.equipamentos-category-link {
+    color: var(--eq-ink);
+    background: transparent;
+}
+
+.equipamentos-category-link:hover {
+    color: #ffffff;
+    background: #e85800;
+}
+
+#usados {
+    padding: 96px 0 104px;
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    background:
+        linear-gradient(110deg, rgba(8, 9, 9, 0.98), rgba(16, 27, 16, 0.93)),
+        #090a0a;
+}
+
+#usados .equipamentos-category-copy h2,
+#usados .equipamentos-category-link {
+    color: #ffffff;
+}
+
+#usados .equipamentos-category-copy p {
+    color: rgba(255, 255, 255, 0.68);
+}
+
+#usados .equipamentos-category-copy::before {
+    background: var(--eq-green);
+}
+
+.equipamentos-used-benefits {
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    gap: 0;
+}
+
+.equipamentos-used-benefits article {
+    min-height: 240px;
+    padding: 34px 30px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.equipamentos-used-benefits article + article {
+    border-left: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.equipamentos-used-benefits span {
+    border-color: var(--eq-green);
+}
+
+.equipamentos-used-benefits p {
+    color: rgba(255, 255, 255, 0.64);
+}
+
+.equipamentos-spec-section {
+    padding: 100px 0 108px;
+    color: #ffffff;
+    background: #0a0b0b;
+}
+
+.equipamentos-spec-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+    gap: 80px;
+    align-items: start;
+}
+
+.equipamentos-spec-heading h2 {
+    max-width: 560px;
+    margin: 18px 0 18px;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 52px;
+    font-weight: 600;
+    line-height: 0.96;
+    text-transform: uppercase;
+}
+
+.equipamentos-spec-heading p {
+    max-width: 560px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 14px;
+    line-height: 1.72;
+}
+
+.equipamentos-spec-steps {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    list-style: none;
+}
+
+.equipamentos-spec-steps li {
+    min-height: 120px;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 24px;
+    align-items: center;
+}
+
+.equipamentos-spec-steps > li > span {
+    color: var(--eq-green);
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.equipamentos-spec-steps h3 {
+    margin: 0 0 7px;
+    font-family: "Teko", "Poppins", sans-serif;
+    font-size: 27px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.equipamentos-spec-steps p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.equipamentos-cta-section {
+    padding: 0;
+    color: #ffffff;
+    background: #e85800;
+}
+
+.equipamentos-cta-box {
+    min-height: 330px;
+    padding: 64px 0;
+    border: 0;
+    grid-template-columns: minmax(0, 1.35fr) minmax(230px, 0.65fr) auto;
+    gap: 56px;
+    background: transparent;
+}
+
+.equipamentos-cta-box::before {
+    display: none;
+}
+
+.equipamentos-cta-box h2 {
+    font-size: 50px;
+}
+
+.equipamentos-cta-box h2 strong {
+    color: #171818;
+}
+
+.equipamentos-cta-box p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.equipamentos-cta-box .equipamentos-btn-primary {
+    color: #ffffff;
+    background: #151616;
+    box-shadow: none;
+}
+
+.equipamentos-cta-box .equipamentos-btn-primary:hover {
+    background: #000000;
+}
+
+@media (max-width: 1180px) {
+    .equipamentos-product {
+        min-height: 360px;
+    }
+
+    .equipamentos-product-media {
+        min-height: 175px;
+    }
+
+    .equipamentos-product img,
+    .equipamentos-product-media img {
+        height: 160px;
+    }
+
+    .equipamentos-cta-box {
+        grid-template-columns: 1fr 0.8fr;
+    }
+}
+
+@media (max-width: 980px) {
+    .equipamentos-category-section,
+    #moinhos,
+    #esteiras,
+    #usados,
+    .equipamentos-spec-section {
+        padding: 76px 0 82px;
+    }
+
+    .equipamentos-category-card,
+    .equipamentos-spec-layout {
+        grid-template-columns: 1fr;
+        gap: 34px;
+    }
+
+    .equipamentos-category-copy p {
+        max-width: 620px;
+    }
+
+    .equipamentos-product {
+        min-height: 390px;
+    }
+
+    .equipamentos-product-media {
+        min-height: 220px;
+    }
+
+    .equipamentos-product img,
+    .equipamentos-product-media img {
+        height: 205px;
+    }
+}
+
+@media (max-width: 680px) {
+    .equipamentos-hero,
+    .equipamentos-hero-inner {
+        min-height: auto;
+    }
+
+    .equipamentos-hero-inner {
+        padding-bottom: 28px;
+    }
+
+    .equipamentos-hero-copy h1 {
+        font-size: 54px;
+    }
+
+    .equipamentos-hero-eyebrow,
+    .equipamentos-section-label {
+        font-size: 15px;
+    }
+
+    .equipamentos-hero-eyebrow::before,
+    .equipamentos-section-label::before {
+        flex-basis: 24px;
+        width: 24px;
+    }
+
+    .equipamentos-category-section,
+    #moinhos,
+    #esteiras,
+    #usados,
+    .equipamentos-spec-section {
+        padding: 56px 0 62px;
+    }
+
+    .equipamentos-category-copy h2,
+    #titulo-esteiras,
+    .equipamentos-used-card .equipamentos-category-copy h2,
+    .equipamentos-spec-heading h2,
+    .equipamentos-cta-box h2 {
+        font-size: 36px;
+        line-height: 0.98;
+    }
+
+    .equipamentos-product {
+        min-height: 144px;
+        padding: 10px 12px 10px 10px;
+        grid-template-columns: 116px minmax(0, 1fr);
+        grid-template-rows: auto auto auto 1fr;
+        column-gap: 14px;
+    }
+
+    .equipamentos-product-media {
+        grid-row: 1 / 5;
+        min-height: 120px;
+        height: 100%;
+        margin: 0;
+    }
+
+    .equipamentos-product img,
+    .equipamentos-product-media img {
+        grid-row: auto;
+        width: 108px;
+        height: 100px;
+    }
+
+    .equipamentos-product-meta {
+        align-self: end;
+        margin: 0 28px 1px 0;
+        font-size: 9px;
+    }
+
+    .equipamentos-product h3 {
+        align-self: auto;
+        font-size: 27px;
+    }
+
+    .equipamentos-product p {
+        font-size: 11px;
+    }
+
+    .equipamentos-product-action {
+        padding-top: 8px;
+        font-size: 14px;
+    }
+
+    .equipamentos-used-benefits {
+        border-bottom: 0;
+    }
+
+    .equipamentos-used-benefits article {
+        min-height: 0;
+        padding: 18px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .equipamentos-used-benefits article + article {
+        border-left: 0;
+    }
+
+    .equipamentos-spec-layout {
+        gap: 28px;
+    }
+
+    .equipamentos-spec-steps li {
+        min-height: 0;
+        grid-template-columns: 42px 1fr;
+        gap: 14px;
+    }
+
+    .equipamentos-cta-box {
+        min-height: 0;
+        padding: 52px 0;
+    }
+}
+
+@media (max-width: 420px) {
+    .equipamentos-product {
+        grid-template-columns: 96px minmax(0, 1fr);
+        column-gap: 10px;
+    }
+
+    .equipamentos-product-media {
+        min-height: 108px;
+    }
+
+    .equipamentos-product img,
+    .equipamentos-product-media img {
+        width: 92px;
+        height: 86px;
     }
 }

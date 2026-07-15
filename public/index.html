@@ -5,25 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brutusmaq | Máquinas e Equipamentos Industriais</title>
+    <meta name="description" content="Máquinas industriais Brutusmaq para trituração, moagem e transporte de materiais, além de equipamentos usados. Engenharia brasileira e suporte especializado.">
+    <link rel="canonical" href="https://www.brutusmaq.com.br/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Brutusmaq | Máquinas e Equipamentos Industriais">
+    <meta property="og:description" content="Engenharia brasileira e equipamentos robustos para transformar materiais e impulsionar operações industriais.">
+    <meta property="og:url" content="https://www.brutusmaq.com.br/">
+    <meta property="og:image" content="https://www.brutusmaq.com.br/assets/imagens-fundo/brutusmaq-index-background.png">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Teko:wght@400;500;600;700&display=swap');
     </style>
 
     <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
+    <link rel="preload" as="image" href="assets/imagens-fundo/brutusmaq-index-background.png" fetchpriority="high">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/layout.css">
 </head>
 
 <body>
-        <header class="header flex">
+    <header class="header flex">
         <a href="index.html" class="header-brand" aria-label="Página inicial da Brutusmaq">
             <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="header-logo">
         </a>
 
-        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
             <span></span>
             <span></span>
             <span></span>
@@ -59,15 +68,6 @@
                             </section>
 
                             <section class="home-mega-column home-mega-category-column">
-                                <a class="home-mega-category-head" role="menuitem" href="equipamentos.html#picadores">
-                                    <span class="home-mega-category-icon"><img src="assets/icones-brancos/icone-picador-branco.svg" alt=""></span>
-                                    <span><strong class="home-mega-category-name">Picadores</strong><small>Corte e fragmentação</small></span>
-                                </a>
-                                <div class="home-mega-product-links"><a role="menuitem" href="produto.html?produto=p-650">P-650</a></div>
-                                <a class="home-mega-all" role="menuitem" href="equipamentos.html#picadores">Conhecer a linha</a>
-                            </section>
-
-                            <section class="home-mega-column home-mega-category-column">
                                 <a class="home-mega-category-head" role="menuitem" href="equipamentos.html#esteiras">
                                     <span class="home-mega-category-icon"><img src="assets/icones-brancos/icone-esteira-branco.svg" alt=""></span>
                                     <span><strong class="home-mega-category-name">Esteiras</strong><small>Transporte contínuo</small></span>
@@ -100,244 +100,231 @@
         </nav>
 
         <div class="home-header-actions" aria-label="Atendimento Brutusmaq">
-            <a href="contato.html" class="header-cta">Solicitar proposta</a>
+            <a href="contato.html?tipo=proposta-tecnica#proposta-tecnica" class="header-cta">Solicitar proposta</a>
         </div>
     </header>
 
-    <main class="home-page">
-        <section class="home-hero" id="inicio">
-            <div class="home-hero-backdrop" aria-hidden="true"></div>
+    <main class="home-page" id="conteudo-principal">
+        <section class="home-hero" id="inicio" aria-labelledby="home-title">
             <div class="home-container home-hero-inner">
                 <div class="home-hero-copy">
-                    <h1>
-                        Tecnologia<br>
-                        que transforma.<br>
-                        <strong>Soluções que preservam.</strong>
-                    </h1>
-                    <p>
-                        Equipamentos industriais robustos e eficientes para trituração, moagem, picagem e transporte
-                        de materiais, impulsionando a economia circular e um futuro sustentável.
-                    </p>
+                    <span class="home-eyebrow">Engenharia brasileira para resultados reais</span>
+                    <h1 id="home-title">Brutusmaq: tecnologia robusta para <strong>transformar materiais</strong></h1>
+                    <p>Equipamentos industriais para trituração, moagem e transporte, desenvolvidos para aumentar a produtividade e fortalecer operações em todo o Brasil.</p>
                     <div class="home-actions">
-                        <a href="equipamentos.html" class="home-btn home-btn-primary">Conheça nossos equipamentos</a>
-                        <a href="contato.html" class="home-btn home-btn-outline">Falar com especialista</a>
+                        <a href="equipamentos.html" class="home-btn home-btn-primary">Conhecer equipamentos</a>
+                        <a href="contato.html#proposta-tecnica" class="home-btn home-btn-outline">Falar com especialista</a>
                     </div>
                 </div>
+
+                <ul class="home-hero-proof" aria-label="Diferenciais Brutusmaq">
+                    <li><img src="assets/icones-laranjas/icone-fabricacao-laranja.svg" alt="" aria-hidden="true"><span>Fabricação<br>nacional</span></li>
+                    <li><img src="assets/icones-laranjas/icone-desempenho-laranja.svg" alt="" aria-hidden="true"><span>Alta<br>performance</span></li>
+                    <li><img src="assets/icones-laranjas/icone-assistencia-tecnica-laranja.svg" alt="" aria-hidden="true"><span>Assistência<br>especializada</span></li>
+                    <li><img src="assets/icones-laranjas/icone-solucao-laranja.svg" alt="" aria-hidden="true"><span>Projetos<br>personalizados</span></li>
+                </ul>
             </div>
         </section>
 
-        <section class="home-feature-strip" aria-label="Diferenciais Brutusmaq">
-            <div class="home-container home-feature-grid">
-                <article class="home-feature">
-                    <img src="assets/main/tecnologia.svg" alt="">
-                    <div>
-                        <h2>Tecnologia de alto desempenho</h2>
-                        <p>Máquinas projetadas para máxima eficiência e produtividade.</p>
-                    </div>
-                </article>
-                <article class="home-feature">
-                    <img src="assets/main/robustez.svg" alt="">
-                    <div>
-                        <h2>Durabilidade e confiança</h2>
-                        <p>Equipamentos robustos, desenvolvidos para trabalhos exigentes.</p>
-                    </div>
-                </article>
-                <article class="home-feature">
-                    <img src="assets/main/manutencao.svg" alt="">
-                    <div>
-                        <h2>Assistência especializada</h2>
-                        <p>Suporte técnico completo e peças de reposição com agilidade.</p>
-                    </div>
-                </article>
-                <article class="home-feature">
-                    <img src="assets/main/sustentabilidade.svg" alt="">
-                    <div>
-                        <h2>Compromisso com o futuro</h2>
-                        <p>Soluções que promovem a reciclagem e reduzem impactos ambientais.</p>
-                    </div>
-                </article>
-                <article class="home-feature">
-                    <img src="assets/main/robustez.svg" alt="">
-                    <div>
-                        <h2>Fabricação 100% nacional</h2>
-                        <p>Orgulho de ser indústria brasileira, gerando valor para o país.</p>
-                    </div>
-                </article>
+        <section class="home-stats-strip" aria-label="Números da Brutusmaq">
+            <div class="home-container home-stats-grid">
+                <article><strong>Desde 2016</strong><span>Engenharia aplicada a desafios industriais.</span></article>
+                <article><strong>+2.500</strong><span>Equipamentos produzidos com tecnologia e robustez.</span></article>
+                <article><strong>+300</strong><span>Clientes atendidos em diferentes segmentos.</span></article>
+                <article><strong>Brasil</strong><span>Presença nacional e atendimento próximo.</span></article>
             </div>
         </section>
 
-        <section class="home-equipment-section" id="equipamentos">
+        <section class="home-equipment-section" id="equipamentos" aria-labelledby="equipment-title">
             <div class="home-container">
-                <div class="home-section-title">
-                    <h2>Equipamentos <strong>para cada necessidade</strong></h2>
+                <div class="home-section-heading">
+                    <div>
+                        <span class="home-section-label">Soluções Brutusmaq</span>
+                        <h2 id="equipment-title">Uma linha completa para cada etapa da operação.</h2>
+                    </div>
+                    <p>Conheça equipamentos novos e usados para reduzir, processar e transportar materiais com segurança e eficiência.</p>
                 </div>
 
                 <div class="home-equipment-grid">
-                    <a href="equipamentos.html#trituradores" class="home-equipment-card">
-                        <img src="assets/main/tr-700.png" alt="Triturador industrial Brutusmaq">
-                        <h3>Trituradores</h3>
-                        <p>Soluções para trituração de diversos tipos de materiais.</p>
-                        <span>Ver linha completa →</span>
+                    <a href="equipamentos.html#trituradores" class="home-equipment-card home-equipment-featured">
+                        <div class="home-equipment-visual">
+                            <span>Linha em destaque</span>
+                            <img src="assets/main/tr-700.png" alt="Triturador industrial TR-700 Brutusmaq">
+                        </div>
+                        <div class="home-equipment-content">
+                            <img class="home-equipment-icon" src="assets/icones-laranjas/icone-robustez-laranja.svg" alt="" aria-hidden="true">
+                            <h3>Trituradores</h3>
+                            <p>Redução de volume para diferentes materiais e demandas industriais.</p>
+                            <strong>Conhecer a linha <span aria-hidden="true">→</span></strong>
+                        </div>
                     </a>
+
                     <a href="equipamentos.html#moinhos" class="home-equipment-card">
-                        <img src="assets/main/tr-700.png" alt="Moinho industrial Brutusmaq">
+                        <img class="home-equipment-icon" src="assets/icones-brancos/icone-moinho-branco.svg" alt="" aria-hidden="true">
                         <h3>Moinhos</h3>
-                        <p>Moagem eficiente para diferentes aplicações industriais.</p>
-                        <span>Ver linha completa →</span>
-                    </a>
-                    <a href="equipamentos.html#picadores" class="home-equipment-card">
-                        <img src="assets/main/tr-700.png" alt="Picador industrial Brutusmaq">
-                        <h3>Picadores</h3>
-                        <p>Redução de tamanho com precisão e alto desempenho.</p>
-                        <span>Ver linha completa →</span>
+                        <p>Moagem eficiente e granulometria adequada para diferentes aplicações.</p>
+                        <strong>Conhecer a linha <span aria-hidden="true">→</span></strong>
                     </a>
                     <a href="equipamentos.html#esteiras" class="home-equipment-card">
-                        <img src="assets/main/tr-800-disp-mobile.png" alt="Esteira transportadora industrial">
+                        <img class="home-equipment-icon" src="assets/icones-brancos/icone-esteira-branco.svg" alt="" aria-hidden="true">
                         <h3>Esteiras transportadoras</h3>
-                        <p>Transporte contínuo com segurança e eficiência.</p>
-                        <span>Ver linha completa →</span>
+                        <p>Movimentação contínua para integrar as etapas da sua linha.</p>
+                        <strong>Conhecer a linha <span aria-hidden="true">→</span></strong>
                     </a>
-                    <a href="usadas.html" class="home-equipment-card home-equipment-card-green">
-                        <img src="assets/main/tr-700.png" alt="Equipamentos usados Brutusmaq">
+                    <a href="usadas.html" class="home-equipment-card home-equipment-used">
+                        <img class="home-equipment-icon" src="assets/icones-brancos/icone-usadas-branco.svg" alt="" aria-hidden="true">
                         <h3>Equipamentos usados</h3>
-                        <p>Máquinas revisadas e prontas para uso.</p>
-                        <span>Ver disponíveis →</span>
+                        <p>Máquinas revisadas, testadas e prontas para novos projetos.</p>
+                        <strong>Ver disponíveis <span aria-hidden="true">→</span></strong>
                     </a>
                 </div>
             </div>
         </section>
 
-        <section class="home-sustainability" id="sustentabilidade">
-            <div class="home-container home-sustainability-inner">
-                <div class="home-sustainability-copy">
-                    <h2>Compromisso<br>com a <strong>sustentabilidade</strong></h2>
-                    <p>
-                        A Brutusmaq desenvolve soluções que ajudam empresas a reduzir desperdícios,
-                        reaproveitar materiais e tornar seus processos mais eficientes, fortalecendo
-                        a economia circular e o uso consciente de recursos.
-                    </p>
-                    <a href="sobre-nos.html" class="home-btn home-btn-outline">Saiba mais sobre nosso compromisso</a>
-                </div>
+        <section class="home-factory" aria-labelledby="factory-title">
+            <div class="home-container home-factory-grid">
+                <figure class="home-factory-image">
+                    <img src="assets/fachada-empresa/Imagem da Frente da BRUTUSMAQ.jpg" alt="Fachada da fábrica Brutusmaq em Contenda, Paraná">
+                    <figcaption><strong>Contenda, Paraná</strong><span>Projetos desenvolvidos no Brasil para operações em todo o país.</span></figcaption>
+                </figure>
 
-                <div class="home-sdg-panel">
-                    <h3>Soluções para operações mais sustentáveis</h3>
-                    <div class="home-sdg-grid">
-                        <div class="home-sdg home-sdg-orange"><strong>01</strong><span>Redução de volume de resíduos</span></div>
-                        <div class="home-sdg home-sdg-gold"><strong>02</strong><span>Reaproveitamento de materiais</span></div>
-                        <div class="home-sdg home-sdg-yellow"><strong>03</strong><span>Processos mais eficientes</span></div>
-                        <div class="home-sdg home-sdg-green"><strong>04</strong><span>Valorização da cadeia produtiva</span></div>
-                        <div class="home-sdg home-sdg-blue"><strong>05</strong><span>Suporte técnico especializado</span></div>
-                    </div>
-                    <div class="home-impact-grid">
-                        <article>
-                            <img src="assets/main/sustentabilidade.svg" alt="">
-                            <h4>Economia circular</h4>
-                            <p>Transformamos resíduos em novas possibilidades.</p>
-                        </article>
-                        <article>
-                            <img src="assets/main/tecnologia.svg" alt="">
-                            <h4>Redução de impactos</h4>
-                            <p>Equipamentos que reduzem o consumo de recursos.</p>
-                        </article>
-                        <article>
-                            <img src="assets/main/robustez.svg" alt="">
-                            <h4>Eficiência energética</h4>
-                            <p>Projetos que priorizam o uso inteligente de energia.</p>
-                        </article>
-                        <article>
-                            <img src="assets/main/sustentabilidade.svg" alt="">
-                            <h4>Consciência ambiental</h4>
-                            <p>Práticas sustentáveis em toda a cadeia produtiva.</p>
-                        </article>
-                    </div>
+                <div class="home-factory-copy">
+                    <span class="home-section-label">Quem fabrica, entende</span>
+                    <h2 id="factory-title">Engenharia próxima de quem está no campo.</h2>
+                    <p>A Brutusmaq une experiência, desenvolvimento técnico e atendimento próximo para construir equipamentos robustos e soluções alinhadas à realidade de cada operação.</p>
+                    <ul>
+                        <li><img src="assets/icones-laranjas/icone-fabricacao-laranja.svg" alt="" aria-hidden="true"><span><strong>Fabricação nacional</strong>Controle e proximidade em cada etapa do projeto.</span></li>
+                        <li><img src="assets/icones-laranjas/icone-assistencia-tecnica-laranja.svg" alt="" aria-hidden="true"><span><strong>Suporte especializado</strong>Orientação técnica antes e depois da entrega.</span></li>
+                        <li><img src="assets/icones-laranjas/icone-necessidade-laranja.svg" alt="" aria-hidden="true"><span><strong>Solução adequada</strong>Equipamentos pensados para material, capacidade e objetivo.</span></li>
+                        <li><img src="assets/icones-laranjas/icone-garantia-laranja.svg" alt="" aria-hidden="true"><span><strong>Relações duradouras</strong>Compromisso com desempenho e continuidade.</span></li>
+                    </ul>
+                    <a href="sobre-nos.html" class="home-text-link">Conheça nossa história <span aria-hidden="true">→</span></a>
                 </div>
             </div>
         </section>
 
-        <section class="home-process">
-            <div class="home-container home-process-inner">
-                <div class="home-process-copy">
-                    <h2>Do resíduo ao recurso</h2>
-                    <p>Nossas soluções transformam materiais e geram valor para o planeta e para o seu negócio.</p>
+        <section class="home-sustainability" id="sustentabilidade" aria-labelledby="sustainability-title">
+            <div class="home-container">
+                <div class="home-sustainability-heading">
+                    <div>
+                        <span class="home-section-label">Transformar para preservar</span>
+                        <h2 id="sustainability-title">Do resíduo ao recurso, etapa por etapa.</h2>
+                    </div>
+                    <p>Nossas soluções apoiam a redução de volume, o reaproveitamento de materiais e processos mais eficientes, fortalecendo a economia circular.</p>
                 </div>
 
-                <div class="home-process-flow" aria-label="Processo de valorização de resíduos">
-                    <div><span>01</span><strong>Coleta</strong><small>Resíduos destinados corretamente.</small></div>
-                    <div><span>02</span><strong>Trituração</strong><small>Redução de volume com tecnologia.</small></div>
-                    <div><span>03</span><strong>Separação</strong><small>Materiais separados e preparados.</small></div>
-                    <div><span>04</span><strong>Reaproveitamento</strong><small>Matéria-prima pronta para voltar à cadeia.</small></div>
-                    <div><span>05</span><strong>Transformação</strong><small>Impacto positivo para a indústria.</small></div>
-                </div>
+                <ol class="home-process-flow" aria-label="Processo de valorização de materiais">
+                    <li><span>01</span><h3>Receber</h3><p>Entender composição, volume e condição do material.</p></li>
+                    <li><span>02</span><h3>Processar</h3><p>Reduzir tamanho e preparar o fluxo com tecnologia.</p></li>
+                    <li><span>03</span><h3>Separar</h3><p>Organizar materiais conforme a aplicação planejada.</p></li>
+                    <li><span>04</span><h3>Reaproveitar</h3><p>Devolver valor ao material dentro de um novo ciclo.</p></li>
+                </ol>
 
-                <div class="home-stats">
-                    <article><strong>+2.500</strong><span>Equipamentos fabricados</span></article>
-                    <article><strong>+300</strong><span>Clientes em todo o Brasil</span></article>
-                    <article><strong>+1 milhão</strong><span>Toneladas de materiais triturados por ano</span></article>
+                <div class="home-impact-grid">
+                    <article><img src="assets/icones-verdes/icone-reciclagem-verde.svg" alt="" aria-hidden="true"><h3>Economia circular</h3><p>Materiais preparados para novas possibilidades.</p></article>
+                    <article><img src="assets/icones-verdes/icone-lixeira-verde.svg" alt="" aria-hidden="true"><h3>Redução de volume</h3><p>Melhor aproveitamento de espaço e movimentação.</p></article>
+                    <article><img src="assets/icones-verdes/icone-mundo-verde.svg" alt="" aria-hidden="true"><h3>Uso consciente</h3><p>Processos orientados ao aproveitamento de recursos.</p></article>
                 </div>
             </div>
         </section>
 
-        <section class="home-final-cta">
+        <section class="home-insights" aria-labelledby="insights-title">
+            <div class="home-container">
+                <div class="home-section-heading">
+                    <div>
+                        <span class="home-section-label">Conteúdo técnico</span>
+                        <h2 id="insights-title">Conhecimento para decisões industriais mais seguras.</h2>
+                    </div>
+                    <a href="blog.html" class="home-text-link">Ver todos os artigos <span aria-hidden="true">→</span></a>
+                </div>
+
+                <div class="home-insights-grid">
+                    <a href="artigo-blog.html?artigo=como-escolher-triturador-industrial" class="home-insight-card">
+                        <figure><span>Guia técnico</span><img src="assets/main/tr-700.png" alt="Triturador industrial TR-700 Brutusmaq"></figure>
+                        <div><small>6 min de leitura</small><h3>Como escolher um triturador industrial para sua operação</h3><strong>Ler artigo <span aria-hidden="true">→</span></strong></div>
+                    </a>
+                    <a href="artigo-blog.html?artigo=manutencao-preventiva-equipamentos-industriais" class="home-insight-card">
+                        <figure><span>Manutenção</span><img src="assets/main/manutencao.svg" alt="Ilustração sobre manutenção industrial"></figure>
+                        <div><small>5 min de leitura</small><h3>Como proteger disponibilidade e desempenho</h3><strong>Ler artigo <span aria-hidden="true">→</span></strong></div>
+                    </a>
+                    <a href="artigo-blog.html?artigo=trituracao-e-economia-circular" class="home-insight-card">
+                        <figure><span>Sustentabilidade</span><img src="assets/main/sustentabilidade.svg" alt="Ilustração sobre sustentabilidade"></figure>
+                        <div><small>6 min de leitura</small><h3>Trituração e economia circular: preparando um novo ciclo</h3><strong>Ler artigo <span aria-hidden="true">→</span></strong></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="home-final-cta" aria-labelledby="home-cta-title">
             <div class="home-container home-final-cta-inner">
-                <div class="home-final-image" aria-hidden="true"></div>
                 <div>
-                    <h2>Vamos conversar sobre<br>a <strong>solução ideal</strong> para você?</h2>
-                    <p>Nossa equipe está pronta para entender sua necessidade e apresentar a melhor solução em equipamentos industriais.</p>
+                    <span class="home-section-label">Vamos construir juntos</span>
+                    <h2 id="home-cta-title">Seu desafio pode ser o nosso próximo <strong>projeto.</strong></h2>
+                    <p>Converse com nossa equipe para encontrar a solução adequada ao material, à capacidade e aos objetivos da sua operação.</p>
                 </div>
                 <div class="home-final-actions">
-                    <a href="contato.html" class="home-btn home-btn-primary">Solicitar proposta técnica</a>
+                    <a href="contato.html#proposta-tecnica" class="home-btn home-btn-dark">Solicitar proposta técnica</a>
                     <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="home-btn home-btn-whatsapp"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="footer">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="footer-logo">
-                <p>Tecnologia, eficiência e compromisso com a sustentabilidade para transformar materiais e construir um futuro melhor.</p>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/brutusmaq/" target="_blank" rel="noopener">Instagram</a>
-                    <a href="https://www.youtube.com/@brutusmaq" target="_blank" rel="noopener">YouTube</a>
-                    <a href="https://www.linkedin.com/company/brutusmaq/" target="_blank" rel="noopener">LinkedIn</a>
-                </div>
-            </div>
+<footer class="footer site-footer">
+        <div class="site-footer-main">
+            <div class="site-footer-container site-footer-grid">
+                <section class="site-footer-brand" aria-label="Brutusmaq">
+                    <a href="index.html" aria-label="Página inicial da Brutusmaq">
+                        <img src="assets/logo/logo-brutusmaq.svg" alt="Brutusmaq">
+                    </a>
+                    <p>Equipamentos industriais com engenharia brasileira, fabricação nacional e suporte especializado.</p>
+                </section>
 
-            <div class="footer-column">
-                <h4>Equipamentos</h4>
-                <ul>
-                    <li><a href="equipamentos.html#trituradores">Trituradores</a></li>
-                    <li><a href="equipamentos.html#moinhos">Moinhos</a></li>
-                    <li><a href="equipamentos.html#picadores">Picadores</a></li>
-                    <li><a href="equipamentos.html#esteiras">Esteiras transportadoras</a></li>
-                    <li><a href="usadas.html">Equipamentos usados</a></li>
-                </ul>
-            </div>
+                <nav class="site-footer-navigation" aria-label="Navegação do rodapé">
+                    <section aria-label="Explorar">
+                        <h2>Explorar</h2>
+                        <ul>
+                            <li><a href="equipamentos.html">Equipamentos</a></li>
+                            <li><a href="usadas.html">Máquinas usadas</a></li>
+                            <li><a href="sobre-nos.html">Sobre nós</a></li>
+                            <li><a href="blog.html">Conteúdo técnico</a></li>
+                        </ul>
+                    </section>
 
-            <div class="footer-column">
-                <h4>Institucional</h4>
-                <ul>
-                    <li><a href="sobre-nos.html">Sobre nós</a></li>
-                    <li><a href="index.html#sustentabilidade">Sustentabilidade</a></li>
-                    <li><a href="equipamentos.html">Soluções industriais</a></li>
-                    <li><a href="contato.html#assistencia-tecnica">Assistência técnica</a></li>
-                    <li><a href="contato.html">Contato</a></li>
-                </ul>
-            </div>
+                    <section aria-label="Atendimento">
+                        <h2>Atendimento</h2>
+                        <ul>
+                            <li><a href="contato.html?tipo=proposta-tecnica#proposta-tecnica">Solicitar proposta</a></li>
+                            <li><a href="contato.html?tipo=assistencia-tecnica#proposta-tecnica">Assistência técnica</a></li>
+                            <li><a href="contato.html">Todos os canais</a></li>
+                        </ul>
+                    </section>
+                </nav>
 
-            <div class="footer-contact">
-                <h4>Contato</h4>
-                <p>(041) 3797-1123</p>
-                <p>contato@brutusmaq.com.br</p>
-                <p>Contenda - PR, Brasil</p>
+                <address class="site-footer-contact">
+                    <h2>Contato</h2>
+                    <div class="site-footer-phones">
+                        <a href="tel:+554137971123">(41) 3797-1123</a>
+                        <span aria-hidden="true">|</span>
+                        <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" aria-label="WhatsApp (41) 98875-4003">(41) 98875-4003</a>
+                    </div>
+                    <a href="mailto:contato@brutusmaq.com.br">contato@brutusmaq.com.br</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Brutusmaq%20Contenda%20PR" target="_blank" rel="noopener" class="site-footer-location">Contenda - PR, Brasil</a>
+                </address>
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <p>&copy; 2026 BRUTUSMAQ. Todos os direitos reservados.</p>
-            <a href="politica-de-privacidade.html">Política de Privacidade</a>
-            <a href="termos-de-uso.html">Termos de Uso</a>
+        <div class="site-footer-container site-footer-bottom">
+            <p>&copy; 2026 BRUTUSMAQ</p>
+            <div class="site-footer-social" aria-label="Redes sociais">
+                <a href="https://www.instagram.com/brutusmaq/" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.youtube.com/@brutusmaq" target="_blank" rel="noopener">YouTube</a>
+                <a href="https://www.linkedin.com/company/brutusmaq/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+            <nav class="site-footer-legal" aria-label="Links legais">
+                <a href="politica-de-privacidade.html">Privacidade</a>
+                <a href="termos-de-uso.html">Termos</a>
+            </nav>
         </div>
     </footer>
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipamento novo | Brutusmaq</title>
-    <meta name="description" content="Conheca os equipamentos novos Brutusmaq para trituracao, moagem, picagem e transporte de materiais. Solicite proposta tecnica personalizada.">
+    <meta name="description" content="Conheca os equipamentos novos Brutusmaq para trituracao, moagem e transporte de materiais. Solicite proposta tecnica personalizada.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.brutusmaq.com.br/produto.html">
 
@@ -15,6 +15,7 @@
     <meta property="og:title" content="Equipamento novo | Brutusmaq">
     <meta property="og:description" content="Equipamentos novos Brutusmaq com projeto, fabricacao nacional, garantia e suporte tecnico especializado.">
     <meta property="og:image" content="https://www.brutusmaq.com.br/assets/main/tr-700.png">
+    <script type="application/ld+json" id="produtoNovoJsonLd">{}</script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Teko:wght@400;500;600;700&display=swap');
@@ -25,6 +26,7 @@
     <link rel="stylesheet" href="css/product-page.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/layout.css">
 </head>
 
 <body>
@@ -33,7 +35,7 @@
             <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="header-logo">
         </a>
 
-        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
+        <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="headerMenu">
             <span></span>
             <span></span>
             <span></span>
@@ -68,16 +70,6 @@
                                 </div>
                             </section>
 
-                            <section class="home-mega-column" aria-labelledby="mega-picadores">
-                                <a class="home-mega-media" href="equipamentos.html#picadores" aria-label="Ver picadores">
-                                    <img src="assets/main/tr-700.png" alt="Picador industrial P-650 Brutusmaq">
-                                </a>
-                                <div>
-                                    <h2 id="mega-picadores">Picadores</h2>
-                                    <a role="menuitem" href="produto.html?produto=p-650">P-650</a>
-                                </div>
-                            </section>
-
                             <section class="home-mega-column home-mega-highlight" aria-labelledby="mega-usados">
                                 <a class="home-mega-media" href="usadas.html" aria-label="Ver equipamentos usados">
                                     <img src="assets/main/tr-800-disp-mobile.png" alt="">
@@ -107,7 +99,8 @@
     </header>
 
     <main class="product-page" id="conteudo-principal">
-        <div class="product-container">
+        <section class="product-hero" aria-labelledby="produtoTitulo">
+            <div class="product-container">
             <nav class="product-breadcrumb" aria-label="Breadcrumb">
                 <a href="index.html">Inicio</a>
                 <span aria-hidden="true">/</span>
@@ -118,29 +111,23 @@
                 <strong id="produtoBreadcrumb" aria-current="page">TR-700</strong>
             </nav>
 
-            <section class="product-top-grid" aria-labelledby="produtoTitulo">
+            <div class="product-top-grid">
                 <article class="product-gallery-card" aria-label="Galeria do equipamento">
                     <span class="product-badge" id="produtoStatus">Lancamento</span>
 
-                    <button type="button" class="product-gallery-arrow product-gallery-prev" aria-label="Imagem anterior">‹</button>
-                    <button type="button" class="product-main-photo" aria-label="Imagem principal do equipamento">
-                        <img id="produtoImagemPrincipal" src="assets/main/tr-700.png" alt="TR-700 novo Brutusmaq">
-                    </button>
-                    <button type="button" class="product-gallery-arrow product-gallery-next" aria-label="Proxima imagem">›</button>
-
-                    <div class="produto-galeria-thumbs product-thumbs" aria-label="Miniaturas da galeria">
-                        <button type="button" class="active"><img src="assets/main/tr-700.png" alt="Vista principal do equipamento"></button>
-                        <button type="button"><img src="assets/main/tr-700.png" alt="Vista lateral do equipamento"></button>
-                        <button type="button"><img src="assets/main/tr-700.png" alt="Conjunto mecanico do equipamento"></button>
-                        <button type="button"><img src="assets/main/tr-700.png" alt="Detalhe construtivo do equipamento"></button>
-                        <button type="button"><img src="assets/main/tr-700.png" alt="Detalhe das facas do equipamento"></button>
+                    <button type="button" class="product-gallery-arrow product-gallery-prev" aria-label="Imagem anterior">&#8249;</button>
+                    <div class="product-main-photo" tabindex="0" aria-label="Imagem principal do equipamento. Use as setas do teclado para navegar.">
+                        <img id="produtoImagemPrincipal" alt="" fetchpriority="high">
                     </div>
+                    <button type="button" class="product-gallery-arrow product-gallery-next" aria-label="Proxima imagem">&#8250;</button>
+
+                    <div class="produto-galeria-thumbs product-thumbs" aria-label="Miniaturas da galeria"></div>
 
                     <p class="product-media-note" id="produtoMediaNote">Imagens ilustrativas do equipamento. Configuracoes podem variar conforme projeto.</p>
                 </article>
 
                 <aside class="product-summary" aria-label="Resumo do equipamento">
-                    <span class="product-overline">Trituradores</span>
+                    <span class="product-overline" id="produtoLinhaResumo">Equipamentos Brutusmaq</span>
                     <h1 id="produtoTitulo">TR-700</h1>
                     <h2 id="produtoCategoria">Triturador de duplo eixo</h2>
                     <p id="produtoDescricao">Equipamento robusto e eficiente para trituracao de diversos materiais, com alta produtividade, baixo consumo energetico e manutencao simplificada.</p>
@@ -155,7 +142,7 @@
 
                     <div class="product-actions">
                         <button type="button" class="product-btn product-btn-primary" data-open-proposal-modal>Solicitar proposta</button>
-                        <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="product-btn product-btn-whatsapp"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
+                        <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="product-btn product-btn-whatsapp" data-whatsapp-produto><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
                     </div>
 
                     <div class="product-trust-grid">
@@ -165,51 +152,59 @@
                         <div><span class="product-trust-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-atendimento-laranja.svg" alt=""></span><strong>Suporte tecnico</strong><small>Especializado</small></div>
                     </div>
                 </aside>
-            </section>
+            </div>
+            </div>
+        </section>
 
-            <section class="product-info-grid" aria-label="Informacoes tecnicas">
-                <article class="product-panel product-about">
-                    <h2>Sobre o equipamento</h2>
-                    <p>O <strong id="produtoLinha">TR-700</strong> foi desenvolvido para oferecer o maximo de desempenho na trituracao de residuos industriais. Sua estrutura reforcada, aliada ao sistema de facas intercambiaveis e aos redutores de alto torque, garante eficiencia, seguranca e longa vida util mesmo nas condicoes mais exigentes.</p>
-                    <p>E a escolha ideal para industrias, recicladoras, madeireiras, empresas de gestao de residuos e diversos segmentos que buscam produtividade e confiabilidade.</p>
+        <section class="product-technical" aria-label="Informacoes tecnicas">
+            <div class="product-container product-info-grid">
+                <article class="product-about">
+                    <span class="product-overline">Engenharia aplicada</span>
+                    <h2 id="produtoSobreTitulo">Um projeto definido para a sua operacao</h2>
+                    <div class="product-about-copy" id="produtoSobreTexto">
+                        <p>O <strong id="produtoLinha">TR-700</strong> recebe configuracao tecnica conforme o material, a capacidade esperada e as condicoes de instalacao.</p>
+                        <p>A equipe Brutusmaq acompanha o dimensionamento para entregar uma solucao coerente com a rotina de producao.</p>
+                    </div>
 
-                    <div class="product-benefits">
-                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-desempenho-laranja.svg" alt=""></span><strong>Alto desempenho</strong><small>Trituracao eficiente com alto torque e forca.</small></div>
-                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-baixa-manutencao-laranja.svg" alt=""></span><strong>Baixa manutencao</strong><small>Projeto inteligente que facilita inspecoes e trocas.</small></div>
-                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-robustez-laranja.svg" alt=""></span><strong>Robustez comprovada</strong><small>Estrutura reforcada para trabalho continuo.</small></div>
-                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-seguranca-laranja.svg" alt=""></span><strong>Seguranca operacional</strong><small>Sistema de reversao e protecoes integradas.</small></div>
+                    <div class="product-benefits" id="produtoBeneficios">
+                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-solucao-laranja.svg" alt=""></span><strong>Projeto sob medida</strong><small>Dimensionamento conforme material, capacidade e processo.</small></div>
+                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-robustez-laranja.svg" alt=""></span><strong>Construcao industrial</strong><small>Componentes selecionados para a rotina da operacao.</small></div>
+                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-baixa-manutencao-laranja.svg" alt=""></span><strong>Manutencao planejada</strong><small>Acesso tecnico pensado para inspecoes e intervencoes.</small></div>
+                        <div><span class="product-benefit-icon" aria-hidden="true"><img src="assets/icones-laranjas/icone-assistencia-tecnica-laranja.svg" alt=""></span><strong>Suporte completo</strong><small>Orientacao comercial, tecnica e pos-venda.</small></div>
                     </div>
                 </article>
 
                 <article class="product-panel product-specs-card">
+                    <span class="product-panel-label">Ficha do equipamento</span>
                     <h2>Principais especificacoes</h2>
                     <div class="produto-spec-table product-spec-table" id="produtoSpecTable"></div>
-                    <p class="product-note">* A producao pode variar conforme tipo de material, granulometria da peneira e condicoes de operacao.</p>
+                    <p class="product-note" id="produtoNotaTecnica">* Capacidades e configuracoes podem variar conforme material e condicoes de operacao.</p>
                 </article>
-            </section>
+            </div>
+        </section>
 
-            <section class="product-lower-grid" aria-label="Aplicacoes e destaques">
-                <article class="product-panel product-applications">
-                    <h2>Aplicacoes</h2>
-                    <p>Indicado para a trituracao de uma ampla variedade de materiais:</p>
+        <section class="product-operation" aria-label="Aplicacoes e funcionamento">
+            <div class="product-container">
+                <header class="product-operation-heading">
+                    <span class="product-overline">Na sua operacao</span>
+                    <h2>Aplicacoes e funcionamento</h2>
+                    <p>Consulte as possibilidades cadastradas para este equipamento e solicite uma avaliacao para o seu material.</p>
+                </header>
 
-                    <div class="product-application-grid">
-                        <div><img src="assets/selecao-materiais/Plastico.svg" alt=""><strong>Plasticos</strong></div>
-                        <div><img src="assets/selecao-materiais/Madeira.svg" alt=""><strong>Madeira</strong></div>
-                        <div><img src="assets/selecao-materiais/Papel e Papelao.svg" alt=""><strong>Papel e papelao</strong></div>
-                        <div><img src="assets/selecao-materiais/Pneus.svg" alt=""><strong>Borracha e pneus</strong></div>
-                        <div><img src="assets/selecao-materiais/Residuos Industriais.svg" alt=""><strong>Residuos industriais</strong></div>
-                        <div><img src="assets/selecao-materiais/Sucata.svg" alt=""><strong>Sucata metalica</strong></div>
-                    </div>
+                <div class="product-lower-grid">
+                <article class="product-applications">
+                    <h3>Aplicacoes indicadas</h3>
+                    <p id="produtoAplicacoesTexto">A aplicacao final e validada pela equipe tecnica conforme o processo.</p>
+
+                    <div class="product-application-grid" id="produtoAplicacoes"></div>
                 </article>
 
-                <article class="product-panel product-highlights">
-                    <h2>Video do equipamento em funcionamento</h2>
+                <article class="product-highlights">
+                    <h3>Equipamento em funcionamento</h3>
                     <div class="product-highlight-layout">
                         <div class="product-video-frame">
                             <iframe
                                 id="produtoYoutubeFrame"
-                                src="https://www.youtube.com/embed?listType=search&list=Brutusmaq%20TR-700%20funcionando"
                                 title="Video do equipamento em funcionamento"
                                 loading="lazy"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -217,20 +212,18 @@
                             </iframe>
                         </div>
                         <div class="product-video-copy">
-                            <ul class="product-feature-list">
-                                <li>Facas em aco especial de alta liga</li>
-                                <li>Eixos macicos usinados</li>
-                                <li>Redutores de alto torque</li>
-                                <li>Rolamentos de alta durabilidade</li>
-                                <li>Estrutura em aco de alta resistencia</li>
-                                <li>Facil manutencao</li>
-                            </ul>
+                            <span class="product-video-label">Pontos de destaque</span>
+                            <ul class="product-feature-list" id="produtoDestaques"></ul>
                             <button type="button" class="product-video-request" id="abrirSolicitacaoVideo">Solicitar video para teste</button>
                         </div>
                     </div>
                 </article>
-            </section>
+                </div>
+            </div>
+        </section>
 
+        <section class="product-catalog-support" aria-label="Documentos e produtos relacionados">
+            <div class="product-container">
             <section class="product-panel product-downloads" aria-label="Downloads">
                 <h2>Downloads</h2>
                 <p>Baixe os documentos tecnicos do equipamento:</p>
@@ -244,17 +237,19 @@
 
                 <div class="product-related-row" id="productRelatedRow"></div>
             </section>
-        </div>
+            </div>
+        </section>
 
         <section class="product-cta-band" aria-label="Atendimento Brutusmaq">
             <div class="product-container product-cta-inner">
                 <div>
-                    <h2>Precisa de uma <strong>solucao personalizada?</strong></h2>
-                    <p>Fale com nossos especialistas e encontre o equipamento ideal para sua necessidade.</p>
+                    <span class="product-cta-label">Projeto Brutusmaq</span>
+                    <h2>Vamos dimensionar o equipamento para <strong>a sua operacao?</strong></h2>
+                    <p>Envie o material, a capacidade desejada e as condicoes do processo para receber uma orientacao tecnica.</p>
                 </div>
                 <div class="product-cta-actions">
                     <button type="button" class="product-btn product-btn-primary" data-open-proposal-modal>Solicitar proposta tecnica</button>
-                    <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="product-btn product-btn-whatsapp"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
+                    <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="product-btn product-btn-whatsapp" data-whatsapp-produto><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -271,12 +266,18 @@
 
             <label for="modalMaterial">Material do projeto</label>
             <select id="modalMaterial" name="material">
-                <option value="Plastico">Plastico</option>
-                <option value="Madeira">Madeira</option>
+                <option value="Ainda nao sei - preciso de orientacao">Ainda nao sei / preciso de orientacao</option>
+                <option value="Plasticos rigidos">Plasticos rigidos</option>
+                <option value="Filmes, sacarias e aparas plasticas">Filmes, sacarias e aparas plasticas</option>
+                <option value="Madeira, pallets e MDF">Madeira, pallets e MDF</option>
                 <option value="Papel e papelao">Papel e papelao</option>
-                <option value="Pneus">Pneus</option>
-                <option value="Residuos industriais">Residuos industriais</option>
-                <option value="Sucata metalica">Sucata metalica</option>
+                <option value="Borracha e pneus">Borracha e pneus</option>
+                <option value="Metais e sucatas leves">Metais e sucatas leves</option>
+                <option value="Cabos e fios eletricos">Cabos e fios eletricos</option>
+                <option value="Residuos eletronicos">Residuos eletronicos</option>
+                <option value="Espumas, tecidos e fibras">Espumas, tecidos e fibras</option>
+                <option value="Biomassa e residuos organicos">Biomassa e residuos organicos</option>
+                <option value="Residuos industriais mistos">Residuos industriais mistos</option>
                 <option value="Outro material">Outro material</option>
             </select>
 
@@ -290,52 +291,61 @@
         </form>
     </dialog>
 
-    <footer class="footer">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="footer-logo">
-                <p>Tecnologia, eficiência e compromisso com a sustentabilidade para transformar materiais e construir um futuro melhor.</p>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/brutusmaq/" target="_blank" rel="noopener">Instagram</a>
-                    <a href="https://www.youtube.com/@brutusmaq" target="_blank" rel="noopener">YouTube</a>
-                    <a href="https://www.linkedin.com/company/brutusmaq/" target="_blank" rel="noopener">LinkedIn</a>
-                </div>
-            </div>
+<footer class="footer site-footer">
+        <div class="site-footer-main">
+            <div class="site-footer-container site-footer-grid">
+                <section class="site-footer-brand" aria-label="Brutusmaq">
+                    <a href="index.html" aria-label="Página inicial da Brutusmaq">
+                        <img src="assets/logo/logo-brutusmaq.svg" alt="Brutusmaq">
+                    </a>
+                    <p>Equipamentos industriais com engenharia brasileira, fabricação nacional e suporte especializado.</p>
+                </section>
 
-            <div class="footer-column">
-                <h4>Equipamentos</h4>
-                <ul>
-                    <li><a href="equipamentos.html#trituradores">Trituradores</a></li>
-                    <li><a href="equipamentos.html#moinhos">Moinhos</a></li>
-                    <li><a href="equipamentos.html#picadores">Picadores</a></li>
-                    <li><a href="equipamentos.html#esteiras">Esteiras transportadoras</a></li>
-                    <li><a href="usadas.html">Equipamentos usados</a></li>
-                </ul>
-            </div>
+                <nav class="site-footer-navigation" aria-label="Navegação do rodapé">
+                    <section aria-label="Explorar">
+                        <h2>Explorar</h2>
+                        <ul>
+                            <li><a href="equipamentos.html">Equipamentos</a></li>
+                            <li><a href="usadas.html">Máquinas usadas</a></li>
+                            <li><a href="sobre-nos.html">Sobre nós</a></li>
+                            <li><a href="blog.html">Conteúdo técnico</a></li>
+                        </ul>
+                    </section>
 
-            <div class="footer-column">
-                <h4>Institucional</h4>
-                <ul>
-                    <li><a href="sobre-nos.html">Sobre nós</a></li>
-                    <li><a href="index.html#sustentabilidade">Sustentabilidade</a></li>
-                    <li><a href="equipamentos.html">Soluções industriais</a></li>
-                    <li><a href="contato.html#assistencia-tecnica">Assistência técnica</a></li>
-                    <li><a href="contato.html">Contato</a></li>
-                </ul>
-            </div>
+                    <section aria-label="Atendimento">
+                        <h2>Atendimento</h2>
+                        <ul>
+                            <li><a href="contato.html?tipo=proposta-tecnica#proposta-tecnica">Solicitar proposta</a></li>
+                            <li><a href="contato.html?tipo=assistencia-tecnica#proposta-tecnica">Assistência técnica</a></li>
+                            <li><a href="contato.html">Todos os canais</a></li>
+                        </ul>
+                    </section>
+                </nav>
 
-            <div class="footer-contact">
-                <h4>Contato</h4>
-                <p>(041) 3797-1123</p>
-                <p>contato@brutusmaq.com.br</p>
-                <p>Contenda - PR, Brasil</p>
+                <address class="site-footer-contact">
+                    <h2>Contato</h2>
+                    <div class="site-footer-phones">
+                        <a href="tel:+554137971123">(41) 3797-1123</a>
+                        <span aria-hidden="true">|</span>
+                        <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" aria-label="WhatsApp (41) 98875-4003">(41) 98875-4003</a>
+                    </div>
+                    <a href="mailto:contato@brutusmaq.com.br">contato@brutusmaq.com.br</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Brutusmaq%20Contenda%20PR" target="_blank" rel="noopener" class="site-footer-location">Contenda - PR, Brasil</a>
+                </address>
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <p>&copy; 2026 BRUTUSMAQ. Todos os direitos reservados.</p>
-            <a href="politica-de-privacidade.html">Política de Privacidade</a>
-            <a href="termos-de-uso.html">Termos de Uso</a>
+        <div class="site-footer-container site-footer-bottom">
+            <p>&copy; 2026 BRUTUSMAQ</p>
+            <div class="site-footer-social" aria-label="Redes sociais">
+                <a href="https://www.instagram.com/brutusmaq/" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.youtube.com/@brutusmaq" target="_blank" rel="noopener">YouTube</a>
+                <a href="https://www.linkedin.com/company/brutusmaq/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+            <nav class="site-footer-legal" aria-label="Links legais">
+                <a href="politica-de-privacidade.html">Privacidade</a>
+                <a href="termos-de-uso.html">Termos</a>
+            </nav>
         </div>
     </footer>
 

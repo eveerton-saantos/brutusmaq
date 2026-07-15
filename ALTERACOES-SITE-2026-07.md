@@ -31,10 +31,18 @@ Assets principais: `public/assets/icones-brancos/icone-whatsapp-branco.svg` e `p
 - Cabecalho revisado para melhor legibilidade em todas as resolucoes.
 - Hero e chamadas de acao reorganizados.
 - Aplicacao de nova imagem de fundo e ajustes de contraste.
+- Hero principal passou a utilizar `brutusmaq-index-background.png`, com enquadramento responsivo e carregamento prioritario.
 - Botoes e blocos informativos adaptados para telas menores.
 - Menu de equipamentos da pagina inicial transformado no modelo que depois foi compartilhado pelas demais paginas.
+- Footer piloto simplificado exclusivamente na home, priorizando marca, navegacao essencial e contato.
+- Telefone, e-mail, mapa, WhatsApp, redes sociais e links legais foram mantidos com menor densidade visual.
+- Horarios e opcoes secundarias foram direcionados para a pagina de contato, reduzindo a carga de leitura no rodape.
+- O modelo enxuto foi compartilhado entre todas as paginas publicas por meio da classe `site-footer`.
+- O CTA do WhatsApp foi retirado do rodape; o numero foi mantido ao lado do telefone fixo como opcao natural de contato.
+- Header institucional aplicado em todas as paginas, com altura reduzida, navegacao mais limpa, CTA solido e menu mobile em painel independente.
+- Mega menu recebeu acabamento mais sobrio e alinhado as faixas escuras do site, sem alterar seu conteudo dinamico.
 
-Arquivos principais: `public/index.html`, `public/css/home.css` e `public/assets/imagens-fundo/fundo-pagina-index.png`.
+Arquivos principais: `public/index.html`, `public/css/home.css`, `public/assets/imagens-fundo/brutusmaq-index-background.png` e `public/assets/imagens-fundo/fundo-pagina-index.png`.
 
 ### Pagina de equipamentos
 
@@ -43,9 +51,10 @@ Arquivos principais: `public/index.html`, `public/css/home.css` e `public/assets
 - Atalhos de categorias reorganizados para permanecerem em linha e legiveis no desktop e tablet.
 - Categorias transformadas em controles interativos que expandem a propria pagina.
 - Produtos exibidos inicialmente em quantidade reduzida, com botao para mostrar ou recolher os demais.
-- Comportamento aplicado a trituradores, moinhos, picadores, esteiras e equipamentos usados.
+- Comportamento aplicado a trituradores, moinhos, esteiras e equipamentos usados.
 - Cards mobile convertidos para um formato horizontal mais compacto.
 - Espacamentos e imagem de fundo do mobile ajustados para reduzir areas vazias.
+- Altura fixa residual do hero mobile removida para aproximar os diferenciais da barra de categorias.
 
 Arquivos principais: `public/equipamentos.html`, `public/css/equipamentos.css` e `public/js/equipamentos.js`.
 
@@ -78,8 +87,18 @@ Arquivos principais: `public/produto.html`, `public/css/product-page.css` e `pub
 - Contador de resultados adicionado.
 - Estado sem estoque transformado em uma chamada util para atendimento comercial.
 - Grade com quatro colunas no desktop, duas no tablet e cards horizontais compactos no mobile.
+- Hero passou a utilizar `maquinas-usadas-brutusmaq-background.png`, com enquadramento responsivo e sem duplicar a antiga imagem demonstrativa do equipamento.
 
 Arquivos principais: `public/usadas.html`, `public/css/usadas.css` e `public/js/usadas.js`.
+
+### Pagina do blog
+
+- Hero passou a utilizar `blog-brutusmaq-background.png`, substituindo a imagem generica de equipamento.
+- Enquadramento foi ajustado para desktop, tablet e celular, mantendo o texto sobre a area escura da composicao.
+- Imagem recebeu carregamento prioritario e passou a representar a pagina nos metadados de compartilhamento.
+- Artigos, categorias, sidebar, newsletter e demais estruturas da pagina foram preservados.
+
+Arquivos principais: `public/blog.html` e `public/css/blog.css`.
 
 ### Solicitacao de proposta e contato
 
@@ -92,6 +111,8 @@ Arquivos principais: `public/usadas.html`, `public/css/usadas.css` e `public/js/
 - Timeout de 15 segundos impede que o botao permaneca travado indefinidamente.
 - Em caso de falha, os dados permanecem preenchidos e sao oferecidos atalhos para WhatsApp e cliente de e-mail.
 - Mensagens de envio, sucesso e erro possuem retorno acessivel por `aria-live`.
+- Hero passou a utilizar `contato-brutusmaq-background.png`, com enquadramento responsivo e carregamento prioritario.
+- A area da imagem com telefones desatualizados recebeu uma camada escura; a imagem social anterior foi mantida para nao divulgar contatos incorretos.
 
 Arquivos principais: `public/contato.html`, `public/css/contact-page.css` e `public/js/contact-page.js`.
 
@@ -104,6 +125,105 @@ Foram adicionadas familias de icones em tres variacoes:
 - `public/assets/icones-verdes/`: 6 arquivos.
 
 Os novos assets cobrem categorias de equipamentos, atendimento, proposta, seguranca, garantia, avaliacao, desempenho, sustentabilidade e canais de contato.
+
+## Destaque dinamico de equipamentos novos
+
+- O cadastro de produtos novos aceita `imagemPrincipal` como imagem de capa.
+- Imagens principais distintas participam automaticamente do hero da pagina de equipamentos.
+- A selecao evita repetir o mesmo produto em duas visitas consecutivas.
+- Apenas a imagem escolhida para o hero e carregada com prioridade; imagens dos cards usam carregamento tardio.
+- `imagem` continua funcionando como compatibilidade para cadastros existentes.
+- A TR-700 permanece como fallback caso nenhuma imagem principal valida esteja cadastrada.
+- Equipamentos usados continuam acessiveis, mas nao participam do destaque rotativo.
+
+Arquivos principais: `public/equipamentos.html`, `public/css/equipamentos.css`, `public/js/equipamentos.js`, `public/js/catalogo-produtos.js` e `public/js/produto.js`.
+
+## Catalogo de equipamentos usados
+
+- Pagina redesenhada com hero institucional, catalogo claro e leitura mais objetiva.
+- Filtro de ano removido para simplificar a pesquisa.
+- Categorias, modelos e condicoes sao criados automaticamente a partir do estoque cadastrado.
+- O filtro de modelos se adapta a categoria selecionada.
+- O cadastro aceita categorias de usados que nao existem nas linhas de equipamentos novos.
+- Busca ampliada para modelo, categoria, aplicacao, ano, condicao, localizacao e especificacoes.
+- Equipamentos disponiveis aparecem antes de itens em revisao ou vendidos.
+- Cards usam carregamento tardio de imagens e mostram ate tres informacoes principais.
+- Dados estruturados do catalogo sao sincronizados com os equipamentos cadastrados.
+- Textos comerciais passaram a distinguir avaliacao, revisao, garantia e entrega conforme cada negociacao.
+- Duas fichas demonstrativas foram cadastradas para validar cards e paginas individuais: TR-700 disponivel e TR-800 em revisao.
+- Botao do hero recebeu rolagem suave ate o estoque, com compensacao do cabecalho fixo.
+- Diferenciais do hero receberam contraste reforcado para leitura sobre o fundo escuro.
+- Cards de equipamentos usados foram reduzidos para quatro colunas no desktop, com adaptacao responsiva.
+
+Arquivos principais: `public/usadas.html`, `public/css/usadas.css`, `public/js/usadas.js` e `public/js/catalogo-produtos.js`.
+
+## Pagina individual de maquina usada
+
+- Ficha redesenhada com a mesma alternancia de faixas escuras e claras do institucional.
+- Hero passou a exibir condicao real, imagem do cadastro, resumo tecnico e chamadas para proposta e video.
+- Breadcrumb deixou de depender de uma categoria fixa de equipamentos novos.
+- Itens inclusos, avaliacao tecnica e informacoes comerciais agora sao dinamicos por maquina.
+- Galeria aceita imagens diferentes e esconde miniaturas vazias, sem repetir a mesma foto quatro vezes.
+- Imagem principal e carregada diretamente do produto, sem baixar primeiro um placeholder incorreto.
+- Ausencia de video real gera um estado honesto de video sob solicitacao.
+- Proposta leva o contexto completo do equipamento para o formulario de contato.
+- Metadados sociais, canonical e JSON-LD Product sao atualizados conforme a maquina acessada.
+- Promessas fixas de revisao, disponibilidade e garantia foram substituidas pelas condicoes do cadastro.
+- Botoes diretos de WhatsApp passaram a informar equipamento, categoria, condicao e link da ficha consultada.
+- Solicitacoes de video pelo WhatsApp tambem incluem o link da maquina usada.
+- Resumo de ano, condicao, garantia e localizacao foi removido do hero em telas mobile.
+- Imagem principal da galeria foi mantida ampla no mobile; somente as miniaturas selecionaveis foram reduzidas e organizadas em faixa horizontal.
+- Ano deixou de aparecer nas especificacoes tecnicas, mesmo quando for incluido por engano em `specs`.
+- Cadastro passou a documentar `oQueAcompanha`, `avaliacaoTecnica` e `informacoesComerciais`, mantendo compatibilidade com os campos anteriores.
+- Acoes de proposta e video foram movidas para baixo da imagem do equipamento no mobile, permanecendo junto ao resumo no desktop.
+
+Arquivos principais: `public/maquina-usada.html`, `public/css/maquina-usada.css`, `public/js/maquina-usada.js` e `public/js/catalogo-produtos.js`.
+
+## Pagina individual de equipamento novo
+
+- Ficha redesenhada com hero escuro, leitura tecnica clara, area operacional escura e CTA final em laranja.
+- Largura principal padronizada em 1240 px, seguindo a pagina institucional.
+- Galeria passou a aceitar de uma a cinco imagens sem repetir o mesmo arquivo para preencher espaco.
+- Recomendacao de cadastro definida em cinco imagens, com minimo seguro de tres imagens diferentes.
+- Conteudo sobre o equipamento, beneficios, aplicacoes, materiais, destaques e nota tecnica aceita campos dinamicos por produto.
+- Textos fixos de triturador foram removidos das areas compartilhadas por moinhos e esteiras.
+- Ausencia de video real agora exibe um estado de video sob solicitacao, sem incorporar resultados externos do YouTube.
+- Metadados sociais, canonical e JSON-LD Product sao atualizados conforme o produto acessado.
+- Produtos relacionados duplicados sao eliminados antes da exibicao.
+- Fluxos de proposta, WhatsApp, downloads e navegacao da galeria foram preservados.
+- Selecao de materiais ampliada com familias industriais e opcao de orientacao para quem ainda nao sabe classificar o material.
+- Botoes diretos de WhatsApp agora enviam modelo, categoria e link do equipamento novo consultado.
+- Solicitacoes de proposta pelo WhatsApp incluem o contexto e a pagina de origem.
+- Diferenciais tecnicos reorganizados em grade 2 x 2 no mobile, com tipografia e divisorias adaptadas para telas estreitas.
+- Espacamentos verticais da ficha de produto novo foram reduzidos no mobile sem remover o respiro entre secoes.
+
+Arquivos principais: `public/produto.html`, `public/css/product-page.css`, `public/js/produto.js` e `public/js/catalogo-produtos.js`.
+
+## Politica de Privacidade
+
+- Pagina redesenhada com a mesma linguagem institucional da pagina Sobre Nos: hero fotografico, alternancia entre blocos escuros e claros e destaque em laranja.
+- Quatro compromissos de privacidade passaram a resumir os pontos essenciais antes do texto completo.
+- Indice lateral com ancoras permite acessar rapidamente coleta, uso, compartilhamento, cookies, seguranca, direitos e contato.
+- Conteudo juridico deixou o grande card escuro e passou a usar largura de leitura confortavel, divisorias discretas e contraste alto.
+- Encerramento comercial foi substituido por acoes coerentes com a pagina: solicitar atendimento sobre dados ou consultar os Termos de Uso.
+- Data de atualizacao visual e metadado estruturado foram alinhados para 14 de julho de 2026.
+- Layout responsivo reorganiza compromissos, indice, texto e acoes sem ocultar informacoes legais.
+- Hero passou a utilizar `lgpd-brutusmaq-background.png`, com enquadramento especifico para desktop, tablet e celular e carregamento prioritario.
+
+Arquivos principais: `public/politica-de-privacidade.html` e `public/css/politica.css`.
+
+## Termos e Condicoes de Uso
+
+- Pagina alinhada ao redesign institucional da Politica de Privacidade e da pagina Sobre Nos.
+- Quatro condicoes essenciais resumem o carater informativo do site, a necessidade de validacao tecnica, a formalizacao de propostas e o uso responsavel.
+- Indice lateral com ancoras facilita o acesso a informacoes tecnicas, propostas, usados, uso permitido, propriedade intelectual, responsabilidades, privacidade e contato.
+- Os 13 topicos juridicos foram preservados em uma composicao clara, sem o antigo card escuro e com largura confortavel de leitura.
+- CTA final passou a oferecer contato para esclarecimentos e acesso direto a Politica de Privacidade.
+- Data de atualizacao visual e metadado estruturado foram alinhados para 15 de julho de 2026.
+- Layout responsivo segue o mesmo comportamento da pagina de privacidade em desktop, tablet e mobile.
+- Hero passou a utilizar `tcu-brutusmaq-background.png`, com enquadramento especifico para desktop, tablet e celular e carregamento prioritario.
+
+Arquivos principais: `public/termos-de-uso.html` e `public/css/termos.css`.
 
 ## Paginas atualizadas
 
@@ -133,6 +253,16 @@ Os novos assets cobrem categorias de equipamentos, atendimento, proposta, segura
 - Definicao de `public` como diretorio de saida do site estatico.
 - CSS, JavaScript, imagens, SVGs e paginas HTML passam a ser entregues com seus caminhos e tipos de conteudo corretos.
 - O projeto usa o preset `Other`, sem comando de build e sem framework.
+
+## Painel administrativo interno
+
+- Criacao de `public/painel-admin.html` como base visual da futura administracao em nuvem.
+- Dashboard com indicadores de catalogo, pendencias de cadastro, atividade recente e checklist de publicacao.
+- Area de produtos com busca, filtros por tipo e status, listagem de equipamentos novos e usados e acesso ao fluxo de edicao.
+- Formulario de produto com identificacao, categoria, imagem principal, galeria, conteudo comercial, ficha tecnica, disponibilidade e dados especificos para maquinas usadas.
+- Navegacao responsiva e interacoes locais para avaliar o fluxo antes da integracao com API e banco de dados.
+- Pagina mantida fora da navegacao publica e marcada com `noindex`, `nofollow` e `noarchive`.
+- Nesta etapa nao existe autenticacao, autorizacao, persistencia ou upload real. A protecao efetiva devera ser implementada no servidor antes de publicar o painel em producao.
 
 ## Validacoes executadas
 

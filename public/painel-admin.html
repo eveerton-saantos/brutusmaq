@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <meta name="referrer" content="same-origin">
+    <title>Painel interno | Brutusmaq</title>
+    <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+    <div class="admin-app">
+        <aside class="admin-sidebar" id="adminSidebar" aria-label="Navegação do painel">
+            <div class="admin-sidebar-head">
+                <a href="painel-admin.html" class="admin-brand" aria-label="Painel Brutusmaq">
+                    <img src="assets/logo/logo-brutusmaq.svg" alt="Brutusmaq">
+                </a>
+                <span class="admin-environment">Ambiente interno</span>
+            </div>
+
+            <nav class="admin-nav" aria-label="Áreas administrativas">
+                <span class="admin-nav-label">Catálogo</span>
+                <button class="admin-nav-item is-active" type="button" data-admin-view="dashboard" aria-current="page">
+                    <span class="admin-nav-index" aria-hidden="true">01</span>
+                    <span>Visão geral</span>
+                </button>
+                <button class="admin-nav-item" type="button" data-admin-view="products">
+                    <span class="admin-nav-index" aria-hidden="true">02</span>
+                    <span>Produtos</span>
+                    <span class="admin-nav-count">14</span>
+                </button>
+                <button class="admin-nav-item" type="button" data-admin-view="new-product">
+                    <span class="admin-nav-index" aria-hidden="true">03</span>
+                    <span>Novo produto</span>
+                </button>
+
+                <span class="admin-nav-label admin-nav-label-spaced">Operação</span>
+                <button class="admin-nav-item is-disabled" type="button" disabled>
+                    <span class="admin-nav-index" aria-hidden="true">04</span>
+                    <span>Solicitações</span>
+                    <small>Em breve</small>
+                </button>
+                <button class="admin-nav-item is-disabled" type="button" disabled>
+                    <span class="admin-nav-index" aria-hidden="true">05</span>
+                    <span>Biblioteca de mídia</span>
+                    <small>Em breve</small>
+                </button>
+                <button class="admin-nav-item is-disabled" type="button" disabled>
+                    <span class="admin-nav-index" aria-hidden="true">06</span>
+                    <span>Configurações</span>
+                    <small>Em breve</small>
+                </button>
+            </nav>
+
+            <div class="admin-sidebar-foot">
+                <div class="admin-account">
+                    <span class="admin-avatar" aria-hidden="true">EB</span>
+                    <span><strong>Administrador</strong><small>Acesso total previsto</small></span>
+                </div>
+                <a class="admin-site-link" href="index.html" target="_blank" rel="noopener">Visualizar site <span aria-hidden="true">↗</span></a>
+            </div>
+        </aside>
+
+        <div class="admin-sidebar-backdrop" data-close-sidebar hidden></div>
+
+        <div class="admin-workspace">
+            <header class="admin-topbar">
+                <button class="admin-menu-button" type="button" aria-label="Abrir navegação" aria-expanded="false" aria-controls="adminSidebar">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="admin-location">
+                    <span>Painel Brutusmaq</span>
+                    <strong id="adminCurrentView">Visão geral</strong>
+                </div>
+                <div class="admin-topbar-status">
+                    <span class="admin-status-dot" aria-hidden="true"></span>
+                    <span>Interface local</span>
+                </div>
+            </header>
+
+            <main class="admin-main">
+                <section class="admin-view is-active" id="view-dashboard" data-view-panel="dashboard" aria-labelledby="dashboardTitle">
+                    <div class="admin-page-heading">
+                        <div>
+                            <span class="admin-eyebrow">Catálogo digital</span>
+                            <h1 id="dashboardTitle">Visão geral</h1>
+                            <p>Acompanhe produtos, qualidade do cadastro e itens que precisam de atenção.</p>
+                        </div>
+                        <button class="admin-button admin-button-primary" type="button" data-go-to="new-product">Adicionar produto</button>
+                    </div>
+
+                    <div class="admin-local-notice" role="status">
+                        <span class="admin-notice-mark" aria-hidden="true">i</span>
+                        <div><strong>Estrutura pronta para integração</strong><p>Os números abaixo são demonstrativos. Nenhum dado é enviado ou salvo em banco nesta etapa.</p></div>
+                    </div>
+
+                    <div class="admin-metrics" aria-label="Resumo do catálogo">
+                        <article class="admin-metric">
+                            <span>Produtos publicados</span>
+                            <strong>12</strong>
+                            <small>10 novos e 2 usados</small>
+                        </article>
+                        <article class="admin-metric">
+                            <span>Rascunhos</span>
+                            <strong>3</strong>
+                            <small>Aguardando conclusão</small>
+                        </article>
+                        <article class="admin-metric admin-metric-warning">
+                            <span>Cadastros incompletos</span>
+                            <strong>4</strong>
+                            <small>Imagens ou ficha técnica</small>
+                        </article>
+                        <article class="admin-metric admin-metric-positive">
+                            <span>Disponíveis no estoque</span>
+                            <strong>2</strong>
+                            <small>Máquinas usadas</small>
+                        </article>
+                    </div>
+
+                    <div class="admin-dashboard-grid">
+                        <section class="admin-section admin-recent-products" aria-labelledby="recentProductsTitle">
+                            <div class="admin-section-head">
+                                <div><span>Atualizações recentes</span><h2 id="recentProductsTitle">Produtos do catálogo</h2></div>
+                                <button class="admin-text-button" type="button" data-go-to="products">Ver todos</button>
+                            </div>
+                            <div class="admin-table-wrap">
+                                <table class="admin-table admin-table-compact">
+                                    <thead><tr><th>Produto</th><th>Tipo</th><th>Status</th><th>Atualização</th></tr></thead>
+                                    <tbody>
+                                        <tr><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>TR-700</strong><small>Trituradores</small></span></span></td><td>Novo</td><td><span class="admin-status is-published">Publicado</span></td><td>Hoje, 18:42</td></tr>
+                                        <tr><td><span class="admin-product-cell"><img src="assets/main/tr-800-disp-mobile.png" alt=""><span><strong>TR-800 usado</strong><small>Máquinas usadas</small></span></span></td><td>Usado</td><td><span class="admin-status is-review">Em revisão</span></td><td>Hoje, 14:10</td></tr>
+                                        <tr><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>M-600</strong><small>Moinhos</small></span></span></td><td>Novo</td><td><span class="admin-status is-draft">Rascunho</span></td><td>Ontem, 16:35</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+
+                        <aside class="admin-section admin-checklist" aria-labelledby="checklistTitle">
+                            <div class="admin-section-head"><div><span>Qualidade</span><h2 id="checklistTitle">Antes de publicar</h2></div><strong>3/5</strong></div>
+                            <div class="admin-progress" aria-label="60% concluído"><span style="width: 60%"></span></div>
+                            <ul>
+                                <li class="is-complete"><span aria-hidden="true">✓</span><div><strong>Identificação</strong><small>Modelo, categoria e URL</small></div></li>
+                                <li class="is-complete"><span aria-hidden="true">✓</span><div><strong>Descrição comercial</strong><small>Resumo e aplicações</small></div></li>
+                                <li class="is-complete"><span aria-hidden="true">✓</span><div><strong>Imagem principal</strong><small>Capa do catálogo</small></div></li>
+                                <li><span aria-hidden="true">4</span><div><strong>Galeria completa</strong><small>Mínimo recomendado: 3 imagens</small></div></li>
+                                <li><span aria-hidden="true">5</span><div><strong>Ficha técnica</strong><small>Especificações verificadas</small></div></li>
+                            </ul>
+                        </aside>
+                    </div>
+
+                    <section class="admin-section admin-activity" aria-labelledby="activityTitle">
+                        <div class="admin-section-head"><div><span>Auditoria prevista</span><h2 id="activityTitle">Atividade do painel</h2></div><small>Últimos registros</small></div>
+                        <ol class="admin-activity-list">
+                            <li><span class="admin-activity-time">18:42</span><span class="admin-activity-mark is-orange"></span><p><strong>TR-700</strong> teve a imagem principal atualizada.</p><small>Administrador</small></li>
+                            <li><span class="admin-activity-time">14:10</span><span class="admin-activity-mark is-green"></span><p><strong>TR-800 usado</strong> foi enviado para revisão.</p><small>Administrador</small></li>
+                            <li><span class="admin-activity-time">09:25</span><span class="admin-activity-mark"></span><p>Categoria <strong>Esteiras transportadoras</strong> foi revisada.</p><small>Administrador</small></li>
+                        </ol>
+                    </section>
+                </section>
+
+                <section class="admin-view" id="view-products" data-view-panel="products" aria-labelledby="productsTitle" hidden>
+                    <div class="admin-page-heading">
+                        <div><span class="admin-eyebrow">Gestão do catálogo</span><h1 id="productsTitle">Produtos</h1><p>Localize, revise e organize equipamentos novos e usados.</p></div>
+                        <button class="admin-button admin-button-primary" type="button" data-go-to="new-product">Adicionar produto</button>
+                    </div>
+
+                    <div class="admin-product-toolbar">
+                        <label class="admin-search-field" for="adminProductSearch"><span>Buscar produto</span><input id="adminProductSearch" type="search" placeholder="Modelo, categoria ou código"></label>
+                        <label><span>Tipo</span><select id="adminTypeFilter"><option value="all">Todos</option><option value="novo">Novos</option><option value="usado">Usados</option></select></label>
+                        <label><span>Status</span><select id="adminStatusFilter"><option value="all">Todos</option><option value="publicado">Publicados</option><option value="rascunho">Rascunhos</option><option value="revisao">Em revisão</option></select></label>
+                        <button class="admin-button admin-button-secondary" id="clearProductFilters" type="button">Limpar filtros</button>
+                    </div>
+
+                    <section class="admin-section admin-catalog-section" aria-label="Lista de produtos">
+                        <div class="admin-list-summary"><p><strong id="adminProductCount">6 produtos</strong> encontrados</p><span>Ordenação: atualização mais recente</span></div>
+                        <div class="admin-table-wrap">
+                            <table class="admin-table admin-product-table">
+                                <thead><tr><th>Produto</th><th>Categoria</th><th>Tipo</th><th>Status</th><th>Atualizado</th><th><span class="sr-only">Ações</span></th></tr></thead>
+                                <tbody id="adminProductRows">
+                                    <tr data-product-row data-search="tr-700 trituradores" data-type="novo" data-status="publicado"><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>TR-700</strong><small>SKU BM-TR700</small></span></span></td><td>Trituradores</td><td>Novo</td><td><span class="admin-status is-published">Publicado</span></td><td>Hoje, 18:42</td><td><button class="admin-row-action" type="button" aria-label="Editar TR-700">Editar</button></td></tr>
+                                    <tr data-product-row data-search="tr-800 trituradores" data-type="novo" data-status="publicado"><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>TR-800</strong><small>SKU BM-TR800</small></span></span></td><td>Trituradores</td><td>Novo</td><td><span class="admin-status is-published">Publicado</span></td><td>Hoje, 17:05</td><td><button class="admin-row-action" type="button" aria-label="Editar TR-800">Editar</button></td></tr>
+                                    <tr data-product-row data-search="tr-1000 trituradores" data-type="novo" data-status="publicado"><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>TR-1000</strong><small>SKU BM-TR1000</small></span></span></td><td>Trituradores</td><td>Novo</td><td><span class="admin-status is-published">Publicado</span></td><td>12 jul. 2026</td><td><button class="admin-row-action" type="button" aria-label="Editar TR-1000">Editar</button></td></tr>
+                                    <tr data-product-row data-search="m-600 moinhos" data-type="novo" data-status="rascunho"><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>M-600</strong><small>SKU BM-M600</small></span></span></td><td>Moinhos</td><td>Novo</td><td><span class="admin-status is-draft">Rascunho</span></td><td>Ontem, 16:35</td><td><button class="admin-row-action" type="button" aria-label="Editar M-600">Editar</button></td></tr>
+                                    <tr data-product-row data-search="tr-800 usado maquinas usadas" data-type="usado" data-status="revisao"><td><span class="admin-product-cell"><img src="assets/main/tr-800-disp-mobile.png" alt=""><span><strong>TR-800 usado</strong><small>SKU US-TR800-01</small></span></span></td><td>Máquinas usadas</td><td>Usado</td><td><span class="admin-status is-review">Em revisão</span></td><td>Hoje, 14:10</td><td><button class="admin-row-action" type="button" aria-label="Editar TR-800 usado">Editar</button></td></tr>
+                                    <tr data-product-row data-search="esteira transportadora usadas" data-type="usado" data-status="rascunho"><td><span class="admin-product-cell"><img src="assets/main/tr-800-disp-mobile.png" alt=""><span><strong>Esteira 6 metros</strong><small>SKU US-ET600-01</small></span></span></td><td>Esteiras</td><td>Usado</td><td><span class="admin-status is-draft">Rascunho</span></td><td>10 jul. 2026</td><td><button class="admin-row-action" type="button" aria-label="Editar Esteira 6 metros">Editar</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="admin-empty-state" id="adminProductEmpty" hidden><strong>Nenhum produto encontrado</strong><p>Revise os termos ou limpe os filtros aplicados.</p></div>
+                    </section>
+                </section>
+
+                <section class="admin-view" id="view-new-product" data-view-panel="new-product" aria-labelledby="newProductTitle" hidden>
+                    <div class="admin-page-heading">
+                        <div><span class="admin-eyebrow">Cadastro</span><h1 id="newProductTitle">Novo produto</h1><p>Preencha o essencial primeiro. Os campos avançados podem ser concluídos depois.</p></div>
+                        <div class="admin-heading-actions"><button class="admin-button admin-button-secondary" type="button" data-save-draft>Salvar rascunho</button><button class="admin-button admin-button-primary" type="submit" form="adminProductForm">Revisar produto</button></div>
+                    </div>
+
+                    <div class="admin-form-layout">
+                        <aside class="admin-form-steps" aria-label="Etapas do cadastro">
+                            <a href="#productIdentity" class="is-current"><span>01</span><strong>Identificação</strong></a>
+                            <a href="#productMedia"><span>02</span><strong>Imagens</strong></a>
+                            <a href="#productContent"><span>03</span><strong>Conteúdo</strong></a>
+                            <a href="#productSpecs"><span>04</span><strong>Ficha técnica</strong></a>
+                            <a href="#productPublication"><span>05</span><strong>Publicação</strong></a>
+                        </aside>
+
+                        <form class="admin-product-form" id="adminProductForm" novalidate>
+                            <div class="admin-form-message" id="adminFormMessage" role="status" hidden></div>
+
+                            <section class="admin-form-section" id="productIdentity" aria-labelledby="identityTitle">
+                                <div class="admin-form-section-head"><span>01</span><div><h2 id="identityTitle">Identificação do produto</h2><p>Informações usadas no catálogo e na página do equipamento.</p></div></div>
+                                <fieldset class="admin-segmented-field">
+                                    <legend>Tipo de produto</legend>
+                                    <div class="admin-segmented">
+                                        <label><input type="radio" name="productType" value="novo" checked><span>Equipamento novo</span></label>
+                                        <label><input type="radio" name="productType" value="usado"><span>Máquina usada</span></label>
+                                    </div>
+                                </fieldset>
+                                <div class="admin-form-grid admin-form-grid-2">
+                                    <label><span>Nome ou modelo <b>Obrigatório</b></span><input type="text" name="model" placeholder="Ex.: TR-700" required></label>
+                                    <label><span>Código interno / SKU</span><input type="text" name="sku" placeholder="Ex.: BM-TR700"></label>
+                                    <label><span>Categoria <b>Obrigatório</b></span><select name="category" required><option value="">Selecione</option><option>Trituradores</option><option>Moinhos</option><option>Esteiras transportadoras</option><option>Máquinas usadas</option></select><button class="admin-inline-action" type="button">+ Criar categoria</button></label>
+                                    <label><span>Slug da página</span><span class="admin-input-prefix"><small>produto/</small><input type="text" name="slug" placeholder="tr-700"></span></label>
+                                </div>
+                                <div class="admin-used-fields" id="adminUsedFields" hidden>
+                                    <div class="admin-subsection-title"><strong>Dados da máquina usada</strong><span>Exibidos somente para produtos usados.</span></div>
+                                    <div class="admin-form-grid admin-form-grid-3">
+                                        <label><span>Condição</span><select name="condition"><option>Revisado e testado</option><option>Em avaliação</option><option>Vendido no estado</option></select></label>
+                                        <label><span>Localização</span><input type="text" name="location" value="Contenda - PR"></label>
+                                        <label><span>Garantia</span><input type="text" name="usedWarranty" placeholder="Ex.: 90 dias ou sob consulta"></label>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="admin-form-section" id="productMedia" aria-labelledby="mediaTitle">
+                                <div class="admin-form-section-head"><span>02</span><div><h2 id="mediaTitle">Imagens do produto</h2><p>A imagem principal será a capa do produto e poderá aparecer nos destaques do site.</p></div></div>
+                                <div class="admin-media-grid">
+                                    <label class="admin-upload admin-upload-main" for="adminMainImage">
+                                        <input id="adminMainImage" type="file" accept="image/png,image/jpeg,image/webp">
+                                        <img id="adminMainPreview" src="assets/main/tr-700.png" alt="Prévia da imagem principal">
+                                        <span><strong>Imagem principal</strong><small>PNG, JPG ou WebP. Preferência por fundo limpo.</small><b>Selecionar imagem</b></span>
+                                    </label>
+                                    <label class="admin-upload admin-upload-gallery" for="adminGalleryImages">
+                                        <input id="adminGalleryImages" type="file" accept="image/png,image/jpeg,image/webp" multiple>
+                                        <span class="admin-upload-plus" aria-hidden="true">+</span>
+                                        <span><strong>Galeria do equipamento</strong><small id="adminGalleryStatus">Adicione de 3 a 8 imagens</small></span>
+                                    </label>
+                                </div>
+                            </section>
+
+                            <section class="admin-form-section" id="productContent" aria-labelledby="contentTitle">
+                                <div class="admin-form-section-head"><span>03</span><div><h2 id="contentTitle">Conteúdo comercial</h2><p>Texto objetivo para ajudar o cliente a entender aplicação e diferencial.</p></div></div>
+                                <div class="admin-form-grid">
+                                    <label><span>Resumo curto <b>Obrigatório</b></span><input type="text" name="summary" maxlength="120" placeholder="Frase exibida nos cards e no início da página" required><small>Até 120 caracteres.</small></label>
+                                    <label><span>Descrição completa</span><textarea name="description" rows="5" placeholder="Apresente o equipamento, sua aplicação e os principais ganhos para a operação."></textarea></label>
+                                </div>
+                                <div class="admin-form-grid admin-form-grid-2">
+                                    <label><span>Aplicações</span><textarea name="applications" rows="4" placeholder="Uma aplicação por linha"></textarea></label>
+                                    <label><span>Materiais processados</span><textarea name="materials" rows="4" placeholder="Um material por linha"></textarea></label>
+                                </div>
+                            </section>
+
+                            <section class="admin-form-section" id="productSpecs" aria-labelledby="specsTitle">
+                                <div class="admin-form-section-head"><span>04</span><div><h2 id="specsTitle">Ficha técnica</h2><p>Use pares de informação para manter a tabela técnica organizada.</p></div></div>
+                                <div class="admin-spec-list" id="adminSpecList">
+                                    <div class="admin-spec-row"><input type="text" aria-label="Nome da especificação" placeholder="Ex.: Potência instalada"><input type="text" aria-label="Valor da especificação" placeholder="Ex.: 2 x 30 CV"><button type="button" data-remove-spec aria-label="Remover especificação">×</button></div>
+                                    <div class="admin-spec-row"><input type="text" aria-label="Nome da especificação" placeholder="Ex.: Produção aproximada"><input type="text" aria-label="Valor da especificação" placeholder="Ex.: 1 a 3 t/h"><button type="button" data-remove-spec aria-label="Remover especificação">×</button></div>
+                                </div>
+                                <button class="admin-button admin-button-secondary" id="adminAddSpec" type="button">+ Adicionar especificação</button>
+                            </section>
+
+                            <section class="admin-form-section" id="productPublication" aria-labelledby="publicationTitle">
+                                <div class="admin-form-section-head"><span>05</span><div><h2 id="publicationTitle">Publicação e comercial</h2><p>Defina a disponibilidade e o que será apresentado ao cliente.</p></div></div>
+                                <div class="admin-form-grid admin-form-grid-2">
+                                    <label><span>Status inicial</span><select name="status"><option value="draft">Salvar como rascunho</option><option value="review">Enviar para revisão</option><option value="published">Publicar imediatamente</option></select></label>
+                                    <label><span>Disponibilidade</span><select name="availability"><option>Sob consulta</option><option>Disponível</option><option>Em fabricação</option><option>Vendido / indisponível</option></select></label>
+                                    <label><span>Preço</span><select name="priceVisibility"><option>Consultar proposta</option><option>Exibir preço</option><option>Preço sob consulta</option></select></label>
+                                    <label><span>Produto em destaque</span><select name="featured"><option value="no">Não</option><option value="yes">Sim, usar nos destaques</option></select></label>
+                                </div>
+                                <div class="admin-publish-checks">
+                                    <label><input type="checkbox" checked><span><strong>Exibir no catálogo</strong><small>O item poderá ser encontrado nas listagens públicas quando publicado.</small></span></label>
+                                    <label><input type="checkbox"><span><strong>Marcar como prioridade comercial</strong><small>Facilita a identificação no painel e em futuras integrações.</small></span></label>
+                                </div>
+                            </section>
+
+                            <div class="admin-form-footer">
+                                <span>As alterações ainda não serão persistidas.</span>
+                                <div><button class="admin-button admin-button-secondary" type="button" data-save-draft>Salvar rascunho</button><button class="admin-button admin-button-primary" type="submit">Revisar produto</button></div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/admin.js" defer></script>
+</body>
+
+</html>
