@@ -18,16 +18,13 @@
 
     <script type="application/ld+json" id="produtoUsadoJsonLd">{}</script>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Teko:wght@400;500;600;700&display=swap');
-    </style>
-
     <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/maquina-usada.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/style.css?v=20260717c">
+    <link rel="stylesheet" href="css/maquina-usada.css?v=20260717c">
+    <link rel="stylesheet" href="css/external-media.css?v=20260717c">
+    <link rel="stylesheet" href="css/header.css?v=20260717c">
+    <link rel="stylesheet" href="css/footer.css?v=20260717c">
+    <link rel="stylesheet" href="css/layout.css?v=20260717c">
 </head>
 
 <body>
@@ -51,7 +48,7 @@
                         <div class="product-dropdown-grid home-mega-grid">
                             <section class="home-mega-column" aria-labelledby="mega-trituradores">
                                 <a class="home-mega-media" href="equipamentos.html#trituradores" aria-label="Ver trituradores">
-                                    <img src="assets/main/tr-700.png" alt="Triturador industrial TR-700 Brutusmaq">
+                                    <img src="assets/main/tr-700.webp" alt="Triturador industrial TR-700 Brutusmaq">
                                 </a>
                                 <div>
                                     <h2 id="mega-trituradores">Trituradores</h2>
@@ -63,7 +60,7 @@
 
                             <section class="home-mega-column" aria-labelledby="mega-moinhos">
                                 <a class="home-mega-media" href="equipamentos.html#moinhos" aria-label="Ver moinhos">
-                                    <img src="assets/main/tr-700.png" alt="Moinho industrial M-600 Brutusmaq">
+                                    <img src="assets/main/tr-700.webp" alt="Moinho industrial M-600 Brutusmaq">
                                 </a>
                                 <div>
                                     <h2 id="mega-moinhos">Moinhos</h2>
@@ -73,7 +70,7 @@
 
                             <section class="home-mega-column home-mega-highlight" aria-labelledby="mega-usados">
                                 <a class="home-mega-media" href="usadas.html" aria-label="Ver equipamentos usados">
-                                    <img src="assets/main/tr-800-disp-mobile.png" alt="">
+                                    <img src="assets/main/tr-800-disp-mobile.webp" alt="">
                                 </a>
                                 <div>
                                     <h2 id="mega-usados">Equipamentos usados</h2>
@@ -151,7 +148,7 @@
                 </div>
 
                 <div class="produto-usado-hero-machine">
-                    <img id="produtoImagemPrincipal" data-fallback-src="assets/main/tr-700.png" alt="" fetchpriority="high" decoding="async">
+                    <img id="produtoImagemPrincipal" data-fallback-src="assets/main/tr-700.webp" alt="" fetchpriority="high" decoding="async">
                     <div class="produto-usado-image-caption">
                         <span>Condição atual</span>
                         <strong id="produtoBadgeCondicao">Consulte a avaliação técnica</strong>
@@ -211,9 +208,15 @@
                     <p>Consulte os vídeos disponíveis ou solicite um teste com o material que você pretende processar.</p>
 
                     <div class="produto-youtube-player">
+                        <div class="external-media-gate" id="produtoYoutubeGate" hidden>
+                            <div>
+                                <strong>Vídeo externo</strong>
+                                <p>Ao reproduzir, o YouTube receberá dados técnicos da conexão, conforme a política do serviço.</p>
+                                <button type="button" data-load-external-media="produtoYoutubeFrame">Reproduzir vídeo</button>
+                            </div>
+                        </div>
                         <iframe
                             id="produtoYoutubeFrame"
-                            src="https://www.youtube.com/embed?listType=search&list=Brutusmaq%20TR-1000%20triturador"
                             title="Vídeo do equipamento usado em funcionamento"
                             loading="lazy"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -383,9 +386,13 @@
         </div>
     </footer>
 
-    <script src="js/catalogo-produtos.js"></script>
-    <script src="js/header.js"></script>
-    <script src="js/maquina-usada.js"></script>
+    <script src="js/catalogo-produtos.js?v=20260717c"></script>
+    <script src="js/catalogo-store.js?v=20260717c"></script>
+    <script src="js/header.js?v=20260717c"></script>
+    <script src="js/privacy-consent.js?v=20260717d"></script>
+    <script src="js/analytics-store.js?v=20260717d"></script>
+    <script src="js/external-media.js?v=20260717c"></script>
+    <script src="js/maquina-usada.js?v=20260717c"></script>
 </body>
 
 </html>

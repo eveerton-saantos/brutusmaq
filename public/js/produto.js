@@ -116,7 +116,7 @@ function carregarProdutoNovo() {
     const id = slugDoProduto(produto);
     const modelo = produto.modelo || "Produto";
     const linha = produto.linha || produto.categoria || "Equipamentos";
-    const imagem = produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.png";
+    const imagem = produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.webp";
 
     atualizarSeo(produto, id, imagem);
 
@@ -338,17 +338,17 @@ function atualizarConteudoTecnico(produto) {
 function iconeAplicacao(nome) {
     const chave = normalizarTexto(nome);
     const icones = [
-        ["plast", "assets/selecao-materiais/Plastico.svg"],
-        ["madeira", "assets/selecao-materiais/Madeira.svg"],
-        ["papel", "assets/selecao-materiais/Papel e Papelao.svg"],
-        ["pneu", "assets/selecao-materiais/Pneus.svg"],
-        ["borracha", "assets/selecao-materiais/Pneus.svg"],
-        ["residuo", "assets/selecao-materiais/Residuos Industriais.svg"],
-        ["sucata", "assets/selecao-materiais/Sucata.svg"],
-        ["aluminio", "assets/selecao-materiais/Aluminio.svg"]
+        ["plast", "assets/selecao-materiais/Plastico.webp"],
+        ["madeira", "assets/selecao-materiais/Madeira.webp"],
+        ["papel", "assets/selecao-materiais/Papel e Papelao.webp"],
+        ["pneu", "assets/selecao-materiais/Pneus.webp"],
+        ["borracha", "assets/selecao-materiais/Pneus.webp"],
+        ["residuo", "assets/selecao-materiais/Residuos Industriais.webp"],
+        ["sucata", "assets/selecao-materiais/Sucata.webp"],
+        ["aluminio", "assets/selecao-materiais/Aluminio.webp"]
     ];
     const correspondencia = icones.find(([termo]) => chave.includes(termo));
-    return correspondencia?.[1] || "assets/selecao-materiais/Outros.svg";
+    return correspondencia?.[1] || "assets/selecao-materiais/Outros.webp";
 }
 
 function normalizarAplicacoes(produto) {
@@ -378,7 +378,7 @@ function atualizarAplicacoes(produto) {
     if (grid) {
         grid.innerHTML = (aplicacoes.length ? aplicacoes : [{
             nome: "Aplicacao sob avaliacao tecnica",
-            icone: "assets/selecao-materiais/Outros.svg"
+            icone: "assets/selecao-materiais/Outros.webp"
         }]).map((item) => `
             <div>
                 <img src="${escapeHtml(item.icone)}" alt="">
@@ -411,36 +411,57 @@ function atualizarDestaques(produto) {
         .join("");
 }
 
+function normalizarYoutubePrivado(value) {
+    try {
+        const url = new URL(String(value || ""), window.location.origin);
+        const hosts = new Set(["youtube.com", "www.youtube.com", "www.youtube-nocookie.com"]);
+        if (!hosts.has(url.hostname) || (url.pathname !== "/embed" && !url.pathname.startsWith("/embed/"))) return "";
+        url.protocol = "https:";
+        url.hostname = "www.youtube-nocookie.com";
+        url.port = "";
+        return url.href;
+    } catch (error) {
+        return "";
+    }
+}
+
+function prepararYoutubeExterno(iframe, source, title) {
+    const url = normalizarYoutubePrivado(source);
+    if (!url) return false;
+    iframe.removeAttribute("src");
+    iframe.removeAttribute("srcdoc");
+    iframe.dataset.externalSrc = url;
+    iframe.hidden = true;
+    iframe.title = title;
+    const gate = document.getElementById("produtoYoutubeGate");
+    if (gate) gate.hidden = false;
+    return true;
+}
+
 function atualizarYoutube(produto) {
     const iframe = document.getElementById("produtoYoutubeFrame");
     if (!iframe) {
         return;
     }
 
-    if (produto.youtubeEmbed) {
-        iframe.removeAttribute("srcdoc");
-        iframe.src = produto.youtubeEmbed;
-        iframe.title = `Video do ${produto.modelo || "equipamento"} em funcionamento`;
-        return;
-    }
-
-    if (produto.youtubeId) {
-        iframe.removeAttribute("srcdoc");
-        iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(produto.youtubeId)}`;
-        iframe.title = `Video do ${produto.modelo || "equipamento"} em funcionamento`;
+    const source = produto.youtubeEmbed || (produto.youtubeId
+        ? `https://www.youtube-nocookie.com/embed/${encodeURIComponent(produto.youtubeId)}`
+        : "");
+    if (prepararYoutubeExterno(iframe, source, `Video do ${produto.modelo || "equipamento"} em funcionamento`)) {
         return;
     }
 
     iframe.removeAttribute("src");
+    delete iframe.dataset.externalSrc;
+    iframe.hidden = false;
+    const gate = document.getElementById("produtoYoutubeGate");
+    if (gate) gate.hidden = true;
     iframe.title = `Video do ${produto.modelo || "equipamento"} sob solicitacao`;
     iframe.srcdoc = `
         <!doctype html>
         <html lang="pt-br">
-            <head><meta charset="utf-8"><style>
-                *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#101111;color:#fff;font:500 15px Arial,sans-serif;text-align:center;padding:28px}
-                span{display:block;color:#ff6200;font-size:34px;line-height:1;margin-bottom:14px}strong{display:block;font-size:18px;margin-bottom:8px}small{color:rgba(255,255,255,.68);line-height:1.5}
-            </style></head>
-            <body><div><span aria-hidden="true">&#9654;</span><strong>Video sob solicitacao</strong><small>Peca uma demonstracao deste equipamento para a equipe Brutusmaq.</small></div></body>
+            <head><meta charset="utf-8"><link rel="stylesheet" href="/css/video-placeholder.css"></head>
+            <body><div class="video-placeholder"><span class="video-placeholder-icon" aria-hidden="true">&#9654;</span><strong>Video sob solicitacao</strong><small>Peca uma demonstracao deste equipamento para a equipe Brutusmaq.</small></div></body>
         </html>`;
 }
 
@@ -540,7 +561,7 @@ function atualizarProdutosRelacionados(produtoAtual, idAtual) {
         linha: normalizarTexto(produto.linha || produto.categoria || ""),
         modelo: produto.modelo || "Produto",
         categoria: produto.categoria || produto.linha || "Equipamento novo",
-        imagem: produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.png",
+        imagem: produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.webp",
         alt: produto.alt || produto.modelo || "Equipamento Brutusmaq",
         url: `produto.html?produto=${encodeURIComponent(slugDoProduto(produto))}`,
         cta: produto.cta || "Ver detalhes",
@@ -554,7 +575,7 @@ function atualizarProdutosRelacionados(produtoAtual, idAtual) {
         linha: normalizarTexto(produto.linha || produto.categoria || ""),
         modelo: produto.modelo || "Maquina usada",
         categoria: produto.categoria || "Equipamento usado",
-        imagem: produto.imagem || "assets/main/tr-700.png",
+        imagem: produto.imagem || "assets/main/tr-700.webp",
         alt: produto.alt || produto.modelo || "Equipamento usado Brutusmaq",
         url: produto.url || `maquina-usada.html?id=${encodeURIComponent(produto.id || slugDoProduto(produto))}`,
         cta: produto.cta || "Ver detalhes",
@@ -605,7 +626,7 @@ function configurarGaleria() {
             }
 
             imagem.dataset.fallbackAplicado = "true";
-            imagem.src = "assets/main/tr-700.png";
+            imagem.src = "assets/main/tr-700.webp";
             imagem.alt = "Imagem provisoria de equipamento Brutusmaq";
         });
     });
@@ -772,7 +793,8 @@ function configurarModal() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    await Promise.resolve(window.BrutusmaqCatalogReady);
     carregarProdutoNovo();
     configurarGaleria();
     configurarModal();

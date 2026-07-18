@@ -14,18 +14,20 @@
     <meta property="og:site_name" content="Brutusmaq">
     <meta property="og:title" content="Artigo | Blog Brutusmaq">
     <meta property="og:description" content="Conteúdo técnico Brutusmaq para operações industriais mais eficientes e sustentáveis.">
+    <meta property="og:url" content="https://www.brutusmaq.com.br/artigo-blog.html">
     <meta property="og:image" content="https://www.brutusmaq.com.br/assets/main/tr-700.png">
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Teko:wght@400;500;600;700&display=swap');
-    </style>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Artigo | Blog Brutusmaq">
+    <meta name="twitter:description" content="Conteúdo técnico Brutusmaq para operações industriais mais eficientes e sustentáveis.">
+    <meta name="twitter:image" content="https://www.brutusmaq.com.br/assets/main/tr-700.png">
 
     <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/blog-article.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/style.css?v=20260717c">
+    <link rel="stylesheet" href="css/blog-article.css?v=20260717c">
+    <link rel="stylesheet" href="css/header.css?v=20260717c">
+    <link rel="stylesheet" href="css/footer.css?v=20260717c">
+    <link rel="stylesheet" href="css/layout.css?v=20260717c">
 </head>
 
 <body>
@@ -49,7 +51,7 @@
                         <div class="product-dropdown-grid home-mega-grid">
                             <section class="home-mega-column" aria-labelledby="mega-trituradores">
                                 <a class="home-mega-media" href="equipamentos.html#trituradores" aria-label="Ver trituradores">
-                                    <img src="assets/main/tr-700.png" alt="Triturador industrial TR-700 Brutusmaq">
+                                    <img src="assets/main/tr-700.webp" alt="Triturador industrial TR-700 Brutusmaq">
                                 </a>
                                 <div>
                                     <h2 id="mega-trituradores">Trituradores</h2>
@@ -61,7 +63,7 @@
 
                             <section class="home-mega-column" aria-labelledby="mega-moinhos">
                                 <a class="home-mega-media" href="equipamentos.html#moinhos" aria-label="Ver moinhos">
-                                    <img src="assets/main/tr-700.png" alt="Moinho industrial M-600 Brutusmaq">
+                                    <img src="assets/main/tr-700.webp" alt="Moinho industrial M-600 Brutusmaq">
                                 </a>
                                 <div>
                                     <h2 id="mega-moinhos">Moinhos</h2>
@@ -71,7 +73,7 @@
 
                             <section class="home-mega-column home-mega-highlight" aria-labelledby="mega-usados">
                                 <a class="home-mega-media" href="usadas.html" aria-label="Ver equipamentos usados">
-                                    <img src="assets/main/tr-800-disp-mobile.png" alt="">
+                                    <img src="assets/main/tr-800-disp-mobile.webp" alt="">
                                 </a>
                                 <div>
                                     <h2 id="mega-usados">Equipamentos usados</h2>
@@ -97,85 +99,137 @@
         </div>
     </header>
 
+    <div class="article-reading-progress" aria-hidden="true">
+        <span id="article-reading-progress"></span>
+    </div>
+
     <main class="article-page" id="conteudo-principal">
-        <article>
+        <article itemscope itemtype="https://schema.org/Article">
             <section class="article-hero" aria-labelledby="article-title">
+                <figure class="article-hero-media blog-media-machine" id="article-hero-media">
+                    <img id="article-cover" src="assets/main/tr-700.webp" alt="Equipamento industrial Brutusmaq" itemprop="image">
+                </figure>
+
                 <div class="article-container article-hero-inner">
+                    <nav class="article-breadcrumb" aria-label="Navegação estrutural">
+                        <ol>
+                            <li><a href="index.html">Início</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><strong id="breadcrumb-current" aria-current="page">Artigo</strong></li>
+                        </ol>
+                    </nav>
+
                     <div class="article-hero-copy">
-                        <nav class="article-breadcrumb" aria-label="Breadcrumb">
-                            <a href="index.html">Início</a>
-                            <span aria-hidden="true">›</span>
-                            <a href="blog.html">Blog</a>
-                            <span aria-hidden="true">›</span>
-                            <strong id="breadcrumb-current" aria-current="page">Artigo</strong>
-                        </nav>
+                        <span class="article-eyebrow" id="article-category">Conteúdo técnico</span>
+                        <h1 id="article-title" itemprop="headline">Artigo técnico Brutusmaq</h1>
+                        <p id="article-excerpt" itemprop="description">Informação prática para apoiar decisões mais seguras na sua operação industrial.</p>
 
-                        <span class="article-category" id="article-category">Sustentabilidade</span>
-                        <h1 id="article-title">Economia circular: como a trituração industrial transforma resíduos em valor</h1>
-                        <p id="article-excerpt">Entenda como os processos de trituração e moagem contribuem para reduzir impactos ambientais e gerar novas oportunidades para indústrias e empresas.</p>
+                        <dl class="article-meta" aria-label="Informações do artigo">
+                            <div>
+                                <dt>Publicado em</dt>
+                                <dd id="article-date" itemprop="datePublished">Data do artigo</dd>
+                            </div>
+                            <div>
+                                <dt>Tempo de leitura</dt>
+                                <dd id="article-reading">Leitura</dd>
+                            </div>
+                            <div>
+                                <dt>Por</dt>
+                                <dd id="article-author" itemprop="author">Equipe Brutusmaq</dd>
+                            </div>
+                        </dl>
 
-                        <div class="article-meta" aria-label="Informações do artigo">
-                            <span id="article-date">24 de Maio de 2024</span>
-                            <span id="article-reading">6 min de leitura</span>
-                            <span id="article-author">Equipe Brutusmaq</span>
-                        </div>
+                        <a class="article-start-link" href="#article-content-start">Começar leitura <span aria-hidden="true">↓</span></a>
                     </div>
-
                 </div>
             </section>
 
-            <section class="article-body-section">
+            <section class="article-reading-section" id="article-content-start">
                 <div class="article-container article-layout">
-                    <div class="article-content">
-                        <div class="article-intro" id="article-intro"></div>
-                        <div class="article-sections" id="article-sections"></div>
-                        <p class="article-highlight" id="article-highlight" hidden></p>
+                    <div class="article-content" itemprop="articleBody">
+                        <div class="article-intro-block">
+                            <span class="article-section-label">Visão geral</span>
+                            <div class="article-intro" id="article-intro"></div>
+                        </div>
 
-                        <aside class="article-bottom-cta">
-                            <div aria-hidden="true">▤</div>
-                            <div>
-                                <h2>Quer transformar resíduos em oportunidades?</h2>
-                                <p>Fale com nossos especialistas e descubra o equipamento ideal para sua necessidade.</p>
-                            </div>
-                            <a href="contato.html#proposta-tecnica">Solicitar proposta técnica →</a>
-                        </aside>
+                        <div class="article-sections" id="article-sections"></div>
+                        <blockquote class="article-highlight" id="article-highlight" hidden></blockquote>
                     </div>
 
-                    <aside class="article-sidebar" aria-label="Informações complementares">
-                        <section class="article-sidebar-panel article-share">
-                            <h2>Compartilhe este artigo</h2>
-                            <div>
-                                <a href="https://wa.me/?text=Artigo%20Brutusmaq" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp"><img class="whatsapp-btn-icon" src="assets/icones-verdes/icone-whatsapp-verde.svg" alt="" aria-hidden="true"></a>
-                                <a href="https://www.linkedin.com/company/brutusmaq/" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
-                                <a href="https://www.instagram.com/brutusmaq/" target="_blank" rel="noopener" aria-label="Instagram">◎</a>
-                                <button type="button" id="copy-link" aria-label="Copiar link do artigo">⌁</button>
+                    <aside class="article-sidebar" aria-label="Recursos do artigo">
+                        <section class="article-sidebar-panel article-toc" aria-labelledby="article-toc-title">
+                            <span class="article-panel-label">Navegação</span>
+                            <h2 id="article-toc-title">Neste artigo</h2>
+                            <ol id="article-toc"></ol>
+                        </section>
+
+                        <section class="article-sidebar-panel article-share" aria-labelledby="article-share-title">
+                            <span class="article-panel-label">Compartilhar</span>
+                            <h2 id="article-share-title">Envie este conteúdo</h2>
+                            <div class="article-share-actions">
+                                <a id="share-whatsapp" href="https://wa.me/" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp" title="WhatsApp">
+                                    <img src="assets/icones-verdes/icone-whatsapp-verde.svg" alt="" aria-hidden="true">
+                                </a>
+                                <a id="share-linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="Compartilhar no LinkedIn" title="LinkedIn">in</a>
+                                <a id="share-email" href="mailto:" aria-label="Compartilhar por e-mail" title="E-mail">@</a>
+                                <button id="copy-link" type="button" aria-label="Copiar link do artigo" title="Copiar link">⧉</button>
+                                <button id="print-article" type="button" aria-label="Imprimir artigo" title="Imprimir">⌑</button>
                             </div>
-                        </section>
-
-                        <section class="article-sidebar-panel article-related" aria-labelledby="related-title">
-                            <h2 id="related-title">Artigos relacionados</h2>
-                            <div id="related-list"></div>
-                            <a class="article-outline-link" href="blog.html">Ver todos os artigos →</a>
-                        </section>
-
-                        <section class="article-newsletter" aria-labelledby="article-newsletter-title">
-                            <span aria-hidden="true">◇</span>
-                            <h2 id="article-newsletter-title">Fique por dentro das novidades e soluções industriais</h2>
-                            <p>Receba conteúdos exclusivos sobre equipamentos, aplicações, sustentabilidade e inovação.</p>
-                            <form action="contato.html#proposta-tecnica">
-                                <label for="article-email">Seu melhor e-mail</label>
-                                <input id="article-email" type="email" name="email" placeholder="Seu melhor e-mail">
-                                <button type="submit">Inscrever-se →</button>
-                            </form>
-                            <small>Você pode cancelar a qualquer momento.</small>
+                            <p class="article-share-feedback" id="article-share-feedback" role="status" hidden></p>
                         </section>
 
                         <section class="article-help">
-                            <h2>Precisa de ajuda?</h2>
-                            <p>Nossa equipe está pronta para entender sua necessidade.</p>
-                            <a href="https://wa.me/5541988754003" target="_blank" rel="noopener"><img class="whatsapp-btn-icon" src="assets/icones-verdes/icone-whatsapp-verde.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
+                            <span class="article-panel-label">Aplicação industrial</span>
+                            <h2>Precisa de orientação?</h2>
+                            <p>Converse com a equipe técnica para avaliar material, capacidade e configuração.</p>
+                            <a href="https://wa.me/5541988754003" target="_blank" rel="noopener">
+                                <img src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true"> Falar com especialista
+                            </a>
                         </section>
                     </aside>
+                </div>
+            </section>
+
+            <section class="article-navigation-section" aria-label="Navegação entre artigos">
+                <div class="article-container article-pagination">
+                    <a id="article-previous" href="blog.html" hidden>
+                        <small><span aria-hidden="true">←</span> Artigo anterior</small>
+                        <strong id="article-previous-title">Artigo anterior</strong>
+                    </a>
+                    <a id="article-next" href="blog.html" hidden>
+                        <small>Próximo artigo <span aria-hidden="true">→</span></small>
+                        <strong id="article-next-title">Próximo artigo</strong>
+                    </a>
+                </div>
+            </section>
+
+            <section class="article-related-section" aria-labelledby="related-title">
+                <div class="article-container">
+                    <div class="article-related-heading">
+                        <div>
+                            <span class="article-section-label">Continue explorando</span>
+                            <h2 id="related-title">Artigos relacionados</h2>
+                        </div>
+                        <a class="article-outline-link" href="blog.html">Ver todos <span aria-hidden="true">→</span></a>
+                    </div>
+                    <div class="article-related-list" id="related-list"></div>
+                </div>
+            </section>
+
+            <section class="article-final-cta" aria-labelledby="article-cta-title">
+                <div class="article-container article-final-cta-inner">
+                    <div>
+                        <span class="article-section-label">Da informação à operação</span>
+                        <h2 id="article-cta-title">Transforme o desafio da sua linha em uma solução sob medida</h2>
+                        <p>Compartilhe sua necessidade com a Brutusmaq e receba uma orientação técnica para escolher o equipamento certo.</p>
+                        <div class="article-cta-actions">
+                            <a class="article-btn article-btn-dark" href="contato.html?tipo=proposta-tecnica#proposta-tecnica">Solicitar proposta</a>
+                            <a class="article-btn article-btn-outline" href="equipamentos.html">Ver equipamentos</a>
+                        </div>
+                    </div>
+                    <figure aria-hidden="true">
+                        <img src="assets/main/tr-700.webp" alt="">
+                    </figure>
                 </div>
             </section>
         </article>
@@ -239,10 +293,15 @@
         </div>
     </footer>
 
-    <script src="js/catalogo-produtos.js"></script>
-    <script src="js/header.js"></script>
-    <script src="js/blog-data.js"></script>
-    <script src="js/blog-article.js"></script>
+    <script src="js/catalogo-produtos.js?v=20260717c"></script>
+    <script src="js/catalogo-store.js?v=20260717c"></script>
+    <script src="js/header.js?v=20260717c"></script>
+    <script src="js/blog-data.js?v=20260717c"></script>
+    <script src="js/blog-store.js?v=20260717c"></script>
+    <script src="js/privacy-consent.js?v=20260717d"></script>
+    <script src="js/analytics-store.js?v=20260717d"></script>
+    <script id="article-json-ld" type="application/ld+json">{}</script>
+    <script src="js/blog-article.js?v=20260717c"></script>
 </body>
 
 </html>

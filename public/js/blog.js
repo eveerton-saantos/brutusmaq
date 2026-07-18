@@ -1,4 +1,5 @@
-(function () {
+(async function () {
+    await Promise.resolve(window.BrutusmaqBlogReady);
     const articles = Array.isArray(window.BRUTUS_BLOG_ARTICLES) ? window.BRUTUS_BLOG_ARTICLES : [];
     const grid = document.getElementById("blog-article-grid");
     const emptyState = document.getElementById("blog-empty-state");
@@ -65,7 +66,7 @@
                 <a href="${articleUrl(article)}" aria-label="Ler artigo ${escapeHtml(article.title)}">
                     <figure class="blog-card-media ${escapeHtml(article.cardClass || "blog-media-machine")}">
                         <span>${escapeHtml(article.category || "Artigo")}</span>
-                        <img src="${escapeHtml(article.image || "assets/main/tr-700.png")}" alt="${escapeHtml(article.imageAlt || "")}">
+                        <img src="${escapeHtml(article.image || "assets/main/tr-700.webp")}" alt="${escapeHtml(article.imageAlt || "")}">
                     </figure>
                     <div class="blog-card-body">
                         <div class="blog-card-meta">

@@ -176,6 +176,7 @@ if (headerList) {
 }
 
 renderEquipmentMegaMenu();
+window.addEventListener('brutusmaq:catalog-changed', renderEquipmentMegaMenu);
 
 const dropdownItems = document.querySelectorAll('.nav-item-with-dropdown');
 

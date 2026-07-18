@@ -65,7 +65,7 @@ function atualizarInformacoesComerciais(produto) {
 function atualizarSeoProduto(produto, breadcrumb) {
     const descricao = `${breadcrumb} - ${produto.descricao || "Consulte condição e informações técnicas."}`;
     const url = `https://www.brutusmaq.com.br/maquina-usada.html?id=${encodeURIComponent(produto.id)}`;
-    const imagem = new URL(produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.png", "https://www.brutusmaq.com.br/").href;
+    const imagem = new URL(produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.webp", "https://www.brutusmaq.com.br/").href;
     const disponibilidade = {
         vendido: "https://schema.org/SoldOut",
         vendida: "https://schema.org/SoldOut",
@@ -132,7 +132,7 @@ function carregarProdutoUsado() {
 
         const imagemVazia = document.getElementById("produtoImagemPrincipal");
         if (imagemVazia) {
-            imagemVazia.src = imagemVazia.dataset.fallbackSrc || "assets/main/tr-700.png";
+            imagemVazia.src = imagemVazia.dataset.fallbackSrc || "assets/main/tr-700.webp";
             imagemVazia.alt = "Equipamento usado Brutusmaq";
         }
 
@@ -177,7 +177,7 @@ function carregarProdutoUsado() {
     atualizarTexto("produtoGuaranteeNote", `Garantia: ${produto.garantia || "condições sob consulta"}.`);
 
     if (imagemPrincipal) {
-        const fallback = imagemPrincipal.dataset.fallbackSrc || "assets/main/tr-700.png";
+        const fallback = imagemPrincipal.dataset.fallbackSrc || "assets/main/tr-700.webp";
         imagemPrincipal.addEventListener("error", () => {
             if (!imagemPrincipal.src.endsWith(fallback)) {
                 imagemPrincipal.src = fallback;
@@ -214,7 +214,7 @@ function carregarProdutoUsado() {
 }
 
 function atualizarGaleria(produto) {
-    const imagemPadrao = produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.png";
+    const imagemPadrao = produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.webp";
     const imagens = (produto.galeria?.length ? produto.galeria : [{ src: imagemPadrao, alt: produto.alt }])
         .map((item, indice) => ({
             src: typeof item === "string" ? item : item.src,
@@ -264,28 +264,45 @@ function atualizarEspecificacoes(produto) {
         .join("");
 }
 
+function prepararYoutubePrivado(iframe, videoId, title) {
+    const id = String(videoId || "").trim();
+    if (!/^[a-zA-Z0-9_-]{6,30}$/.test(id)) return false;
+    iframe.removeAttribute("src");
+    iframe.removeAttribute("srcdoc");
+    iframe.dataset.externalSrc = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}`;
+    iframe.hidden = true;
+    iframe.title = title;
+    const gate = document.getElementById("produtoYoutubeGate");
+    if (gate) gate.hidden = false;
+    return true;
+}
+
 function atualizarYoutube(produto) {
     const iframe = document.getElementById("produtoYoutubeFrame");
     if (!iframe) {
         return;
     }
 
-    if (produto.youtubeId) {
-        iframe.removeAttribute("srcdoc");
-        iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(produto.youtubeId)}`;
-        iframe.title = `Video do ${produto.modelo || "equipamento"} em funcionamento`;
+    if (prepararYoutubePrivado(
+        iframe,
+        produto.youtubeId,
+        `Video do ${produto.modelo || "equipamento"} em funcionamento`
+    )) {
         return;
     }
 
     iframe.removeAttribute("src");
+    delete iframe.dataset.externalSrc;
+    iframe.hidden = false;
+    const gate = document.getElementById("produtoYoutubeGate");
+    if (gate) gate.hidden = true;
     iframe.title = `Vídeo do ${produto.modelo || "equipamento"} disponível sob solicitação`;
     iframe.srcdoc = `
-        <style>
-            body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; box-sizing: border-box; color: #f4f4f1; background: #111212; font-family: Arial, sans-serif; text-align: center; }
-            strong { display: block; margin-bottom: 8px; color: #ff6200; font-size: 20px; text-transform: uppercase; }
-            span { max-width: 420px; color: #c7c9c6; font-size: 14px; line-height: 1.5; }
-        </style>
-        <div><strong>Vídeo sob solicitação</strong><span>Peça um vídeo atualizado ou um teste com o material da sua operação.</span></div>`;
+        <!doctype html>
+        <html lang="pt-br">
+            <head><meta charset="utf-8"><link rel="stylesheet" href="/css/video-placeholder.css"></head>
+            <body><div class="video-placeholder"><strong>Vídeo sob solicitação</strong><span>Peça um vídeo atualizado ou um teste com o material da sua operação.</span></div></body>
+        </html>`;
 }
 
 function configurarGaleria() {
@@ -351,7 +368,8 @@ function configurarModalVideo() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    await Promise.resolve(window.BrutusmaqCatalogReady);
     carregarProdutoUsado();
     configurarGaleria();
     configurarModalVideo();

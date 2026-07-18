@@ -1,3 +1,6 @@
+(async function () {
+await Promise.resolve(window.BrutusmaqCatalogReady);
+
 const contactForm = document.querySelector('.contact-form');
 const contactProductLabels = Object.fromEntries(
     [
@@ -40,6 +43,7 @@ if (contactForm) {
     const replyToInput = document.querySelector('#contactReplyTo');
     const formStatus = document.querySelector('#contactFormStatus');
     const productInput = document.querySelector('#contactProductInput');
+    const productSlugInput = document.querySelector('#contactProductSlugInput');
     const productCategoryInput = document.querySelector('#contactProductCategoryInput');
     const materialInput = document.querySelector('#contactMaterialInput');
     const productUrlInput = document.querySelector('#contactProductUrlInput');
@@ -300,6 +304,56 @@ if (contactForm) {
         }
     };
 
+    const pendingFormAnalyticsKey = 'brutusmaq:analytics:pending-form:v1';
+
+    const getFormAnalyticsContext = () => {
+        const analytics = window.BrutusmaqAnalytics;
+        const selected = contactForm.querySelector('input[name="motivo"]:checked');
+        const context = analytics && typeof analytics.getPageContext === 'function'
+            ? analytics.getPageContext()
+            : {};
+        return {
+            ...context,
+            channel: 'form',
+            formType: selected?.value || 'Contato geral',
+            source: sourceInput.value || 'contato.html'
+        };
+    };
+
+    const trackFormEvent = (type, storedContext) => {
+        const analytics = window.BrutusmaqAnalytics;
+        if (!analytics || typeof analytics.track !== 'function') return;
+        analytics.track(type, {
+            ...getFormAnalyticsContext(),
+            ...(storedContext || {})
+        });
+    };
+
+    const savePendingFormAnalyticsContext = () => {
+        try {
+            window.sessionStorage.setItem(pendingFormAnalyticsKey, JSON.stringify({
+                ...getFormAnalyticsContext(),
+                createdAt: Date.now()
+            }));
+        } catch (error) {
+            // O envio do formulário continua normalmente se o armazenamento estiver indisponível.
+        }
+    };
+
+    const consumePendingFormAnalyticsContext = () => {
+        try {
+            const stored = window.sessionStorage.getItem(pendingFormAnalyticsKey);
+            window.sessionStorage.removeItem(pendingFormAnalyticsKey);
+            if (!stored) return {};
+            const parsed = JSON.parse(stored);
+            if (!parsed.createdAt || Date.now() - parsed.createdAt > 3600000) return {};
+            delete parsed.createdAt;
+            return parsed;
+        } catch (error) {
+            return {};
+        }
+    };
+
     const selectInterestFromCategory = (category) => {
         const normalized = String(category || '').toLowerCase();
         const categoryNames = {
@@ -353,6 +407,7 @@ if (contactForm) {
 
             message.value = messageParts.join('\n');
             productInput.value = label;
+            if (productSlugInput) productSlugInput.value = productKey;
             productCategoryInput.value = categoriaParam;
             materialInput.value = materialParam;
             productUrlInput.value = paginaParam;
@@ -368,6 +423,7 @@ if (contactForm) {
         }
 
         if (params.get('enviado') === '1') {
+            trackFormEvent('form_submit_success', consumePendingFormAnalyticsContext());
             setFormStatus('success', 'Solicitação enviada com sucesso. Nossa equipe recebeu os dados e entrará em contato.');
             params.delete('enviado');
 
@@ -436,45 +492,58 @@ if (contactForm) {
         }
 
         replyToInput.value = emailInput.value.trim();
+        trackFormEvent('form_submit_attempt');
+        event.preventDefault();
 
         if (!window.fetch || !window.AbortController) {
-            setFormStatus('sending', 'Enviando sua solicitação...');
+            trackFormEvent('form_submit_failure');
+            showSubmissionFallback('Este navegador não conseguiu enviar o formulário diretamente. Escolha um canal abaixo para concluir.');
             return;
         }
-
-        event.preventDefault();
-        const controller = new AbortController();
-        const timeoutId = window.setTimeout(() => controller.abort(), 15000);
-        const endpoint = new URL(contactForm.action);
-        endpoint.pathname = `/ajax${endpoint.pathname}`;
 
         setSubmitState(true);
         setFormStatus('sending', 'Enviando sua solicitação com segurança...');
 
         try {
             const formData = Object.fromEntries(new FormData(contactForm).entries());
-            const response = await fetch(endpoint.href, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(formData),
-                signal: controller.signal
-            });
+            const postJson = async (url, timeoutMs) => {
+                const controller = new AbortController();
+                const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+                try {
+                    return await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        credentials: url.startsWith('/') ? 'same-origin' : 'omit',
+                        body: JSON.stringify(formData),
+                        signal: controller.signal
+                    });
+                } finally {
+                    window.clearTimeout(timeoutId);
+                }
+            };
 
-            if (!response.ok) {
-                throw new Error(`Falha no envio: ${response.status}`);
+            const apiResponse = await postJson('/api/leads', 9000);
+            if (!apiResponse.ok) {
+                const payload = await apiResponse.json().catch(() => ({}));
+                const apiError = new Error(payload.error?.message || 'Não foi possível registrar a solicitação agora.');
+                apiError.userFacing = apiResponse.status >= 400 && apiResponse.status < 500;
+                throw apiError;
             }
 
-            setFormStatus('success', 'Solicitação enviada com sucesso. Os dados do equipamento seguiram para nossa equipe e você permanecerá nesta página.');
+            setFormStatus('success', 'Solicitação registrada com sucesso. Nossa equipe recebeu os dados e entrará em contato.');
+            trackFormEvent('form_submit_success');
         } catch (error) {
-            const reason = error.name === 'AbortError'
+            trackFormEvent('form_submit_failure');
+            const reason = error.userFacing
+                ? error.message
+                : error.name === 'AbortError'
                 ? 'O serviço de e-mail demorou para confirmar o envio. Seus dados continuam preenchidos; escolha um canal abaixo para concluir sem repetir tudo.'
                 : 'Não foi possível confirmar o envio por e-mail agora. Seus dados continuam preenchidos; você pode concluir por outro canal.';
             showSubmissionFallback(reason);
         } finally {
-            window.clearTimeout(timeoutId);
             setSubmitState(false);
         }
     });
@@ -488,3 +557,4 @@ if (contactForm) {
     configureUrlContext();
     updateWhatsAppShortcut();
 }
+}());

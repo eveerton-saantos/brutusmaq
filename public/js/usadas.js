@@ -98,7 +98,7 @@ function criarCardMaquinaUsada(produto) {
     const id = produto.id || criarSlug(modelo, "equipamento-usado");
     const url = produto.url || `maquina-usada.html?id=${encodeURIComponent(id)}`;
     const statusClasse = produto.statusClasse || `status-${chaveStatus(produto)}`;
-    const imagem = produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.png";
+    const imagem = produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.webp";
 
     return `
         <a href="${escaparHtml(url)}" class="usadas-product-card" itemscope itemtype="https://schema.org/Product" aria-label="Ver detalhes de ${escaparHtml(modelo)}">
@@ -142,7 +142,7 @@ function atualizarDadosEstruturados() {
             itemListElement: maquinasUsadasCatalogo.map((produto, indice) => {
                 const id = produto.id || criarSlug(produto.modelo, "equipamento-usado");
                 const url = new URL(produto.url || `maquina-usada.html?id=${encodeURIComponent(id)}`, baseUrl).href;
-                const imagem = new URL(produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.png", baseUrl).href;
+                const imagem = new URL(produto.imagemPrincipal || produto.imagem || "assets/main/tr-700.webp", baseUrl).href;
 
                 return {
                     "@type": "ListItem",
@@ -334,5 +334,8 @@ function configurarCatalogoUsadas() {
     renderizar();
 }
 
-document.addEventListener("DOMContentLoaded", configurarCatalogoUsadas);
+document.addEventListener("DOMContentLoaded", async () => {
+    await Promise.resolve(window.BrutusmaqCatalogReady);
+    configurarCatalogoUsadas();
+});
 document.addEventListener("DOMContentLoaded", configurarRolagemParaEstoque);

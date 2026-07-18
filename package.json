@@ -1,0 +1,45 @@
+{
+  "name": "brutusmaq-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site institucional, painel administrativo e API da Brutusmaq.",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "build": "npm run db:migrate",
+    "db:migrate": "node scripts/migrate-database.js",
+    "db:seed": "node scripts/seed-database.js",
+    "db:setup": "npm run db:migrate && npm run db:seed",
+    "db:verify": "node scripts/verify-database.js",
+    "db:backup": "node scripts/backup-database.js",
+    "db:restore": "node scripts/restore-database.js",
+    "admin:create": "node scripts/create-admin.js",
+    "assets:optimize": "node scripts/optimize-images.js",
+    "assets:version": "node scripts/version-static-assets.js",
+    "check": "node scripts/check-project.js",
+    "test": "node --test tests/api.test.js"
+  },
+  "engines": {
+    "node": ">=20 <25"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "compression": "^1.8.1",
+    "cookie": "^1.0.2",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "multer": "^2.0.2",
+    "mysql2": "^3.14.3",
+    "nodemailer": "^9.0.3",
+    "otplib": "^13.4.1",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.34.3",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.4"
+  }
+}

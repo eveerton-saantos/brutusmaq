@@ -17,17 +17,14 @@
     <meta property="og:url" content="https://www.brutusmaq.com.br/contato.html">
     <meta property="og:image" content="https://www.brutusmaq.com.br/assets/main/tr-700.png">
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Teko:wght@400;500;600;700&display=swap');
-    </style>
-
     <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
-    <link rel="preload" as="image" href="assets/imagens-fundo/contato-brutusmaq-background.png" fetchpriority="high">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/contact-page.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/layout.css">
+    <link rel="preload" as="image" href="assets/imagens-fundo/contato-brutusmaq-background.webp" fetchpriority="high">
+    <link rel="stylesheet" href="css/style.css?v=20260717c">
+    <link rel="stylesheet" href="css/contact-page.css?v=20260717c">
+    <link rel="stylesheet" href="css/external-media.css?v=20260717c">
+    <link rel="stylesheet" href="css/header.css?v=20260717c">
+    <link rel="stylesheet" href="css/footer.css?v=20260717c">
+    <link rel="stylesheet" href="css/layout.css?v=20260717c">
 
     <script type="application/ld+json">
         {
@@ -91,7 +88,7 @@
                         <div class="product-dropdown-grid home-mega-grid">
                             <section class="home-mega-column" aria-labelledby="mega-trituradores">
                                 <a class="home-mega-media" href="equipamentos.html#trituradores" aria-label="Ver trituradores">
-                                    <img src="assets/main/tr-700.png" alt="Triturador industrial TR-700 Brutusmaq">
+                                    <img src="assets/main/tr-700.webp" alt="Triturador industrial TR-700 Brutusmaq">
                                 </a>
                                 <div>
                                     <h2 id="mega-trituradores">Trituradores</h2>
@@ -103,7 +100,7 @@
 
                             <section class="home-mega-column" aria-labelledby="mega-moinhos">
                                 <a class="home-mega-media" href="equipamentos.html#moinhos" aria-label="Ver moinhos">
-                                    <img src="assets/main/tr-700.png" alt="Moinho industrial M-600 Brutusmaq">
+                                    <img src="assets/main/tr-700.webp" alt="Moinho industrial M-600 Brutusmaq">
                                 </a>
                                 <div>
                                     <h2 id="mega-moinhos">Moinhos</h2>
@@ -113,7 +110,7 @@
 
                             <section class="home-mega-column home-mega-highlight" aria-labelledby="mega-usados">
                                 <a class="home-mega-media" href="usadas.html" aria-label="Ver equipamentos usados">
-                                    <img src="assets/main/tr-800-disp-mobile.png" alt="">
+                                    <img src="assets/main/tr-800-disp-mobile.webp" alt="">
                                 </a>
                                 <div>
                                     <h2 id="mega-usados">Equipamentos usados</h2>
@@ -211,7 +208,7 @@
                         <span class="contact-form-time" aria-label="Tempo estimado de preenchimento">~ 1 min</span>
                     </div>
 
-                    <form class="contact-form" action="https://formsubmit.co/contato@brutusmaq.com.br" method="post" data-ajax-submit>
+                    <form class="contact-form" action="/api/leads" method="post" data-ajax-submit>
                         <fieldset class="contact-reason">
                             <legend>Como podemos ajudar?</legend>
                             <label class="reason-option active">
@@ -322,14 +319,12 @@
 
                         <input type="hidden" name="contexto_do_atendimento" id="contactContextInput" value="Solicitar proposta técnica">
                         <input type="hidden" name="equipamento_solicitado" id="contactProductInput" value="">
+                        <input type="hidden" name="produto_slug" id="contactProductSlugInput" value="">
                         <input type="hidden" name="categoria_do_equipamento" id="contactProductCategoryInput" value="">
                         <input type="hidden" name="material_solicitado" id="contactMaterialInput" value="">
                         <input type="hidden" name="pagina_do_equipamento" id="contactProductUrlInput" value="">
                         <input type="hidden" name="origem_da_solicitacao" id="contactSourceInput" value="Página de contato">
-                        <input type="hidden" name="_subject" id="contactSubjectInput" value="Nova solicitação pelo site da Brutusmaq">
-                        <input type="hidden" name="_template" value="table">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_next" value="https://www.brutusmaq.com.br/contato.html?enviado=1#proposta-tecnica">
+                        <input type="hidden" name="contexto_do_atendimento" id="contactSubjectInput" value="Nova solicitação pelo site da Brutusmaq">
                         <input type="hidden" name="_url" value="https://www.brutusmaq.com.br/contato.html">
                         <input type="hidden" name="_replyto" id="contactReplyTo" value="">
 
@@ -430,12 +425,21 @@
                     </div>
                 </div>
                 <div class="contact-map-preview">
+                    <div class="external-media-gate">
+                        <div>
+                            <strong>Mapa sob sua escolha</strong>
+                            <p>Ao carregar, o Google Maps receberá dados técnicos da conexão, conforme a política do serviço.</p>
+                            <button type="button" data-load-external-media="contactMapEmbed">Carregar mapa</button>
+                        </div>
+                    </div>
                     <iframe
+                        id="contactMapEmbed"
                         class="contact-map-embed"
                         title="Mapa da Brutusmaq no Google Maps"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3592.511977460829!2d-49.41958432372246!3d-25.786678347101482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dd093ab1d9bf13%3A0x974a59082b442e0c!2sBRUTUSMAQ%20LTDA!5e0!3m2!1spt-BR!2sbr!4v1783872696240!5m2!1spt-BR!2sbr"
+                        data-external-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3592.511977460829!2d-49.41958432372246!3d-25.786678347101482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dd093ab1d9bf13%3A0x974a59082b442e0c!2sBRUTUSMAQ%20LTDA!5e0!3m2!1spt-BR!2sbr!4v1783872696240!5m2!1spt-BR!2sbr"
                         allowfullscreen=""
                         loading="lazy"
+                        hidden
                         referrerpolicy="strict-origin-when-cross-origin"></iframe>
                     <div class="contact-map-art" aria-hidden="true"><span>⌖</span></div>
                     <div class="contact-building-art">
@@ -519,9 +523,13 @@
         </div>
     </footer>
 
-    <script src="js/catalogo-produtos.js"></script>
-    <script src="js/header.js"></script>
-    <script src="js/contact-page.js"></script>
+    <script src="js/catalogo-produtos.js?v=20260717c"></script>
+    <script src="js/catalogo-store.js?v=20260717c"></script>
+    <script src="js/header.js?v=20260717c"></script>
+    <script src="js/privacy-consent.js?v=20260717d"></script>
+    <script src="js/analytics-store.js?v=20260717d"></script>
+    <script src="js/external-media.js?v=20260717c"></script>
+    <script src="js/contact-page.js?v=20260717c"></script>
 </body>
 
 </html>

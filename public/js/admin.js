@@ -1,11 +1,28 @@
 (function () {
     "use strict";
 
+    const store = window.BrutusmaqCatalogStore;
+    const api = window.BrutusmaqAdminApi;
     const viewLabels = {
+        performance: "Desempenho",
         dashboard: "Visão geral",
         products: "Produtos",
-        "new-product": "Novo produto"
+        leads: "Solicitações",
+        "new-product": "Novo produto",
+        articles: "Artigos",
+        "new-article": "Novo artigo",
+        reviews: "Caixa de análise",
+        team: "Equipe e acessos",
+        security: "Segurança"
     };
+    const statusMap = {
+        published: { filter: "publicado", label: "Publicado", className: "is-published" },
+        review: { filter: "revisao", label: "Em revisão", className: "is-review" },
+        draft: { filter: "rascunho", label: "Rascunho", className: "is-draft" }
+    };
+    const fallbackImage = "assets/main/tr-700.webp";
+    const maxMainImageBytes = 1000000;
+    const maxGalleryImageBytes = 300000;
 
     const sidebar = document.getElementById("adminSidebar");
     const sidebarBackdrop = document.querySelector("[data-close-sidebar]");
@@ -13,6 +30,178 @@
     const currentViewLabel = document.getElementById("adminCurrentView");
     const navButtons = Array.from(document.querySelectorAll("[data-admin-view]"));
     const viewPanels = Array.from(document.querySelectorAll("[data-view-panel]"));
+    const productSearch = document.getElementById("adminProductSearch");
+    const typeFilter = document.getElementById("adminTypeFilter");
+    const statusFilter = document.getElementById("adminStatusFilter");
+    const clearFiltersButton = document.getElementById("clearProductFilters");
+    const productRowsContainer = document.getElementById("adminProductRows");
+    const recentProductRows = document.getElementById("adminRecentProductRows");
+    const productCount = document.getElementById("adminProductCount");
+    const productEmpty = document.getElementById("adminProductEmpty");
+    const productForm = document.getElementById("adminProductForm");
+    const formMessage = document.getElementById("adminFormMessage");
+    const productTypeInputs = Array.from(document.querySelectorAll('input[name="productType"]'));
+    const usedFields = document.getElementById("adminUsedFields");
+    const mainImageInput = document.getElementById("adminMainImage");
+    const mainImagePreview = document.getElementById("adminMainPreview");
+    const galleryInput = document.getElementById("adminGalleryImages");
+    const galleryStatus = document.getElementById("adminGalleryStatus");
+    const specList = document.getElementById("adminSpecList");
+    const addSpecButton = document.getElementById("adminAddSpec");
+    const exportButton = document.getElementById("adminExportCatalog");
+    const importInput = document.getElementById("adminImportCatalog");
+    const resetButton = document.getElementById("adminResetCatalog");
+    const deleteDialog = document.getElementById("adminDeleteDialog");
+    const deleteDialogTitle = document.getElementById("adminDeleteTitle");
+    const deleteDialogDescription = document.getElementById("adminDeleteDescription");
+    const confirmDeleteButton = document.getElementById("adminConfirmDelete");
+    const toast = document.getElementById("adminToast");
+    const toastMessage = document.getElementById("adminToastMessage");
+    const toastAction = document.getElementById("adminToastAction");
+    const toastClose = document.getElementById("adminToastClose");
+
+    let catalog = { novos: [], usados: [] };
+    let adminProducts = [];
+    let productRows = [];
+    let currentView = "performance";
+    let editingUid = "";
+    let slugEdited = false;
+    let dirty = false;
+    let mainImageData = "";
+    let galleryData = [];
+    let pendingConfirmation = null;
+    let lastRemoved = null;
+    let toastTimer = 0;
+    let accessRole = "owner";
+
+    function isDatabaseRole(role) {
+        return api?.isDatabase?.() && accessRole === role;
+    }
+
+    function isOwner() {
+        return !api?.isDatabase?.() || accessRole === "owner";
+    }
+
+    function isEditor() {
+        return isDatabaseRole("editor");
+    }
+
+    function isViewer() {
+        return isDatabaseRole("viewer");
+    }
+
+    function applyProductAccess(detail) {
+        const user = detail?.user || api?.getUser?.();
+        accessRole = api?.isDatabase?.() ? (user?.role || "viewer") : "owner";
+        const owner = isOwner();
+        const editor = isEditor();
+        const viewer = isViewer();
+        const statusSelect = getField("status");
+        const publishOption = statusSelect?.querySelector('[value="published"]');
+
+        if (publishOption) {
+            publishOption.hidden = !owner;
+            publishOption.disabled = !owner;
+        }
+        if (editor && statusSelect) statusSelect.value = "review";
+        if (statusSelect) statusSelect.disabled = editor || viewer;
+
+        document.querySelectorAll("[data-product-submit]").forEach((button) => {
+            button.textContent = editor ? "Enviar para análise" : "Salvar produto";
+            button.hidden = viewer;
+        });
+        document.querySelectorAll("[data-save-draft]").forEach((button) => { button.hidden = viewer; });
+        document.querySelectorAll('[data-go-to="new-product"]').forEach((button) => { button.hidden = viewer; });
+        document.querySelectorAll('[data-admin-view="new-product"]').forEach((button) => { button.hidden = viewer; });
+        if (importInput?.closest("label")) importInput.closest("label").hidden = !owner;
+        if (resetButton) resetButton.hidden = !owner;
+        if (addSpecButton) addSpecButton.hidden = viewer;
+        document.querySelectorAll(".admin-inline-action").forEach((button) => { button.hidden = viewer; });
+        productForm?.querySelectorAll("input, select, textarea, button").forEach((control) => {
+            if (control.matches('[name="status"]')) return;
+            control.disabled = viewer;
+        });
+        if (api?.isDatabase?.() && accessRole !== "owner" && ["performance", "leads"].includes(currentView)) {
+            showView("dashboard", { instant: true });
+        }
+        renderAll();
+    }
+
+    function normalizeText(value) {
+        return String(value || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .trim();
+    }
+
+    function createSlug(value) {
+        return normalizeText(value)
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+    }
+
+    function escapeHtml(value) {
+        return String(value == null ? "" : value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function clone(value) {
+        return JSON.parse(JSON.stringify(value));
+    }
+
+    function formatDate(value) {
+        const date = new Date(value || "");
+        if (Number.isNaN(date.getTime())) return "Catálogo-base";
+        try {
+            return new Intl.DateTimeFormat("pt-BR", {
+                dateStyle: "short",
+                timeStyle: "short"
+            }).format(date);
+        } catch (error) {
+            return date.toLocaleString("pt-BR");
+        }
+    }
+
+    function getField(name) {
+        return productForm && productForm.querySelector(`[name="${name}"]`);
+    }
+
+    function getFieldValue(name) {
+        const field = getField(name);
+        return field ? field.value.trim() : "";
+    }
+
+    function setFieldValue(name, value) {
+        const field = getField(name);
+        if (field) field.value = value == null ? "" : value;
+    }
+
+    function setSelectValue(name, value) {
+        const select = getField(name);
+        if (!select) return;
+        const normalizedValue = String(value || "").trim();
+        if (normalizedValue && !Array.from(select.options).some((option) => option.value === normalizedValue)) {
+            select.add(new Option(normalizedValue, normalizedValue));
+        }
+        select.value = normalizedValue;
+    }
+
+    function getLines(value) {
+        return String(value || "")
+            .split(/\r?\n/)
+            .map((item) => item.trim())
+            .filter(Boolean);
+    }
+
+    function setText(id, value) {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value;
+    }
 
     function closeSidebar() {
         if (!sidebar || !sidebarBackdrop || !menuButton) return;
@@ -46,51 +235,232 @@
             else button.removeAttribute("aria-current");
         });
 
+        currentView = viewName;
         if (currentViewLabel) currentViewLabel.textContent = viewLabels[viewName] || "Painel";
         document.title = `${viewLabels[viewName] || "Painel"} | Brutusmaq`;
         closeSidebar();
 
         if (settings.scroll !== false) {
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            window.scrollTo({ top: 0, behavior: settings.instant ? "auto" : "smooth" });
         }
     }
 
-    navButtons.forEach((button) => {
-        button.addEventListener("click", () => showView(button.dataset.adminView));
-    });
-
-    document.querySelectorAll("[data-go-to]").forEach((button) => {
-        button.addEventListener("click", () => showView(button.dataset.goTo));
-    });
-
-    if (menuButton) {
-        menuButton.addEventListener("click", () => {
-            const isOpen = sidebar && sidebar.classList.contains("is-open");
-            if (isOpen) closeSidebar();
-            else openSidebar();
-        });
+    function confirmDiscardChanges() {
+        return !dirty || window.confirm("Existem alterações não salvas. Deseja descartá-las?");
     }
 
-    if (sidebarBackdrop) sidebarBackdrop.addEventListener("click", closeSidebar);
+    function navigateTo(viewName) {
+        const blogController = window.BrutusmaqAdminBlog;
+        const isBlogView = blogController
+            && typeof blogController.ownsView === "function"
+            && blogController.ownsView(viewName);
 
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") closeSidebar();
-    });
+        if (!isBlogView && blogController && typeof blogController.canLeave === "function"
+            && !blogController.canLeave(viewName)) {
+            return;
+        }
 
-    const productSearch = document.getElementById("adminProductSearch");
-    const typeFilter = document.getElementById("adminTypeFilter");
-    const statusFilter = document.getElementById("adminStatusFilter");
-    const clearFiltersButton = document.getElementById("clearProductFilters");
-    const productRows = Array.from(document.querySelectorAll("[data-product-row]"));
-    const productCount = document.getElementById("adminProductCount");
-    const productEmpty = document.getElementById("adminProductEmpty");
+        if (isBlogView) {
+            if (currentView === "new-product" && !confirmDiscardChanges()) return;
+            dirty = false;
+            blogController.navigate(viewName);
+            return;
+        }
 
-    function normalizeText(value) {
-        return String(value || "")
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase()
-            .trim();
+        if (viewName === "new-product") {
+            if (currentView !== "new-product" || editingUid || dirty) {
+                if (!confirmDiscardChanges()) return;
+                prepareNewProduct();
+            }
+            showView(viewName);
+            return;
+        }
+
+        if (currentView === "new-product" && !confirmDiscardChanges()) return;
+        dirty = false;
+        showView(viewName);
+    }
+
+    function showFormMessage(message, type) {
+        if (!formMessage) return;
+        formMessage.textContent = message;
+        formMessage.classList.toggle("is-error", type === "error");
+        formMessage.classList.toggle("is-success", type === "success");
+        formMessage.hidden = false;
+        formMessage.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function hideFormMessage() {
+        if (!formMessage) return;
+        formMessage.hidden = true;
+        formMessage.classList.remove("is-error", "is-success");
+    }
+
+    function showToast(message, actionLabel, action) {
+        if (!toast || !toastMessage || !toastAction) return;
+        window.clearTimeout(toastTimer);
+        toastMessage.textContent = message;
+        toast.hidden = false;
+        toastAction.hidden = !actionLabel || typeof action !== "function";
+        toastAction.textContent = actionLabel || "";
+        toastAction.onclick = typeof action === "function" ? action : null;
+        if (!actionLabel) {
+            toastTimer = window.setTimeout(() => {
+                toast.hidden = true;
+            }, 5500);
+        }
+    }
+
+    function closeToast() {
+        window.clearTimeout(toastTimer);
+        if (toast) toast.hidden = true;
+    }
+
+    function createAdminProduct(source, type) {
+        const isUsed = type === "usado";
+        const editorialMeta = api?.getEditorialMeta?.("product", source) || {};
+        const admin = { ...(source._admin || {}), ...editorialMeta };
+        const status = statusMap[admin.status] || statusMap.published;
+        const model = source.modelo || source.id;
+        const category = isUsed
+            ? source.categoria || "Máquinas usadas"
+            : source.linha || source.categoria || "Sem categoria";
+        const image = source.imagemPrincipal || source.imagem || fallbackImage;
+        const skuPrefix = isUsed ? "US" : "BM";
+
+        return {
+            uid: admin.uid,
+            id: source.id,
+            model: isUsed ? `${model} usado` : model,
+            rawModel: model,
+            sku: admin.sku || `${skuPrefix}-${String(source.id).toUpperCase()}`,
+            category,
+            type,
+            typeLabel: isUsed ? "Usado" : "Novo",
+            statusKey: admin.status || "published",
+            statusFilter: status.filter,
+            statusLabel: status.label,
+            statusClass: status.className,
+            image,
+            source,
+            editorialMeta,
+            submissionStatus: editorialMeta.submissionStatus || "",
+            reviewNote: editorialMeta.reviewNote || "",
+            visible: admin.visible !== false,
+            updatedAt: admin.updatedAt,
+            incomplete: !source.id || !model || !category || !image || !source.descricao || !Array.isArray(source.specs) || !source.specs.length
+        };
+    }
+
+    function refreshCatalog() {
+        catalog = store.getCatalog();
+        adminProducts = [
+            ...catalog.novos.map((product) => createAdminProduct(product, "novo")),
+            ...catalog.usados.map((product) => createAdminProduct(product, "usado"))
+        ];
+    }
+
+    function productCellMarkup(product, includeSku) {
+        const detailParts = includeSku ? [product.sku] : [product.category];
+        if (!product.visible) detailParts.push("Oculto no site");
+        return `<span class="admin-product-cell"><img src="${escapeHtml(product.image)}" alt=""><span><strong>${escapeHtml(product.model)}</strong><small>${escapeHtml(detailParts.join(" · "))}</small></span></span>`;
+    }
+
+    function renderProductRows() {
+        if (!productRowsContainer) return;
+
+        productRowsContainer.innerHTML = adminProducts.map((product) => {
+            const searchText = `${product.model} ${product.rawModel} ${product.category} ${product.id} ${product.sku}`;
+            const awaitingReview = isEditor() && product.submissionStatus === "pending";
+            const editAction = isViewer() || awaitingReview
+                ? ""
+                : `<button class="admin-row-action" type="button" data-edit-product="${escapeHtml(product.uid)}" aria-label="Editar ${escapeHtml(product.rawModel)}">Editar</button>`;
+            const cancelAction = isEditor() && product.editorialMeta?.submissionId
+                ? `<button class="admin-row-action is-danger" type="button" data-cancel-product-submission="${escapeHtml(product.editorialMeta.submissionId)}" data-submission-title="${escapeHtml(product.rawModel)}">${awaitingReview ? "Retirar envio" : "Descartar"}</button>`
+                : "";
+            const ownerAction = isOwner()
+                ? `<button class="admin-row-action is-danger" type="button" data-delete-product="${escapeHtml(product.uid)}" aria-label="Excluir ${escapeHtml(product.rawModel)}">Excluir</button>`
+                : "";
+            const actions = `${awaitingReview ? '<span class="admin-readonly-label">Aguardando análise</span>' : ""}${editAction}${cancelAction}${ownerAction}`
+                || `<span class="admin-readonly-label">Somente leitura</span>`;
+            const feedback = product.submissionStatus === "rejected" && product.reviewNote
+                ? `<small class="admin-review-feedback" title="${escapeHtml(product.reviewNote)}">Ajustes solicitados</small>`
+                : "";
+            return `<tr data-product-row data-search="${escapeHtml(searchText)}" data-type="${product.type}" data-status="${product.statusFilter}">
+                <td>${productCellMarkup(product, true)}</td>
+                <td>${escapeHtml(product.category)}</td>
+                <td>${product.typeLabel}</td>
+                <td><span class="admin-status ${product.statusClass}">${product.statusLabel}</span>${feedback}</td>
+                <td>${escapeHtml(formatDate(product.updatedAt))}</td>
+                <td><span class="admin-row-actions">${actions}</span></td>
+            </tr>`;
+        }).join("");
+
+        productRows = Array.from(productRowsContainer.querySelectorAll("[data-product-row]"));
+    }
+
+    function renderDashboard() {
+        const publishedCount = adminProducts.filter((product) => product.statusKey === "published" && product.visible).length;
+        const incompleteCount = adminProducts.filter((product) => product.incomplete).length;
+        const availableUsedCount = catalog.usados.filter((product) => (
+            product._admin.status === "published"
+            && product._admin.visible !== false
+            && normalizeText(product.statusSlug || product.status) === "disponivel"
+        )).length;
+
+        setText("adminNavProductCount", adminProducts.length);
+        setText("adminMetricTotal", adminProducts.length);
+        setText("adminMetricBreakdown", `${catalog.novos.length} novos e ${catalog.usados.length} usados`);
+        setText("adminMetricPublished", publishedCount);
+        setText("adminMetricIssues", incompleteCount);
+        setText("adminMetricAvailableUsed", availableUsedCount);
+
+        if (recentProductRows) {
+            const recentProducts = [...adminProducts]
+                .sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0))
+                .slice(0, 3);
+            recentProductRows.innerHTML = recentProducts.map((product) => `<tr>
+                <td>${productCellMarkup(product, false)}</td>
+                <td>${product.typeLabel}</td>
+                <td><span class="admin-status ${product.statusClass}">${product.statusLabel}</span></td>
+                <td>${escapeHtml(formatDate(product.updatedAt))}</td>
+            </tr>`).join("");
+        }
+
+        const diagnostics = document.getElementById("adminCatalogDiagnostics");
+        if (diagnostics) {
+            const demoCount = catalog.usados.filter((product) => normalizeText(product.id).includes("demo")).length;
+            const databaseMode = api?.isDatabase?.();
+            const backupMessage = databaseMode
+                ? "O catálogo está sincronizado com o banco central. Exporte um backup antes de alterações maiores."
+                : (store.hasCustomCatalog()
+                    ? "Há alterações locais salvas. Exporte um backup antes de limpar os dados do navegador."
+                    : "O catálogo-base está ativo e ainda não possui alterações locais.");
+            diagnostics.innerHTML = [
+                {
+                    label: "DADOS",
+                    className: "is-green",
+                    message: backupMessage,
+                    detail: databaseMode ? "API e MySQL" : "Armazenamento local"
+                },
+                {
+                    label: "QA",
+                    className: incompleteCount ? "is-orange" : "is-green",
+                    message: incompleteCount
+                        ? `<strong>${incompleteCount} produto(s)</strong> têm campos essenciais incompletos.`
+                        : "Todos os produtos têm os campos essenciais preenchidos.",
+                    detail: "Verificação automática"
+                },
+                {
+                    label: "AVISO",
+                    className: demoCount ? "" : "is-green",
+                    message: demoCount
+                        ? `<strong>${demoCount} máquina(s) usada(s)</strong> ainda estão identificadas como demonstração.`
+                        : "Não há máquinas de demonstração no catálogo de usados.",
+                    detail: "Antes da publicação"
+                }
+            ].map((item) => `<li><span class="admin-activity-time">${item.label}</span><span class="admin-activity-mark ${item.className}"></span><p>${item.message}</p><small>${item.detail}</small></li>`).join("");
+        }
     }
 
     function filterProducts() {
@@ -112,6 +482,508 @@
         if (productEmpty) productEmpty.hidden = visibleCount !== 0;
     }
 
+    function renderAll() {
+        refreshCatalog();
+        renderProductRows();
+        renderDashboard();
+        filterProducts();
+    }
+
+    function updateProductType() {
+        const checked = productTypeInputs.find((input) => input.checked);
+        const isUsed = checked && checked.value === "usado";
+        if (usedFields) usedFields.hidden = !isUsed;
+        const slugPrefix = document.querySelector(".admin-input-prefix small");
+        if (slugPrefix) slugPrefix.textContent = isUsed ? "maquina-usada/" : "produto/";
+    }
+
+    function updateFormHeading(title, description) {
+        const heading = document.getElementById("newProductTitle");
+        const paragraph = heading && heading.parentElement.querySelector("p");
+        if (heading) heading.textContent = title;
+        if (paragraph) paragraph.textContent = description;
+    }
+
+    function createSpecRow(name, value) {
+        const row = document.createElement("div");
+        row.className = "admin-spec-row";
+        row.innerHTML = [
+            '<input type="text" aria-label="Nome da especificação" placeholder="Ex.: Dimensões">',
+            '<input type="text" aria-label="Valor da especificação" placeholder="Ex.: 2.000 x 1.450 x 1.750 mm">',
+            '<button type="button" data-remove-spec aria-label="Remover especificação">×</button>'
+        ].join("");
+        const inputs = row.querySelectorAll("input");
+        inputs[0].value = name || "";
+        inputs[1].value = value || "";
+        return row;
+    }
+
+    function renderSpecRows(specs) {
+        if (!specList) return;
+        const rows = Array.isArray(specs) && specs.length ? specs : [["", ""], ["", ""]];
+        specList.innerHTML = "";
+        rows.forEach((spec) => specList.appendChild(createSpecRow(spec[0], spec[1])));
+    }
+
+    function collectSpecs() {
+        if (!specList) return [];
+        return Array.from(specList.querySelectorAll(".admin-spec-row")).map((row) => {
+            const inputs = row.querySelectorAll("input");
+            return [inputs[0].value.trim(), inputs[1].value.trim()];
+        }).filter((spec) => spec[0] && spec[1]);
+    }
+
+    function prepareNewProduct() {
+        if (!productForm) return;
+        productForm.reset();
+        editingUid = "";
+        slugEdited = false;
+        dirty = false;
+        mainImageData = "";
+        galleryData = [];
+        setSelectValue("status", isEditor() ? "review" : "draft");
+        const visibleInput = getField("catalogVisible");
+        if (visibleInput) visibleInput.checked = true;
+        setFieldValue("imagePath", "");
+        updateProductType();
+        updateFormHeading("Novo produto", "Preencha o essencial primeiro. Os campos avançados podem ser concluídos depois.");
+        hideFormMessage();
+        if (mainImagePreview) {
+            mainImagePreview.src = fallbackImage;
+            mainImagePreview.alt = "Prévia da imagem principal";
+        }
+        if (galleryStatus) galleryStatus.textContent = "Adicione de 3 a 8 imagens";
+        renderSpecRows([]);
+    }
+
+    function findAdminProduct(uid) {
+        return adminProducts.find((product) => product.uid === uid);
+    }
+
+    function editProduct(uid) {
+        if (isViewer()) return;
+        const product = findAdminProduct(uid);
+        if (!product || !productForm) return;
+        if (isEditor() && product.submissionStatus === "pending") {
+            showToast("Esta publicação está aguardando a análise do proprietário.");
+            return;
+        }
+        if (currentView === "new-product" && !confirmDiscardChanges()) return;
+
+        const source = product.source;
+        productForm.reset();
+        editingUid = product.uid;
+        slugEdited = true;
+        mainImageData = String(product.image).startsWith("data:image/") ? product.image : "";
+        galleryData = clone(source.galeria || []);
+
+        const typeInput = productTypeInputs.find((input) => input.value === product.type);
+        if (typeInput) typeInput.checked = true;
+        updateProductType();
+        setFieldValue("model", product.rawModel);
+        setFieldValue("sku", product.sku);
+        setSelectValue("category", product.category);
+        setFieldValue("slug", product.id);
+        setFieldValue("summary", (source.resumo || source.descricao || "").slice(0, 120));
+        setFieldValue("description", source.descricao);
+        setFieldValue("applications", product.type === "novo"
+            ? (source.aplicacoes || [source.aplicacao]).filter(Boolean).join("\n")
+            : (source.especificacoes || []).join("\n"));
+        setFieldValue("materials", (source.materiais || []).join("\n"));
+        setSelectValue("condition", source.condicao);
+        setFieldValue("location", source.localizacao);
+        setFieldValue("usedWarranty", source.garantia);
+        setSelectValue("status", isEditor() ? "review" : source._admin.status);
+        setSelectValue("availability", product.type === "usado" ? source.status : source.disponibilidade || "Sob consulta");
+        setSelectValue("priceVisibility", source.precoVisibilidade || "Consultar proposta");
+        setSelectValue("featured", source._admin.featured ? "yes" : "no");
+        const visibleInput = getField("catalogVisible");
+        const priorityInput = getField("priority");
+        if (visibleInput) visibleInput.checked = source._admin.visible !== false;
+        if (priorityInput) priorityInput.checked = source._admin.priority === true;
+        setFieldValue("imagePath", mainImageData ? "" : product.image);
+        renderSpecRows(source.specs);
+
+        if (mainImagePreview) {
+            mainImagePreview.src = product.image;
+            mainImagePreview.alt = `Prévia de ${product.rawModel}`;
+        }
+        if (galleryStatus) {
+            galleryStatus.textContent = galleryData.length
+                ? `${galleryData.length} imagem(ns) cadastrada(s)`
+                : "Nenhuma galeria cadastrada";
+        }
+
+        updateFormHeading(
+            `Editar ${product.rawModel}`,
+            api?.isDatabase?.()
+                ? "Revise os dados e salve para atualizar o catálogo publicado."
+                : "Revise os dados e salve para atualizar o catálogo deste navegador."
+        );
+        hideFormMessage();
+        dirty = false;
+        showView("new-product");
+        if (product.submissionStatus === "rejected" && product.reviewNote) {
+            showFormMessage(`Ajustes solicitados: ${product.reviewNote}`, "error");
+        }
+    }
+
+    function readFileAsDataUrl(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(String(reader.result || ""));
+            reader.onerror = () => reject(new Error(`Não foi possível ler ${file.name}.`));
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function validateImageFile(file, maxBytes) {
+        const validTypes = ["image/png", "image/jpeg", "image/webp"];
+        if (!validTypes.includes(file.type)) throw new Error(`${file.name} não está em PNG, JPG ou WebP.`);
+        if (file.size > maxBytes) {
+            const maxKb = Math.round(maxBytes / 1000);
+            throw new Error(`${file.name} ultrapassa o limite de ${maxKb} KB.`);
+        }
+    }
+
+    function buildProduct(statusOverride) {
+        const existing = editingUid ? findAdminProduct(editingUid) : null;
+        const previous = existing ? clone(existing.source) : {};
+        const editorialMeta = existing?.editorialMeta || api?.getEditorialMeta?.("product", previous) || {};
+        const typeInput = productTypeInputs.find((input) => input.checked);
+        const type = typeInput ? typeInput.value : "novo";
+        const model = getFieldValue("model");
+        const id = createSlug(getFieldValue("slug") || model);
+        const category = getFieldValue("category");
+        const summary = getFieldValue("summary");
+        const description = getFieldValue("description");
+        const applications = getLines(getFieldValue("applications"));
+        const materials = getLines(getFieldValue("materials"));
+        const specs = collectSpecs();
+        const imagePath = getFieldValue("imagePath");
+        const image = mainImageData || imagePath || previous.imagemPrincipal || previous.imagem || fallbackImage;
+        let status = statusOverride || getFieldValue("status") || "draft";
+        if (isViewer()) throw new Error("Sua conta possui acesso somente para leitura.");
+        if (isEditor() && status !== "draft") status = "review";
+        const visibleInput = getField("catalogVisible");
+        const priorityInput = getField("priority");
+
+        if (!model || !category || !summary || !id) {
+            throw new Error("Preencha modelo, categoria, resumo e slug antes de salvar.");
+        }
+        if (status !== "draft" && (!description || !specs.length)) {
+            const action = status === "review" ? "enviar à análise" : "publicar";
+            throw new Error(`Para ${action}, preencha a descrição completa e ao menos uma especificação técnica.`);
+        }
+        if (imagePath && !/^(?:https:\/\/|(?:\.\/|\/)?(?:assets|uploads)\/|data:image\/)/i.test(imagePath)) {
+            throw new Error("Use uma imagem da pasta assets, uma URL HTTPS ou selecione um arquivo válido.");
+        }
+
+        const product = {
+            ...previous,
+            id,
+            modelo: model,
+            descricao: description,
+            resumo: summary,
+            imagemPrincipal: image,
+            imagem: image,
+            alt: previous.alt || `${model} Brutusmaq`,
+            specs,
+            galeria: galleryData,
+            _admin: {
+                ...(previous._admin || {}),
+                uid: editingUid || undefined,
+                status,
+                submissionId: editorialMeta.submissionId || previous._admin?.submissionId || undefined,
+                version: Number.isInteger(editorialMeta.version) ? editorialMeta.version : previous._admin?.version,
+                visible: visibleInput ? visibleInput.checked : true,
+                featured: getFieldValue("featured") === "yes",
+                priority: priorityInput ? priorityInput.checked : false,
+                sku: getFieldValue("sku"),
+                updatedAt: new Date().toISOString()
+            }
+        };
+
+        if (type === "novo") {
+            product.linha = category;
+            product.categoria = previous.categoria || category;
+            product.categoriaSlug = createSlug(category);
+            product.aplicacao = applications[0] || "";
+            product.aplicacoes = applications;
+            product.materiais = materials;
+            product.disponibilidade = getFieldValue("availability");
+            product.precoVisibilidade = getFieldValue("priceVisibility");
+        } else {
+            product.categoria = category;
+            product.categoriaSlug = createSlug(category);
+            product.condicao = getFieldValue("condition");
+            product.localizacao = getFieldValue("location");
+            product.garantia = getFieldValue("usedWarranty");
+            product.status = getFieldValue("availability") || "A consultar";
+            product.statusSlug = createSlug(product.status);
+            product.statusClasse = `status-${product.statusSlug}`;
+            product.especificacoes = applications;
+            product.url = `maquina-usada.html?id=${id}`;
+            product.cta = previous.cta || "Ver detalhes";
+        }
+
+        return { type, product };
+    }
+
+    function setProductSaving(saving) {
+        productForm?.querySelectorAll('button[type="submit"]').forEach((button) => { button.disabled = saving; });
+        document.querySelectorAll('[type="submit"][form="adminProductForm"]').forEach((button) => { button.disabled = saving; });
+        document.querySelectorAll("[data-save-draft]").forEach((button) => { button.disabled = saving; });
+    }
+
+    async function uploadProductMedia(built) {
+        if (!api?.isDatabase?.()) return built;
+        const mainFile = mainImageInput?.files?.[0];
+        if (mainFile) {
+            const result = await api.uploadMedia(mainFile, built.product.alt || built.product.modelo);
+            built.product.imagemPrincipal = result.asset.publicUrl;
+            built.product.imagem = result.asset.publicUrl;
+        }
+        const galleryFiles = Array.from(galleryInput?.files || []).slice(0, 8);
+        if (galleryFiles.length) {
+            const uploaded = await Promise.all(galleryFiles.map((file, index) => (
+                api.uploadMedia(file, `${built.product.modelo} - imagem ${index + 1}`)
+            )));
+            built.product.galeria = uploaded.map((result, index) => ({
+                src: result.asset.publicUrl,
+                alt: result.asset.altText || `${built.product.modelo} - imagem ${index + 1}`
+            }));
+        }
+        return built;
+    }
+
+    async function saveProduct(statusOverride) {
+        if (!productForm) return;
+        if (isViewer()) {
+            showFormMessage("Sua conta possui acesso somente para leitura.", "error");
+            return;
+        }
+        if (!productForm.checkValidity()) {
+            productForm.reportValidity();
+            return;
+        }
+
+        setProductSaving(true);
+        try {
+            const built = await uploadProductMedia(buildProduct(statusOverride));
+            let saved;
+            let submission = null;
+            if (api?.isDatabase?.()) {
+                const result = await api.saveProduct(built.type, built.product, editingUid || undefined);
+                submission = result.submission || result.review || null;
+                if (result.product) {
+                    saved = store.upsert(built.type, result.product, editingUid || undefined);
+                } else if (submission) {
+                    dirty = false;
+                    editingUid = "";
+                    renderAll();
+                    showView("products");
+                    showToast(`${built.product.modelo} foi enviado para análise do proprietário.`);
+                    window.dispatchEvent(new CustomEvent("brutusmaq:review-submitted", { detail: submission }));
+                    return;
+                } else {
+                    throw new Error("O servidor não retornou o produto nem a solicitação de análise.");
+                }
+            } else {
+                saved = store.upsert(built.type, built.product, editingUid || undefined);
+            }
+            editingUid = saved._admin.uid;
+            dirty = false;
+            renderAll();
+            showView("products");
+            if (submission?.status === "pending") {
+                showToast(`${saved.modelo} foi enviado para análise do proprietário.`);
+                window.dispatchEvent(new CustomEvent("brutusmaq:review-submitted", { detail: submission }));
+                return;
+            }
+            const status = statusMap[saved._admin.status] || statusMap.draft;
+            showToast(`${saved.modelo} foi salvo como ${status.label.toLowerCase()}.`);
+        } catch (error) {
+            showFormMessage(error instanceof Error ? error.message : "Não foi possível salvar o produto.", "error");
+        } finally {
+            setProductSaving(false);
+        }
+    }
+
+    function openConfirmation(title, description, actionLabel, action) {
+        if (!deleteDialog || typeof deleteDialog.showModal !== "function") {
+            if (window.confirm(`${title}\n\n${description}`)) action();
+            return;
+        }
+        if (deleteDialogTitle) deleteDialogTitle.textContent = title;
+        if (deleteDialogDescription) deleteDialogDescription.textContent = description;
+        if (confirmDeleteButton) confirmDeleteButton.textContent = actionLabel;
+        pendingConfirmation = action;
+        deleteDialog.showModal();
+    }
+
+    function deleteProduct(uid) {
+        if (!isOwner()) return;
+        const product = findAdminProduct(uid);
+        if (!product) return;
+        openConfirmation(
+            `Excluir ${product.rawModel}?`,
+            api?.isDatabase?.()
+                ? "O produto será removido do catálogo publicado. Você poderá desfazer logo após a exclusão."
+                : "O produto será removido do catálogo salvo neste navegador. Você poderá desfazer logo após a exclusão.",
+            "Excluir produto",
+            async () => {
+                try {
+                    if (api?.isDatabase?.()) await api.deleteProduct(uid);
+                    lastRemoved = store.remove(uid);
+                    if (editingUid === uid) prepareNewProduct();
+                    renderAll();
+                    showToast(`${product.rawModel} foi excluído.`, "Desfazer", async () => {
+                        try {
+                            if (api?.isDatabase?.()) await api.restoreProduct(uid);
+                            store.restore(lastRemoved);
+                            lastRemoved = null;
+                            renderAll();
+                            showToast(`${product.rawModel} foi restaurado.`);
+                        } catch (error) {
+                            showToast(error instanceof Error ? error.message : "Não foi possível restaurar o produto.");
+                        }
+                    });
+                } catch (error) {
+                    showToast(error instanceof Error ? error.message : "Não foi possível excluir o produto.");
+                }
+            }
+        );
+    }
+
+    function cancelProductSubmission(submissionId, title) {
+        if (!isEditor() || !submissionId || !api?.isDatabase?.()) return;
+        openConfirmation(
+            `Descartar a proposta de ${title || "produto"}?`,
+            "Ela sairá da caixa de análise. Depois você poderá abrir a versão atual do site e preparar um novo envio.",
+            "Descartar proposta",
+            async () => {
+                try {
+                    await api.cancelSubmission(submissionId);
+                    await api.bootstrap();
+                    renderAll();
+                    showToast("A proposta foi descartada. A versão publicada não foi alterada.");
+                } catch (error) {
+                    showToast(error instanceof Error ? error.message : "Não foi possível descartar a proposta.");
+                }
+            }
+        );
+    }
+
+    function exportCatalog() {
+        const data = JSON.stringify(store.exportCatalog(), null, 2);
+        const blob = new Blob([data], { type: "application/json;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        const date = new Date().toISOString().slice(0, 10);
+        link.href = url;
+        link.download = `brutusmaq-catalogo-${date}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+        showToast("Backup do catálogo exportado.");
+    }
+
+    function importCatalog(file) {
+        if (!isOwner()) return;
+        if (!file) return;
+        if (file.size > 5000000) {
+            showToast("O arquivo ultrapassa o limite de 5 MB.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            try {
+                const parsed = JSON.parse(String(reader.result || ""));
+                openConfirmation(
+                    "Importar backup?",
+                    "O catálogo salvo atualmente será substituído pelos dados validados deste arquivo.",
+                    "Importar catálogo",
+                    async () => {
+                        const previousCatalog = store.getCatalog();
+                        try {
+                            if (api?.isDatabase?.()) {
+                                const normalized = store.replaceCatalog(parsed);
+                                const result = await api.replaceCatalog(normalized);
+                                store.setRemoteCatalog(result.catalog);
+                            } else {
+                                store.replaceCatalog(parsed);
+                            }
+                            dirty = false;
+                            editingUid = "";
+                            renderAll();
+                            showView("products");
+                            showToast("Backup importado com sucesso.");
+                        } catch (error) {
+                            if (api?.isDatabase?.()) store.setRemoteCatalog(previousCatalog);
+                            showToast(error instanceof Error ? error.message : "O backup não pôde ser importado.");
+                        }
+                    }
+                );
+            } catch (error) {
+                showToast("O arquivo selecionado não contém um JSON válido.");
+            } finally {
+                if (importInput) importInput.value = "";
+            }
+        };
+        reader.onerror = () => showToast("Não foi possível ler o arquivo selecionado.");
+        reader.readAsText(file, "utf-8");
+    }
+
+    function resetCatalog() {
+        if (!isOwner()) return;
+        openConfirmation(
+            "Restaurar catálogo-base?",
+            "Todos os produtos criados ou alterados serão substituídos pelo catálogo-base. Exporte um backup antes de continuar.",
+            "Restaurar catálogo",
+            async () => {
+                try {
+                    if (api?.isDatabase?.()) {
+                        const result = await api.replaceCatalog(store.getBaseCatalog());
+                        store.setRemoteCatalog(result.catalog);
+                    } else {
+                        store.reset();
+                    }
+                    dirty = false;
+                    editingUid = "";
+                    prepareNewProduct();
+                    renderAll();
+                    showView("products");
+                    showToast("O catálogo-base foi restaurado.");
+                } catch (error) {
+                    showToast(error instanceof Error ? error.message : "Não foi possível restaurar o catálogo-base.");
+                }
+            }
+        );
+    }
+
+    navButtons.forEach((button) => {
+        button.addEventListener("click", () => navigateTo(button.dataset.adminView));
+    });
+
+    document.querySelectorAll("[data-go-to]").forEach((button) => {
+        button.addEventListener("click", () => navigateTo(button.dataset.goTo));
+    });
+
+    if (menuButton) {
+        menuButton.addEventListener("click", () => {
+            if (sidebar && sidebar.classList.contains("is-open")) closeSidebar();
+            else openSidebar();
+        });
+    }
+    if (sidebarBackdrop) sidebarBackdrop.addEventListener("click", closeSidebar);
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeSidebar();
+    });
+
     [productSearch, typeFilter, statusFilter].forEach((control) => {
         if (!control) return;
         control.addEventListener(control.tagName === "INPUT" ? "input" : "change", filterProducts);
@@ -127,87 +999,100 @@
         });
     }
 
-    const productForm = document.getElementById("adminProductForm");
-    const formMessage = document.getElementById("adminFormMessage");
-    const productTypeInputs = Array.from(document.querySelectorAll('input[name="productType"]'));
-    const usedFields = document.getElementById("adminUsedFields");
-    const modelInput = productForm && productForm.elements.model;
-    const slugInput = productForm && productForm.elements.slug;
-    let slugEdited = false;
+    productTypeInputs.forEach((input) => input.addEventListener("change", () => {
+        updateProductType();
+        dirty = true;
+    }));
 
-    function updateProductType() {
-        const checked = productTypeInputs.find((input) => input.checked);
-        if (usedFields) usedFields.hidden = !checked || checked.value !== "usado";
-    }
-
-    productTypeInputs.forEach((input) => input.addEventListener("change", updateProductType));
-    updateProductType();
-
-    function createSlug(value) {
-        return normalizeText(value)
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/^-+|-+$/g, "");
-    }
-
+    const modelInput = getField("model");
+    const slugInput = getField("slug");
     if (slugInput) {
         slugInput.addEventListener("input", () => {
             slugEdited = slugInput.value.trim().length > 0;
         });
     }
-
     if (modelInput && slugInput) {
         modelInput.addEventListener("input", () => {
             if (!slugEdited) slugInput.value = createSlug(modelInput.value);
         });
     }
 
-    const mainImageInput = document.getElementById("adminMainImage");
-    const mainImagePreview = document.getElementById("adminMainPreview");
-    let previewUrl = "";
+    if (productForm) {
+        productForm.addEventListener("input", () => { dirty = true; });
+        productForm.addEventListener("change", () => { dirty = true; });
+        productForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            saveProduct(isEditor() ? "review" : undefined);
+        });
+    }
+
+    document.querySelectorAll("[data-save-draft]").forEach((button) => {
+        button.addEventListener("click", () => saveProduct("draft"));
+    });
 
     if (mainImageInput && mainImagePreview) {
-        mainImageInput.addEventListener("change", () => {
+        mainImageInput.addEventListener("change", async () => {
             const file = mainImageInput.files && mainImageInput.files[0];
             if (!file) return;
-            if (previewUrl) URL.revokeObjectURL(previewUrl);
-            previewUrl = URL.createObjectURL(file);
-            mainImagePreview.src = previewUrl;
-            mainImagePreview.alt = `Prévia de ${file.name}`;
+            try {
+                validateImageFile(file, maxMainImageBytes);
+                mainImageData = await readFileAsDataUrl(file);
+                setFieldValue("imagePath", "");
+                mainImagePreview.src = mainImageData;
+                mainImagePreview.alt = `Prévia de ${file.name}`;
+                dirty = true;
+                showFormMessage("Imagem principal pronta para ser salva com o produto.", "success");
+            } catch (error) {
+                mainImageInput.value = "";
+                showFormMessage(error instanceof Error ? error.message : "Imagem inválida.", "error");
+            }
         });
     }
 
-    const galleryInput = document.getElementById("adminGalleryImages");
-    const galleryStatus = document.getElementById("adminGalleryStatus");
+    const imagePathInput = getField("imagePath");
+    if (imagePathInput && mainImagePreview) {
+        imagePathInput.addEventListener("change", () => {
+            const path = imagePathInput.value.trim();
+            if (!path) return;
+            mainImageData = "";
+            mainImagePreview.src = path;
+            mainImagePreview.alt = "Prévia da imagem informada";
+        });
+    }
 
     if (galleryInput && galleryStatus) {
-        galleryInput.addEventListener("change", () => {
-            const amount = galleryInput.files ? galleryInput.files.length : 0;
-            if (!amount) galleryStatus.textContent = "Adicione de 3 a 8 imagens";
-            else if (amount < 3) galleryStatus.textContent = `${amount} selecionada(s). Recomendamos pelo menos 3.`;
-            else galleryStatus.textContent = `${amount} imagem(ns) selecionada(s)`;
+        galleryInput.addEventListener("change", async () => {
+            const files = Array.from(galleryInput.files || []).slice(0, 8);
+            if (!files.length) {
+                galleryData = [];
+                galleryStatus.textContent = "Adicione de 3 a 8 imagens";
+                return;
+            }
+            try {
+                files.forEach((file) => validateImageFile(file, maxGalleryImageBytes));
+                const images = await Promise.all(files.map(readFileAsDataUrl));
+                galleryData = images.map((src, index) => ({
+                    src,
+                    alt: `${getFieldValue("model") || "Equipamento"} - imagem ${index + 1}`
+                }));
+                galleryStatus.textContent = files.length < 3
+                    ? `${files.length} selecionada(s). Recomendamos pelo menos 3.`
+                    : `${files.length} imagem(ns) pronta(s) para salvar`;
+                dirty = true;
+            } catch (error) {
+                galleryInput.value = "";
+                showFormMessage(error instanceof Error ? error.message : "Uma das imagens da galeria é inválida.", "error");
+            }
         });
-    }
-
-    const specList = document.getElementById("adminSpecList");
-    const addSpecButton = document.getElementById("adminAddSpec");
-
-    function createSpecRow() {
-        const row = document.createElement("div");
-        row.className = "admin-spec-row";
-        row.innerHTML = [
-            '<input type="text" aria-label="Nome da especificação" placeholder="Ex.: Dimensões">',
-            '<input type="text" aria-label="Valor da especificação" placeholder="Ex.: 2.000 x 1.450 x 1.750 mm">',
-            '<button type="button" data-remove-spec aria-label="Remover especificação">×</button>'
-        ].join("");
-        return row;
     }
 
     if (addSpecButton && specList) {
         addSpecButton.addEventListener("click", () => {
-            const row = createSpecRow();
+            const row = createSpecRow("", "");
             specList.appendChild(row);
             const firstInput = row.querySelector("input");
             if (firstInput) firstInput.focus();
+            dirty = true;
         });
     }
 
@@ -218,55 +1103,65 @@
             const rows = specList.querySelectorAll(".admin-spec-row");
             if (rows.length === 1) {
                 rows[0].querySelectorAll("input").forEach((input) => { input.value = ""; });
-                return;
+            } else {
+                button.closest(".admin-spec-row").remove();
             }
-            button.closest(".admin-spec-row").remove();
-        });
-    }
-
-    function showFormMessage(message) {
-        if (!formMessage) return;
-        formMessage.textContent = message;
-        formMessage.hidden = false;
-        formMessage.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-
-    document.querySelectorAll("[data-save-draft]").forEach((button) => {
-        button.addEventListener("click", () => {
-            showView("new-product", { scroll: false });
-            showFormMessage("Rascunho demonstrativo: a interface está pronta, mas o salvamento dependerá da API e do banco de dados.");
-        });
-    });
-
-    if (productForm) {
-        productForm.addEventListener("submit", (event) => {
-            event.preventDefault();
-            if (!productForm.checkValidity()) {
-                productForm.reportValidity();
-                return;
-            }
-            showFormMessage("Produto pronto para revisão visual. A publicação real será conectada ao backend na próxima etapa.");
+            dirty = true;
         });
     }
 
     document.querySelectorAll(".admin-inline-action").forEach((button) => {
         button.addEventListener("click", () => {
-            showFormMessage("A criação de categorias será conectada ao banco para manter filtros e menus sincronizados.");
+            const category = window.prompt("Nome da nova categoria:", "");
+            if (category === null) return;
+            const name = category.replace(/[<>]/g, "").trim().slice(0, 60);
+            if (name.length < 2) {
+                showFormMessage("Informe um nome de categoria com pelo menos 2 caracteres.", "error");
+                return;
+            }
+            setSelectValue("category", name);
+            dirty = true;
+            showFormMessage(`Categoria \"${name}\" adicionada ao cadastro atual.`, "success");
         });
     });
 
-    document.querySelectorAll(".admin-row-action").forEach((button) => {
-        button.addEventListener("click", () => {
-            showView("new-product");
-            showFormMessage(`Modo de edição preparado para ${button.getAttribute("aria-label").replace("Editar ", "")}. O carregamento dos dados virá da API.`);
+    if (productRowsContainer) {
+        productRowsContainer.addEventListener("click", (event) => {
+            const editButton = event.target.closest("[data-edit-product]");
+            const deleteButton = event.target.closest("[data-delete-product]");
+            const cancelButton = event.target.closest("[data-cancel-product-submission]");
+            if (editButton) editProduct(editButton.dataset.editProduct);
+            else if (deleteButton) deleteProduct(deleteButton.dataset.deleteProduct);
+            else if (cancelButton) cancelProductSubmission(cancelButton.dataset.cancelProductSubmission, cancelButton.dataset.submissionTitle);
         });
-    });
+    }
+
+    if (confirmDeleteButton) {
+        confirmDeleteButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            const action = pendingConfirmation;
+            pendingConfirmation = null;
+            if (deleteDialog && deleteDialog.open) deleteDialog.close("confirm");
+            if (typeof action === "function") action();
+        });
+    }
+    if (deleteDialog) {
+        deleteDialog.addEventListener("close", () => {
+            pendingConfirmation = null;
+        });
+    }
+
+    if (exportButton) exportButton.addEventListener("click", exportCatalog);
+    if (importInput) importInput.addEventListener("change", () => importCatalog(importInput.files && importInput.files[0]));
+    if (resetButton) resetButton.addEventListener("click", resetCatalog);
+    if (toastClose) toastClose.addEventListener("click", closeToast);
+    window.addEventListener("brutusmaq:catalog-changed", renderAll);
+    window.addEventListener("brutusmaq:admin-ready", (event) => applyProductAccess(event.detail));
 
     const formStepLinks = Array.from(document.querySelectorAll(".admin-form-steps a"));
     const formSections = formStepLinks
         .map((link) => document.querySelector(link.getAttribute("href")))
         .filter(Boolean);
-
     if ("IntersectionObserver" in window && formSections.length) {
         const sectionObserver = new IntersectionObserver((entries) => {
             const visibleEntry = entries
@@ -277,13 +1172,46 @@
                 link.classList.toggle("is-current", link.getAttribute("href") === `#${visibleEntry.target.id}`);
             });
         }, { rootMargin: "-25% 0px -60%", threshold: [0.05, 0.25, 0.5] });
-
         formSections.forEach((section) => sectionObserver.observe(section));
     }
 
-    window.addEventListener("beforeunload", () => {
-        if (previewUrl) URL.revokeObjectURL(previewUrl);
+    window.addEventListener("beforeunload", (event) => {
+        const blogDirty = window.BrutusmaqAdminBlog
+            && typeof window.BrutusmaqAdminBlog.isDirty === "function"
+            && window.BrutusmaqAdminBlog.isDirty();
+        if (!dirty && !blogDirty) return;
+        event.preventDefault();
+        event.returnValue = "";
     });
 
+    window.BrutusmaqAdminUI = Object.freeze({
+        showView,
+        showToast,
+        openConfirmation,
+        normalizeText,
+        createSlug,
+        escapeHtml,
+        clone,
+        formatDate,
+        getCurrentView: () => currentView
+    });
+
+    if (!store) {
+        showToast("A camada de dados do catálogo não foi carregada. Atualize a página.");
+        return;
+    }
+
+    const notice = document.querySelector(".admin-local-notice div");
+    if (notice) notice.innerHTML = api?.isDatabase?.()
+        ? "<strong>Banco central ativo</strong><p>Produtos e artigos são publicados pela API e ficam disponíveis para todos os visitantes.</p>"
+        : "<strong>Dados locais ativos</strong><p>Produtos e artigos são salvos neste navegador e refletidos nas páginas públicas desta origem. Exporte backups regularmente.</p>";
+
+    prepareNewProduct();
+    renderAll();
+    updateProductType();
     filterProducts();
-})();
+    api?.ready?.then?.(() => applyProductAccess()).catch?.(() => applyProductAccess());
+
+    const storeError = store.getLastError();
+    if (storeError) showToast(`O catálogo salvo não pôde ser carregado: ${storeError}`);
+}());

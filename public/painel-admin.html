@@ -6,13 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow, noarchive">
     <meta name="referrer" content="same-origin">
-    <title>Painel interno | Brutusmaq</title>
+    <title>Desempenho | Brutusmaq</title>
     <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/admin.css?v=20260717f">
+    <link rel="stylesheet" href="css/admin-analytics.css?v=20260717d">
+    <link rel="stylesheet" href="css/admin-security.css?v=20260717c">
 </head>
 
-<body>
-    <div class="admin-app">
+<body class="admin-locked">
+    <main class="admin-auth-shell" id="adminAuthShell" aria-labelledby="adminAuthTitle">
+        <section class="admin-auth-panel">
+            <img src="assets/logo/logo-brutusmaq.svg" alt="Brutusmaq">
+            <span class="admin-eyebrow">Ambiente administrativo</span>
+            <h1 id="adminAuthTitle">Acessar o painel</h1>
+            <p>Entre com sua conta para gerenciar catálogo, artigos, contatos e métricas.</p>
+            <form id="adminLoginForm" data-auth-form="login" novalidate>
+                <label><span>E-mail</span><input type="email" name="email" autocomplete="username" maxlength="190" required></label>
+                <label><span>Senha</span><input type="password" name="password" autocomplete="current-password" minlength="8" maxlength="200" required></label>
+                <label class="admin-auth-remember"><input type="checkbox" name="remember"><span>Manter sessão por 7 dias neste dispositivo</span></label>
+                <p class="admin-auth-message" id="adminAuthMessage" role="alert" hidden></p>
+                <button class="admin-button admin-button-primary" type="submit">Entrar no painel</button>
+                <button class="admin-auth-link" id="adminForgotPasswordOpen" type="button">Esqueci minha senha</button>
+            </form>
+            <form id="adminMfaLoginForm" data-auth-form="mfa" hidden novalidate>
+                <label><span>Código de verificação</span><input type="text" name="code" autocomplete="one-time-code" inputmode="numeric" maxlength="30" placeholder="000000 ou código de recuperação" required></label>
+                <p class="admin-auth-message" id="adminMfaMessage" role="alert" hidden></p>
+                <button class="admin-button admin-button-primary" type="submit">Confirmar acesso</button>
+                <button class="admin-auth-link" type="button" data-auth-back>Voltar ao login</button>
+            </form>
+            <form id="adminForgotPasswordForm" data-auth-form="forgot" hidden novalidate>
+                <label><span>E-mail administrativo</span><input type="email" name="email" autocomplete="username" maxlength="190" required></label>
+                <p class="admin-auth-message" id="adminForgotMessage" role="status" hidden></p>
+                <button class="admin-button admin-button-primary" type="submit">Enviar instruções</button>
+                <button class="admin-auth-link" type="button" data-auth-back>Voltar ao login</button>
+            </form>
+            <form id="adminResetPasswordForm" data-auth-form="reset" hidden novalidate>
+                <label><span>Nova senha</span><input type="password" name="newPassword" autocomplete="new-password" minlength="12" maxlength="72" required></label>
+                <label><span>Confirmar nova senha</span><input type="password" name="confirmPassword" autocomplete="new-password" minlength="12" maxlength="72" required></label>
+                <p class="admin-auth-message" id="adminResetMessage" role="alert" hidden></p>
+                <button class="admin-button admin-button-primary" id="adminResetSubmit" type="submit">Criar nova senha</button>
+                <button class="admin-auth-link" type="button" data-auth-back>Voltar ao login</button>
+            </form>
+            <small>O acesso é protegido e não deve ser compartilhado.</small>
+        </section>
+    </main>
+
+    <div class="admin-app" id="adminApp" hidden aria-hidden="true">
         <aside class="admin-sidebar" id="adminSidebar" aria-label="Navegação do painel">
             <div class="admin-sidebar-head">
                 <a href="painel-admin.html" class="admin-brand" aria-label="Painel Brutusmaq">
@@ -22,45 +61,71 @@
             </div>
 
             <nav class="admin-nav" aria-label="Áreas administrativas">
-                <span class="admin-nav-label">Catálogo</span>
-                <button class="admin-nav-item is-active" type="button" data-admin-view="dashboard" aria-current="page">
+                <span class="admin-nav-label" data-owner-only>Análise</span>
+                <button class="admin-nav-item is-active" type="button" data-admin-view="performance" data-owner-only aria-current="page">
                     <span class="admin-nav-index" aria-hidden="true">01</span>
+                    <span>Desempenho</span>
+                </button>
+
+                <span class="admin-nav-label admin-nav-label-spaced">Catálogo</span>
+                <button class="admin-nav-item" type="button" data-admin-view="dashboard">
+                    <span class="admin-nav-index" aria-hidden="true">02</span>
                     <span>Visão geral</span>
                 </button>
                 <button class="admin-nav-item" type="button" data-admin-view="products">
-                    <span class="admin-nav-index" aria-hidden="true">02</span>
+                    <span class="admin-nav-index" aria-hidden="true">03</span>
                     <span>Produtos</span>
-                    <span class="admin-nav-count">14</span>
+                    <span class="admin-nav-count" id="adminNavProductCount">0</span>
                 </button>
                 <button class="admin-nav-item" type="button" data-admin-view="new-product">
-                    <span class="admin-nav-index" aria-hidden="true">03</span>
+                    <span class="admin-nav-index" aria-hidden="true">04</span>
                     <span>Novo produto</span>
                 </button>
 
-                <span class="admin-nav-label admin-nav-label-spaced">Operação</span>
-                <button class="admin-nav-item is-disabled" type="button" disabled>
-                    <span class="admin-nav-index" aria-hidden="true">04</span>
-                    <span>Solicitações</span>
-                    <small>Em breve</small>
-                </button>
-                <button class="admin-nav-item is-disabled" type="button" disabled>
+                <span class="admin-nav-label admin-nav-label-spaced">Conteúdo</span>
+                <button class="admin-nav-item" type="button" data-admin-view="articles">
                     <span class="admin-nav-index" aria-hidden="true">05</span>
+                    <span>Artigos</span>
+                    <span class="admin-nav-count" id="adminNavArticleCount">0</span>
+                </button>
+                <button class="admin-nav-item" type="button" data-admin-view="new-article">
+                    <span class="admin-nav-index" aria-hidden="true">06</span>
+                    <span>Novo artigo</span>
+                </button>
+
+                <span class="admin-nav-label admin-nav-label-spaced" data-owner-only>Operação</span>
+                <button class="admin-nav-item" type="button" data-admin-view="leads" data-owner-only>
+                    <span class="admin-nav-index" aria-hidden="true">07</span>
+                    <span>Solicitações</span>
+                    <span class="admin-nav-count" id="adminNavLeadCount">0</span>
+                </button>
+                <button class="admin-nav-item" type="button" data-admin-view="reviews" data-owner-workflow>
+                    <span class="admin-nav-index" aria-hidden="true">08</span>
+                    <span>Caixa de análise</span>
+                    <span class="admin-nav-count" id="adminNavReviewCount">0</span>
+                </button>
+                <button class="admin-nav-item is-disabled" type="button" data-owner-only disabled>
+                    <span class="admin-nav-index" aria-hidden="true">09</span>
                     <span>Biblioteca de mídia</span>
                     <small>Em breve</small>
                 </button>
-                <button class="admin-nav-item is-disabled" type="button" disabled>
-                    <span class="admin-nav-index" aria-hidden="true">06</span>
-                    <span>Configurações</span>
-                    <small>Em breve</small>
+                <button class="admin-nav-item" type="button" data-admin-view="team" data-owner-workflow>
+                    <span class="admin-nav-index" aria-hidden="true">10</span>
+                    <span>Equipe e acessos</span>
+                </button>
+                <button class="admin-nav-item" type="button" data-admin-view="security">
+                    <span class="admin-nav-index" aria-hidden="true">11</span>
+                    <span>Segurança</span>
                 </button>
             </nav>
 
             <div class="admin-sidebar-foot">
                 <div class="admin-account">
-                    <span class="admin-avatar" aria-hidden="true">EB</span>
-                    <span><strong>Administrador</strong><small>Acesso total previsto</small></span>
+                    <span class="admin-avatar" id="adminAccountAvatar" aria-hidden="true">AD</span>
+                    <span><strong id="adminAccountName">Administrador</strong><small id="adminAccountRole">Acesso protegido</small></span>
                 </div>
                 <a class="admin-site-link" href="index.html" target="_blank" rel="noopener">Visualizar site <span aria-hidden="true">↗</span></a>
+                <button class="admin-logout-button" id="adminLogout" type="button">Sair do painel</button>
             </div>
         </aside>
 
@@ -73,16 +138,167 @@
                 </button>
                 <div class="admin-location">
                     <span>Painel Brutusmaq</span>
-                    <strong id="adminCurrentView">Visão geral</strong>
+                    <strong id="adminCurrentView">Desempenho</strong>
                 </div>
-                <div class="admin-topbar-status">
-                    <span class="admin-status-dot" aria-hidden="true"></span>
-                    <span>Interface local</span>
+                <div class="admin-topbar-status" role="status" aria-live="polite" aria-atomic="true" title="Verificando a conexão com o servidor">
+                    <span class="admin-status-dot is-checking" aria-hidden="true"></span>
+                    <span id="adminDataMode">Verificando servidor</span>
                 </div>
             </header>
 
             <main class="admin-main">
-                <section class="admin-view is-active" id="view-dashboard" data-view-panel="dashboard" aria-labelledby="dashboardTitle">
+                <section class="admin-view admin-performance-view is-active" id="view-performance" data-view-panel="performance" aria-labelledby="performanceTitle">
+                    <div class="admin-page-heading admin-performance-heading">
+                        <div>
+                            <span class="admin-eyebrow">Inteligência comercial e editorial</span>
+                            <h1 id="performanceTitle">Desempenho do site</h1>
+                            <p>Compare procura por equipamentos, contatos comerciais e alcance dos artigos ao longo do tempo.</p>
+                        </div>
+                        <div class="admin-heading-actions">
+                            <button class="admin-button admin-button-secondary" id="adminAnalyticsExport" type="button">Exportar métricas</button>
+                            <button class="admin-button admin-button-warning" id="adminAnalyticsClear" type="button">Limpar histórico</button>
+                        </div>
+                    </div>
+
+                    <div class="admin-analytics-notice" role="status">
+                        <span class="admin-analytics-mode">VERIFICANDO</span>
+                        <div>
+                            <strong>Métricas anônimas do site</strong>
+                            <p>A coleta inclui dispositivo e origem do acesso, sem nome, e-mail, telefone ou mensagem.</p>
+                        </div>
+                        <small id="adminAnalyticsCoverage">Coleta iniciada agora</small>
+                    </div>
+
+                    <div class="admin-analytics-toolbar">
+                        <div class="admin-analytics-ranges" role="group" aria-label="Período das métricas">
+                            <button type="button" data-analytics-range="today">Hoje</button>
+                            <button type="button" data-analytics-range="7">7 dias</button>
+                            <button class="is-active" type="button" data-analytics-range="30" aria-pressed="true">30 dias</button>
+                            <button type="button" data-analytics-range="365">12 meses</button>
+                            <button type="button" data-analytics-range="all">Tudo</button>
+                        </div>
+                        <p>Atualizado <strong id="adminAnalyticsUpdated">agora</strong></p>
+                    </div>
+
+                    <div class="admin-analytics-kpis" aria-label="Indicadores de desempenho">
+                        <article class="admin-analytics-kpi is-orange">
+                            <span>Visualizações de equipamentos</span>
+                            <strong id="analyticsProductViews">0</strong>
+                            <small id="analyticsProductViewsDelta">Sem período anterior</small>
+                            <p>Fichas novas e usadas abertas.</p>
+                        </article>
+                        <article class="admin-analytics-kpi is-ink">
+                            <span>Cliques em proposta</span>
+                            <strong id="analyticsProposalIntents">0</strong>
+                            <small id="analyticsProposalIntentsDelta">Sem período anterior</small>
+                            <p>Entradas no fluxo comercial.</p>
+                        </article>
+                        <article class="admin-analytics-kpi is-green">
+                            <span>WhatsApp sobre produtos</span>
+                            <strong id="analyticsWhatsappClicks">0</strong>
+                            <small id="analyticsWhatsappClicksDelta">Sem período anterior</small>
+                            <p>Cliques atribuídos a equipamentos.</p>
+                        </article>
+                        <article class="admin-analytics-kpi is-blue">
+                            <span>Formulários confirmados</span>
+                            <strong id="analyticsFormSuccess">0</strong>
+                            <small id="analyticsFormSuccessDelta">Sem período anterior</small>
+                            <p>Envios aceitos pelo serviço de e-mail.</p>
+                        </article>
+                        <article class="admin-analytics-kpi is-yellow">
+                            <span>Leituras de artigos</span>
+                            <strong id="analyticsArticleViews">0</strong>
+                            <small id="analyticsArticleViewsDelta">Sem período anterior</small>
+                            <p>Páginas individuais acessadas.</p>
+                        </article>
+                    </div>
+
+                    <div class="admin-analytics-empty" id="adminAnalyticsEmpty" hidden>
+                        <span aria-hidden="true">01</span>
+                        <div><strong>A coleta está pronta</strong><p>Abra páginas públicas, fichas de equipamentos e artigos para começar a formar o histórico.</p></div>
+                        <a class="admin-button admin-button-secondary" href="index.html" target="_blank" rel="noopener">Abrir site</a>
+                    </div>
+
+                    <div class="admin-analytics-content" id="adminAnalyticsContent" hidden>
+                        <div class="admin-analytics-primary-grid">
+                            <section class="admin-section admin-analytics-trend" aria-labelledby="analyticsTrendTitle">
+                                <div class="admin-section-head">
+                                    <div><span>Movimento no período</span><h2 id="analyticsTrendTitle">Procura e conversão</h2></div>
+                                    <div class="admin-chart-legend" aria-label="Séries do gráfico"><span class="is-orange">Equipamentos</span><span class="is-green">Contatos</span><span class="is-blue">Artigos</span></div>
+                                </div>
+                                <div class="admin-trend-chart" id="adminAnalyticsTrendChart" role="img" aria-label="Evolução das métricas no período"></div>
+                            </section>
+
+                            <section class="admin-section admin-analytics-funnel" aria-labelledby="analyticsFunnelTitle">
+                                <div class="admin-section-head"><div><span>Jornada comercial</span><h2 id="analyticsFunnelTitle">Funil de interesse</h2></div><strong id="analyticsContactRate">0%</strong></div>
+                                <div id="adminAnalyticsFunnel"></div>
+                            </section>
+                        </div>
+
+                        <div class="admin-analytics-acquisition-grid">
+                            <section class="admin-section" aria-labelledby="analyticsDevicesTitle">
+                                <div class="admin-section-head">
+                                    <div><span>Audiência por tecnologia</span><h2 id="analyticsDevicesTitle">Dispositivos mais usados</h2></div>
+                                    <small id="analyticsDevicesSummary">0 sessões</small>
+                                </div>
+                                <div class="admin-analytics-breakdown" id="adminAnalyticsDevices"></div>
+                                <p class="admin-analytics-method">Participação sobre as sessões anônimas com páginas visualizadas no período.</p>
+                            </section>
+
+                            <section class="admin-section" aria-labelledby="analyticsTrafficTitle">
+                                <div class="admin-section-head">
+                                    <div><span>Aquisição de tráfego</span><h2 id="analyticsTrafficTitle">Origem dos acessos</h2></div>
+                                    <small id="analyticsTrafficSummary">0 sessões</small>
+                                </div>
+                                <div class="admin-analytics-breakdown" id="adminAnalyticsTraffic"></div>
+                                <p class="admin-analytics-method">Classificação por UTM, identificador de anúncio ou site que encaminhou a visita.</p>
+                            </section>
+                        </div>
+
+                        <div class="admin-analytics-ranking-grid">
+                            <section class="admin-section" aria-labelledby="analyticsProductsTitle">
+                                <div class="admin-section-head"><div><span>Demanda por equipamento</span><h2 id="analyticsProductsTitle">Mais procurados</h2></div><small id="analyticsProductsSummary">0 equipamentos</small></div>
+                                <div class="admin-table-wrap">
+                                    <table class="admin-table admin-analytics-table">
+                                        <thead><tr><th>Equipamento</th><th>Visualizações</th><th>WhatsApp</th><th>Formulários</th><th>Taxa de contato</th></tr></thead>
+                                        <tbody id="adminAnalyticsProductRows"></tbody>
+                                    </table>
+                                </div>
+                                <div class="admin-analytics-table-empty" id="adminAnalyticsProductEmpty">Ainda não há procura atribuída a um equipamento.</div>
+                            </section>
+
+                            <section class="admin-section" aria-labelledby="analyticsArticlesTitle">
+                                <div class="admin-section-head"><div><span>Desempenho editorial</span><h2 id="analyticsArticlesTitle">Artigos mais lidos</h2></div><small id="analyticsArticlesSummary">0 artigos</small></div>
+                                <div class="admin-table-wrap">
+                                    <table class="admin-table admin-analytics-table">
+                                        <thead><tr><th>Artigo</th><th>Leituras</th><th>Compartilhamentos</th><th>Participação</th></tr></thead>
+                                        <tbody id="adminAnalyticsArticleRows"></tbody>
+                                    </table>
+                                </div>
+                                <div class="admin-analytics-table-empty" id="adminAnalyticsArticleEmpty">As leituras aparecerão aqui quando os artigos forem acessados.</div>
+                            </section>
+                        </div>
+
+                        <div class="admin-analytics-secondary-grid">
+                            <section class="admin-section" aria-labelledby="analyticsReasonsTitle">
+                                <div class="admin-section-head"><div><span>Formulários enviados</span><h2 id="analyticsReasonsTitle">Motivos de contato</h2></div><small id="analyticsFormsSummary">0 confirmados</small></div>
+                                <div class="admin-analytics-bars" id="adminAnalyticsReasons"></div>
+                            </section>
+
+                            <section class="admin-section" aria-labelledby="analyticsHealthTitle">
+                                <div class="admin-section-head"><div><span>Qualidade da medição</span><h2 id="analyticsHealthTitle">Saúde da coleta</h2></div><small>Retenção de 400 dias</small></div>
+                                <dl class="admin-analytics-health">
+                                    <div><dt>Eventos no período</dt><dd id="analyticsEventCount">0</dd></div>
+                                    <div><dt>Sessões anônimas</dt><dd id="analyticsSessionCount">0</dd></div>
+                                    <div><dt>Páginas 404</dt><dd id="analytics404Count">0</dd></div>
+                                    <div><dt>Falhas de formulário</dt><dd id="analyticsFormFailures">0</dd></div>
+                                </dl>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="admin-view" id="view-dashboard" data-view-panel="dashboard" aria-labelledby="dashboardTitle" hidden>
                     <div class="admin-page-heading">
                         <div>
                             <span class="admin-eyebrow">Catálogo digital</span>
@@ -94,28 +310,34 @@
 
                     <div class="admin-local-notice" role="status">
                         <span class="admin-notice-mark" aria-hidden="true">i</span>
-                        <div><strong>Estrutura pronta para integração</strong><p>Os números abaixo são demonstrativos. Nenhum dado é enviado ou salvo em banco nesta etapa.</p></div>
+                        <div><strong>Dados locais ativos</strong><p>Produtos e artigos são salvos neste navegador. Exporte backups regularmente.</p></div>
+                    </div>
+
+                    <div class="admin-migration-notice" id="adminMigrationNotice" role="status" hidden>
+                        <span class="admin-notice-mark" aria-hidden="true">↑</span>
+                        <div><strong>Dados locais encontrados</strong><p>Há conteúdo salvo neste navegador que ainda pode ser enviado ao banco central.</p></div>
+                        <button class="admin-button admin-button-secondary" id="adminMigrateLocal" type="button">Migrar para o banco</button>
                     </div>
 
                     <div class="admin-metrics" aria-label="Resumo do catálogo">
                         <article class="admin-metric">
-                            <span>Produtos publicados</span>
-                            <strong>12</strong>
-                            <small>10 novos e 2 usados</small>
+                            <span>Produtos no catálogo</span>
+                            <strong id="adminMetricTotal">0</strong>
+                            <small id="adminMetricBreakdown">Carregando catálogo</small>
                         </article>
                         <article class="admin-metric">
-                            <span>Rascunhos</span>
-                            <strong>3</strong>
-                            <small>Aguardando conclusão</small>
+                            <span>Produtos publicados</span>
+                            <strong id="adminMetricPublished">0</strong>
+                            <small>Disponíveis nas páginas públicas</small>
                         </article>
                         <article class="admin-metric admin-metric-warning">
-                            <span>Cadastros incompletos</span>
-                            <strong>4</strong>
-                            <small>Imagens ou ficha técnica</small>
+                            <span>Pendências de cadastro</span>
+                            <strong id="adminMetricIssues">0</strong>
+                            <small>Campos essenciais pendentes</small>
                         </article>
                         <article class="admin-metric admin-metric-positive">
-                            <span>Disponíveis no estoque</span>
-                            <strong>2</strong>
+                            <span>Usados disponíveis</span>
+                            <strong id="adminMetricAvailableUsed">0</strong>
                             <small>Máquinas usadas</small>
                         </article>
                     </div>
@@ -129,18 +351,14 @@
                             <div class="admin-table-wrap">
                                 <table class="admin-table admin-table-compact">
                                     <thead><tr><th>Produto</th><th>Tipo</th><th>Status</th><th>Atualização</th></tr></thead>
-                                    <tbody>
-                                        <tr><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>TR-700</strong><small>Trituradores</small></span></span></td><td>Novo</td><td><span class="admin-status is-published">Publicado</span></td><td>Hoje, 18:42</td></tr>
-                                        <tr><td><span class="admin-product-cell"><img src="assets/main/tr-800-disp-mobile.png" alt=""><span><strong>TR-800 usado</strong><small>Máquinas usadas</small></span></span></td><td>Usado</td><td><span class="admin-status is-review">Em revisão</span></td><td>Hoje, 14:10</td></tr>
-                                        <tr><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>M-600</strong><small>Moinhos</small></span></span></td><td>Novo</td><td><span class="admin-status is-draft">Rascunho</span></td><td>Ontem, 16:35</td></tr>
-                                    </tbody>
+                                    <tbody id="adminRecentProductRows"></tbody>
                                 </table>
                             </div>
                         </section>
 
                         <aside class="admin-section admin-checklist" aria-labelledby="checklistTitle">
                             <div class="admin-section-head"><div><span>Qualidade</span><h2 id="checklistTitle">Antes de publicar</h2></div><strong>3/5</strong></div>
-                            <div class="admin-progress" aria-label="60% concluído"><span style="width: 60%"></span></div>
+                            <div class="admin-progress" aria-label="60% concluído"><span class="admin-progress-value-60"></span></div>
                             <ul>
                                 <li class="is-complete"><span aria-hidden="true">✓</span><div><strong>Identificação</strong><small>Modelo, categoria e URL</small></div></li>
                                 <li class="is-complete"><span aria-hidden="true">✓</span><div><strong>Descrição comercial</strong><small>Resumo e aplicações</small></div></li>
@@ -151,13 +369,29 @@
                         </aside>
                     </div>
 
+                    <section class="admin-section admin-blog-dashboard" aria-labelledby="blogOverviewTitle">
+                        <div class="admin-section-head">
+                            <div><span>Conteúdo editorial</span><h2 id="blogOverviewTitle">Blog Brutusmaq</h2></div>
+                            <button class="admin-text-button" type="button" data-go-to="articles">Gerenciar artigos</button>
+                        </div>
+                        <div class="admin-blog-overview">
+                            <div class="admin-blog-totals" aria-label="Resumo do blog">
+                                <span><strong id="adminBlogMetricTotal">0</strong><small>Total</small></span>
+                                <span><strong id="adminBlogMetricPublished">0</strong><small>Publicados</small></span>
+                                <span><strong id="adminBlogMetricPending">0</strong><small>Pendentes</small></span>
+                            </div>
+                            <div class="admin-table-wrap">
+                                <table class="admin-table admin-table-compact admin-blog-recent-table">
+                                    <thead><tr><th>Artigo recente</th><th>Status</th><th>Atualização</th></tr></thead>
+                                    <tbody id="adminRecentArticleRows"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
                     <section class="admin-section admin-activity" aria-labelledby="activityTitle">
-                        <div class="admin-section-head"><div><span>Auditoria prevista</span><h2 id="activityTitle">Atividade do painel</h2></div><small>Últimos registros</small></div>
-                        <ol class="admin-activity-list">
-                            <li><span class="admin-activity-time">18:42</span><span class="admin-activity-mark is-orange"></span><p><strong>TR-700</strong> teve a imagem principal atualizada.</p><small>Administrador</small></li>
-                            <li><span class="admin-activity-time">14:10</span><span class="admin-activity-mark is-green"></span><p><strong>TR-800 usado</strong> foi enviado para revisão.</p><small>Administrador</small></li>
-                            <li><span class="admin-activity-time">09:25</span><span class="admin-activity-mark"></span><p>Categoria <strong>Esteiras transportadoras</strong> foi revisada.</p><small>Administrador</small></li>
-                        </ol>
+                        <div class="admin-section-head"><div><span>Verificação automática</span><h2 id="activityTitle">Diagnóstico do catálogo</h2></div><small>Fonte pública atual</small></div>
+                        <ol class="admin-activity-list" id="adminCatalogDiagnostics"></ol>
                     </section>
                 </section>
 
@@ -165,6 +399,13 @@
                     <div class="admin-page-heading">
                         <div><span class="admin-eyebrow">Gestão do catálogo</span><h1 id="productsTitle">Produtos</h1><p>Localize, revise e organize equipamentos novos e usados.</p></div>
                         <button class="admin-button admin-button-primary" type="button" data-go-to="new-product">Adicionar produto</button>
+                    </div>
+
+                    <div class="admin-catalog-actions" aria-label="Ações do catálogo">
+                        <div><strong>Gerenciar dados</strong><small>Faça um backup antes de alterações maiores.</small></div>
+                        <button class="admin-button admin-button-secondary" id="adminExportCatalog" type="button">Exportar backup</button>
+                        <label class="admin-button admin-button-secondary admin-file-button" for="adminImportCatalog">Importar backup<input id="adminImportCatalog" type="file" accept="application/json,.json"></label>
+                        <button class="admin-button admin-button-warning" id="adminResetCatalog" type="button">Restaurar catálogo-base</button>
                     </div>
 
                     <div class="admin-product-toolbar">
@@ -175,28 +416,51 @@
                     </div>
 
                     <section class="admin-section admin-catalog-section" aria-label="Lista de produtos">
-                        <div class="admin-list-summary"><p><strong id="adminProductCount">6 produtos</strong> encontrados</p><span>Ordenação: atualização mais recente</span></div>
+                        <div class="admin-list-summary"><p><strong id="adminProductCount">0 produtos</strong> encontrados</p><span>Ordenação: catálogo atual</span></div>
                         <div class="admin-table-wrap">
                             <table class="admin-table admin-product-table">
-                                <thead><tr><th>Produto</th><th>Categoria</th><th>Tipo</th><th>Status</th><th>Atualizado</th><th><span class="sr-only">Ações</span></th></tr></thead>
-                                <tbody id="adminProductRows">
-                                    <tr data-product-row data-search="tr-700 trituradores" data-type="novo" data-status="publicado"><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>TR-700</strong><small>SKU BM-TR700</small></span></span></td><td>Trituradores</td><td>Novo</td><td><span class="admin-status is-published">Publicado</span></td><td>Hoje, 18:42</td><td><button class="admin-row-action" type="button" aria-label="Editar TR-700">Editar</button></td></tr>
-                                    <tr data-product-row data-search="tr-800 trituradores" data-type="novo" data-status="publicado"><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>TR-800</strong><small>SKU BM-TR800</small></span></span></td><td>Trituradores</td><td>Novo</td><td><span class="admin-status is-published">Publicado</span></td><td>Hoje, 17:05</td><td><button class="admin-row-action" type="button" aria-label="Editar TR-800">Editar</button></td></tr>
-                                    <tr data-product-row data-search="tr-1000 trituradores" data-type="novo" data-status="publicado"><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>TR-1000</strong><small>SKU BM-TR1000</small></span></span></td><td>Trituradores</td><td>Novo</td><td><span class="admin-status is-published">Publicado</span></td><td>12 jul. 2026</td><td><button class="admin-row-action" type="button" aria-label="Editar TR-1000">Editar</button></td></tr>
-                                    <tr data-product-row data-search="m-600 moinhos" data-type="novo" data-status="rascunho"><td><span class="admin-product-cell"><img src="assets/main/tr-700.png" alt=""><span><strong>M-600</strong><small>SKU BM-M600</small></span></span></td><td>Moinhos</td><td>Novo</td><td><span class="admin-status is-draft">Rascunho</span></td><td>Ontem, 16:35</td><td><button class="admin-row-action" type="button" aria-label="Editar M-600">Editar</button></td></tr>
-                                    <tr data-product-row data-search="tr-800 usado maquinas usadas" data-type="usado" data-status="revisao"><td><span class="admin-product-cell"><img src="assets/main/tr-800-disp-mobile.png" alt=""><span><strong>TR-800 usado</strong><small>SKU US-TR800-01</small></span></span></td><td>Máquinas usadas</td><td>Usado</td><td><span class="admin-status is-review">Em revisão</span></td><td>Hoje, 14:10</td><td><button class="admin-row-action" type="button" aria-label="Editar TR-800 usado">Editar</button></td></tr>
-                                    <tr data-product-row data-search="esteira transportadora usadas" data-type="usado" data-status="rascunho"><td><span class="admin-product-cell"><img src="assets/main/tr-800-disp-mobile.png" alt=""><span><strong>Esteira 6 metros</strong><small>SKU US-ET600-01</small></span></span></td><td>Esteiras</td><td>Usado</td><td><span class="admin-status is-draft">Rascunho</span></td><td>10 jul. 2026</td><td><button class="admin-row-action" type="button" aria-label="Editar Esteira 6 metros">Editar</button></td></tr>
-                                </tbody>
+                                <thead><tr><th>Produto</th><th>Categoria</th><th>Tipo</th><th>Status</th><th>Atualizado</th><th>Ações</th></tr></thead>
+                                <tbody id="adminProductRows"></tbody>
                             </table>
                         </div>
                         <div class="admin-empty-state" id="adminProductEmpty" hidden><strong>Nenhum produto encontrado</strong><p>Revise os termos ou limpe os filtros aplicados.</p></div>
                     </section>
                 </section>
 
+                <section class="admin-view" id="view-leads" data-view-panel="leads" aria-labelledby="leadsTitle" hidden>
+                    <div class="admin-page-heading">
+                        <div><span class="admin-eyebrow">Atendimento comercial</span><h1 id="leadsTitle">Solicitações</h1><p>Acompanhe contatos recebidos e mantenha o retorno da equipe organizado.</p></div>
+                        <button class="admin-button admin-button-secondary" id="adminRefreshLeads" type="button">Atualizar lista</button>
+                    </div>
+
+                    <div class="admin-metrics admin-lead-metrics" aria-label="Resumo das solicitações">
+                        <article class="admin-metric"><span>Total encontrado</span><strong id="adminLeadMetricTotal">0</strong><small>Conforme os filtros atuais</small></article>
+                        <article class="admin-metric admin-metric-warning"><span>Novas</span><strong id="adminLeadMetricNew">0</strong><small>Aguardando primeiro contato</small></article>
+                        <article class="admin-metric admin-metric-positive"><span>Em atendimento</span><strong id="adminLeadMetricProgress">0</strong><small>Retorno em andamento</small></article>
+                    </div>
+
+                    <div class="admin-product-toolbar">
+                        <label class="admin-search-field" for="adminLeadSearch"><span>Buscar solicitação</span><input id="adminLeadSearch" type="search" placeholder="Nome, empresa, telefone ou equipamento"></label>
+                        <label><span>Status</span><select id="adminLeadStatus"><option value="all">Todos</option><option value="new">Novas</option><option value="in_progress">Em atendimento</option><option value="closed">Concluídas</option><option value="spam">Spam</option></select></label>
+                        <button class="admin-button admin-button-secondary" id="adminClearLeadFilters" type="button">Limpar filtros</button>
+                    </div>
+
+                    <section class="admin-section admin-catalog-section" aria-label="Lista de solicitações">
+                        <div class="admin-list-summary"><p><strong id="adminLeadCount">0 solicitações</strong> encontradas</p><span>Mais recentes primeiro</span></div>
+                        <div class="admin-table-wrap">
+                            <table class="admin-table admin-lead-table">
+                                <thead><tr><th>Contato</th><th>Assunto</th><th>Equipamento</th><th>Recebida em</th><th>Status</th><th>Ação</th></tr></thead>
+                                <tbody id="adminLeadRows"></tbody>
+                            </table>
+                        </div>
+                        <div class="admin-empty-state" id="adminLeadEmpty" hidden><strong>Nenhuma solicitação encontrada</strong><p>Novos contatos enviados pelo formulário aparecerão aqui.</p></div>
+                    </section>
+                </section>
+
                 <section class="admin-view" id="view-new-product" data-view-panel="new-product" aria-labelledby="newProductTitle" hidden>
                     <div class="admin-page-heading">
                         <div><span class="admin-eyebrow">Cadastro</span><h1 id="newProductTitle">Novo produto</h1><p>Preencha o essencial primeiro. Os campos avançados podem ser concluídos depois.</p></div>
-                        <div class="admin-heading-actions"><button class="admin-button admin-button-secondary" type="button" data-save-draft>Salvar rascunho</button><button class="admin-button admin-button-primary" type="submit" form="adminProductForm">Revisar produto</button></div>
+                        <div class="admin-heading-actions"><button class="admin-button admin-button-secondary" type="button" data-save-draft>Salvar rascunho</button><button class="admin-button admin-button-primary" type="submit" form="adminProductForm" data-product-submit>Salvar produto</button></div>
                     </div>
 
                     <div class="admin-form-layout">
@@ -241,14 +505,17 @@
                                 <div class="admin-media-grid">
                                     <label class="admin-upload admin-upload-main" for="adminMainImage">
                                         <input id="adminMainImage" type="file" accept="image/png,image/jpeg,image/webp">
-                                        <img id="adminMainPreview" src="assets/main/tr-700.png" alt="Prévia da imagem principal">
-                                        <span><strong>Imagem principal</strong><small>PNG, JPG ou WebP. Preferência por fundo limpo.</small><b>Selecionar imagem</b></span>
+                                        <img id="adminMainPreview" src="assets/main/tr-700.webp" alt="Prévia da imagem principal">
+                                        <span><strong>Imagem principal</strong><small>PNG, JPG ou WebP de até 1 MB. Preferência por fundo limpo.</small><b>Selecionar imagem</b></span>
                                     </label>
                                     <label class="admin-upload admin-upload-gallery" for="adminGalleryImages">
                                         <input id="adminGalleryImages" type="file" accept="image/png,image/jpeg,image/webp" multiple>
                                         <span class="admin-upload-plus" aria-hidden="true">+</span>
                                         <span><strong>Galeria do equipamento</strong><small id="adminGalleryStatus">Adicione de 3 a 8 imagens</small></span>
                                     </label>
+                                </div>
+                                <div class="admin-form-grid admin-media-path">
+                                    <label><span>Caminho ou URL da imagem</span><input type="text" name="imagePath" placeholder="assets/main/nome-do-produto.webp"><small>Use um arquivo da pasta assets ou uma URL HTTPS.</small></label>
                                 </div>
                             </section>
 
@@ -276,29 +543,378 @@
                             <section class="admin-form-section" id="productPublication" aria-labelledby="publicationTitle">
                                 <div class="admin-form-section-head"><span>05</span><div><h2 id="publicationTitle">Publicação e comercial</h2><p>Defina a disponibilidade e o que será apresentado ao cliente.</p></div></div>
                                 <div class="admin-form-grid admin-form-grid-2">
-                                    <label><span>Status inicial</span><select name="status"><option value="draft">Salvar como rascunho</option><option value="review">Enviar para revisão</option><option value="published">Publicar imediatamente</option></select></label>
+                                    <label><span>Status inicial</span><select name="status"><option value="draft">Salvar como rascunho</option><option value="review">Enviar para revisão</option><option value="published" data-owner-publish-option>Publicar imediatamente</option></select></label>
                                     <label><span>Disponibilidade</span><select name="availability"><option>Sob consulta</option><option>Disponível</option><option>Em fabricação</option><option>Vendido / indisponível</option></select></label>
                                     <label><span>Preço</span><select name="priceVisibility"><option>Consultar proposta</option><option>Exibir preço</option><option>Preço sob consulta</option></select></label>
                                     <label><span>Produto em destaque</span><select name="featured"><option value="no">Não</option><option value="yes">Sim, usar nos destaques</option></select></label>
                                 </div>
                                 <div class="admin-publish-checks">
-                                    <label><input type="checkbox" checked><span><strong>Exibir no catálogo</strong><small>O item poderá ser encontrado nas listagens públicas quando publicado.</small></span></label>
-                                    <label><input type="checkbox"><span><strong>Marcar como prioridade comercial</strong><small>Facilita a identificação no painel e em futuras integrações.</small></span></label>
+                                    <label><input type="checkbox" name="catalogVisible" checked><span><strong>Exibir no catálogo</strong><small>O item poderá ser encontrado nas listagens públicas quando publicado.</small></span></label>
+                                    <label><input type="checkbox" name="priority"><span><strong>Marcar como prioridade comercial</strong><small>Facilita a identificação no painel e em futuras integrações.</small></span></label>
                                 </div>
                             </section>
 
                             <div class="admin-form-footer">
-                                <span>As alterações ainda não serão persistidas.</span>
-                                <div><button class="admin-button admin-button-secondary" type="button" data-save-draft>Salvar rascunho</button><button class="admin-button admin-button-primary" type="submit">Revisar produto</button></div>
+                                <span>As alterações salvas serão refletidas nas páginas públicas.</span>
+                                <div><button class="admin-button admin-button-secondary" type="button" data-save-draft>Salvar rascunho</button><button class="admin-button admin-button-primary" type="submit" data-product-submit>Salvar produto</button></div>
                             </div>
                         </form>
                     </div>
+                </section>
+
+                <section class="admin-view" id="view-articles" data-view-panel="articles" aria-labelledby="articlesTitle" hidden>
+                    <div class="admin-page-heading">
+                        <div><span class="admin-eyebrow">Gestão editorial</span><h1 id="articlesTitle">Artigos do blog</h1><p>Crie, revise e publique conteúdo técnico nas páginas públicas do Blog Brutusmaq.</p></div>
+                        <button class="admin-button admin-button-primary" type="button" data-go-to="new-article">Adicionar artigo</button>
+                    </div>
+
+                    <div class="admin-catalog-actions" aria-label="Ações dos artigos">
+                        <div><strong>Gerenciar conteúdo</strong><small>O backup inclui artigos publicados, rascunhos e itens em revisão.</small></div>
+                        <button class="admin-button admin-button-secondary" id="adminExportArticles" type="button">Exportar backup</button>
+                        <label class="admin-button admin-button-secondary admin-file-button" for="adminImportArticles">Importar backup<input id="adminImportArticles" type="file" accept="application/json,.json"></label>
+                        <button class="admin-button admin-button-warning" id="adminResetArticles" type="button">Restaurar artigos-base</button>
+                    </div>
+
+                    <div class="admin-product-toolbar admin-article-toolbar">
+                        <label class="admin-search-field" for="adminArticleSearch"><span>Buscar artigo</span><input id="adminArticleSearch" type="search" placeholder="Título, categoria ou autor"></label>
+                        <label><span>Categoria</span><select id="adminArticleCategoryFilter"><option value="all">Todas</option></select></label>
+                        <label><span>Status</span><select id="adminArticleStatusFilter"><option value="all">Todos</option><option value="published">Publicados</option><option value="review">Em revisão</option><option value="draft">Rascunhos</option></select></label>
+                        <button class="admin-button admin-button-secondary" id="clearArticleFilters" type="button">Limpar filtros</button>
+                    </div>
+
+                    <section class="admin-section admin-catalog-section" aria-label="Lista de artigos">
+                        <div class="admin-list-summary"><p><strong id="adminArticleCount">0 artigos</strong> encontrados</p><span>Ordenação: publicação mais recente</span></div>
+                        <div class="admin-table-wrap">
+                            <table class="admin-table admin-product-table admin-article-table">
+                                <thead><tr><th>Artigo</th><th>Categoria</th><th>Status</th><th>Publicação</th><th>Atualizado</th><th>Ações</th></tr></thead>
+                                <tbody id="adminArticleRows"></tbody>
+                            </table>
+                        </div>
+                        <div class="admin-empty-state" id="adminArticleEmpty" hidden><strong>Nenhum artigo encontrado</strong><p>Revise os termos ou limpe os filtros aplicados.</p></div>
+                    </section>
+                </section>
+
+                <section class="admin-view" id="view-new-article" data-view-panel="new-article" aria-labelledby="newArticleTitle" hidden>
+                    <div class="admin-page-heading">
+                        <div><span class="admin-eyebrow">Editor do blog</span><h1 id="newArticleTitle">Novo artigo</h1><p>Organize o conteúdo, revise a apresentação e escolha quando ele ficará público.</p></div>
+                        <div class="admin-heading-actions">
+                            <a class="admin-button admin-button-secondary" id="adminArticlePreviewLink" href="blog.html" target="_blank" rel="noopener" hidden>Visualizar artigo</a>
+                            <button class="admin-button admin-button-secondary" type="button" data-save-article-draft>Salvar rascunho</button>
+                            <button class="admin-button admin-button-primary" type="submit" form="adminArticleForm" data-article-submit>Salvar artigo</button>
+                        </div>
+                    </div>
+
+                    <div class="admin-form-layout">
+                        <aside class="admin-form-steps admin-article-form-steps" aria-label="Etapas do artigo">
+                            <a href="#articleIdentity" class="is-current"><span>01</span><strong>Identificação</strong></a>
+                            <a href="#articleMedia"><span>02</span><strong>Capa</strong></a>
+                            <a href="#articleContent"><span>03</span><strong>Conteúdo</strong></a>
+                            <a href="#articleHighlights"><span>04</span><strong>Destaques</strong></a>
+                            <a href="#articlePublication"><span>05</span><strong>Publicação</strong></a>
+                        </aside>
+
+                        <form class="admin-product-form admin-article-form" id="adminArticleForm" novalidate>
+                            <div class="admin-form-message" id="adminArticleFormMessage" role="status" hidden></div>
+
+                            <section class="admin-form-section" id="articleIdentity" aria-labelledby="articleIdentityTitle">
+                                <div class="admin-form-section-head"><span>01</span><div><h2 id="articleIdentityTitle">Identificação do artigo</h2><p>Dados usados no card, na página individual e nos resultados de busca.</p></div></div>
+                                <div class="admin-form-grid admin-form-grid-2">
+                                    <label><span>Título <b>Obrigatório</b></span><input type="text" name="articleTitle" maxlength="180" placeholder="Ex.: Como escolher um triturador industrial" required></label>
+                                    <label><span>Categoria <b>Obrigatório</b></span><input type="text" name="articleCategory" maxlength="100" list="adminArticleCategories" placeholder="Ex.: Guia técnico" required><datalist id="adminArticleCategories"></datalist></label>
+                                    <label><span>Autor</span><input type="text" name="articleAuthor" maxlength="100" value="Equipe Brutusmaq"></label>
+                                    <label><span>Slug da página</span><span class="admin-input-prefix"><small>artigo/</small><input type="text" name="articleSlug" maxlength="180" placeholder="como-escolher-triturador"></span></label>
+                                </div>
+                                <div class="admin-form-grid">
+                                    <label><span>Resumo <b>Obrigatório</b></span><textarea name="articleExcerpt" rows="3" maxlength="360" placeholder="Resumo objetivo exibido no card e no topo da página." required></textarea><small>Até 360 caracteres.</small></label>
+                                </div>
+                            </section>
+
+                            <section class="admin-form-section" id="articleMedia" aria-labelledby="articleMediaTitle">
+                                <div class="admin-form-section-head"><span>02</span><div><h2 id="articleMediaTitle">Imagem de capa</h2><p>A capa aparece na listagem, no compartilhamento e nos artigos relacionados.</p></div></div>
+                                <div class="admin-media-grid admin-article-media-grid">
+                                    <label class="admin-upload admin-upload-main" for="adminArticleImage">
+                                        <input id="adminArticleImage" type="file" accept="image/png,image/jpeg,image/webp">
+                                        <img id="adminArticleImagePreview" src="assets/main/tr-700.webp" alt="Prévia da imagem de capa">
+                                        <span><strong>Imagem de capa</strong><small>PNG, JPG ou WebP de até 1 MB.</small><b>Selecionar imagem</b></span>
+                                    </label>
+                                    <div class="admin-form-grid admin-article-media-fields">
+                                        <label><span>Caminho ou URL da imagem</span><input type="text" name="articleImagePath" placeholder="assets/main/imagem-do-artigo.webp"><small>Arquivo da pasta assets ou URL HTTPS.</small></label>
+                                        <label><span>Texto alternativo <b>Obrigatório</b></span><input type="text" name="articleImageAlt" maxlength="180" placeholder="Descreva o que aparece na imagem" required></label>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="admin-form-section" id="articleContent" aria-labelledby="articleContentTitle">
+                                <div class="admin-form-section-head"><span>03</span><div><h2 id="articleContentTitle">Conteúdo principal</h2><p>Introduza o tema e divida a leitura em seções objetivas.</p></div></div>
+                                <div class="admin-form-grid">
+                                    <label><span>Introdução <b>Obrigatório</b></span><textarea name="articleIntro" rows="7" placeholder="Separe os parágrafos com uma linha em branco." required></textarea></label>
+                                </div>
+                                <div class="admin-article-section-heading"><div><strong>Seções do artigo</strong><small id="adminArticleSectionCount">1 seção</small></div><button class="admin-button admin-button-secondary" id="adminAddArticleSection" type="button">+ Adicionar seção</button></div>
+                                <div class="admin-article-section-list" id="adminArticleSectionList"></div>
+                            </section>
+
+                            <section class="admin-form-section" id="articleHighlights" aria-labelledby="articleHighlightsTitle">
+                                <div class="admin-form-section-head"><span>04</span><div><h2 id="articleHighlightsTitle">Destaques da leitura</h2><p>Blocos opcionais para resumir benefícios, aplicações e recomendações.</p></div></div>
+                                <div class="admin-form-grid admin-form-grid-2">
+                                    <label><span>Benefícios</span><textarea name="articleBenefits" rows="5" placeholder="Título | descrição, um item por linha"></textarea></label>
+                                    <label><span>Aplicações</span><textarea name="articleApplications" rows="5" placeholder="Título | descrição, um item por linha"></textarea></label>
+                                    <label><span>Pontos importantes</span><textarea name="articleChecks" rows="5" placeholder="Um ponto por linha"></textarea></label>
+                                    <label><span>Frase final em destaque</span><textarea name="articleHighlight" rows="5" maxlength="1000" placeholder="Síntese ou orientação final do artigo."></textarea></label>
+                                </div>
+                            </section>
+
+                            <section class="admin-form-section" id="articlePublication" aria-labelledby="articlePublicationTitle">
+                                <div class="admin-form-section-head"><span>05</span><div><h2 id="articlePublicationTitle">Publicação</h2><p>Controle a data, o status editorial e a visibilidade no blog.</p></div></div>
+                                <div class="admin-form-grid admin-form-grid-2">
+                                    <label><span>Status</span><select name="articleStatus"><option value="draft">Salvar como rascunho</option><option value="review">Enviar para revisão</option><option value="published" data-owner-publish-option>Publicar imediatamente</option></select></label>
+                                    <label><span>Data do artigo <b>Obrigatório</b></span><input type="date" name="articleDatetime" required></label>
+                                    <label><span>Tempo de leitura</span><span class="admin-input-suffix"><input type="number" name="articleReadingMinutes" min="1" max="60" inputmode="numeric" placeholder="Automático"><small>minutos</small></span></label>
+                                    <label><span>Trecho laranja do título</span><input type="text" name="articleAccentFrom" maxlength="100" placeholder="Parte exata do título"></label>
+                                </div>
+                                <div class="admin-publish-checks">
+                                    <label><input type="checkbox" name="articleVisible" checked><span><strong>Exibir no blog</strong><small>O artigo aparecerá no site somente quando estiver publicado.</small></span></label>
+                                    <label><input type="checkbox" name="articlePopular"><span><strong>Destacar entre os populares</strong><small>Prioriza o artigo na lista lateral do blog.</small></span></label>
+                                </div>
+                            </section>
+
+                            <div class="admin-form-footer">
+                                <span>Artigos publicados ficam disponíveis nas páginas públicas do site.</span>
+                                <div><button class="admin-button admin-button-secondary" type="button" data-save-article-draft>Salvar rascunho</button><button class="admin-button admin-button-primary" type="submit" data-article-submit>Salvar artigo</button></div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+                <section class="admin-view admin-workflow-view" id="view-reviews" data-view-panel="reviews" aria-labelledby="reviewsTitle" hidden>
+                    <div class="admin-page-heading">
+                        <div>
+                            <span class="admin-eyebrow">Governança editorial</span>
+                            <h1 id="reviewsTitle">Caixa de análise</h1>
+                            <p>Revise produtos e artigos enviados pela equipe antes que apareçam no site.</p>
+                        </div>
+                        <button class="admin-button admin-button-secondary" id="adminRefreshReviews" type="button">Atualizar fila</button>
+                    </div>
+
+                    <div class="admin-local-notice admin-workflow-local" id="adminReviewsLocalNotice" role="status" hidden>
+                        <span class="admin-notice-mark" aria-hidden="true">i</span>
+                        <div><strong>Banco central necessário</strong><p>A caixa de análise funciona quando o painel está conectado à API e ao MySQL. Inicie o servidor e acesse este painel por ele.</p></div>
+                    </div>
+
+                    <div id="adminReviewsRemoteContent">
+                        <div class="admin-metrics admin-workflow-metrics" aria-label="Resumo da caixa de análise">
+                            <article class="admin-metric admin-metric-warning"><span>Aguardando análise</span><strong id="adminReviewMetricPending">0</strong><small>Envios da equipe</small></article>
+                            <article class="admin-metric admin-metric-positive"><span>Produtos pendentes</span><strong id="adminReviewMetricProducts">0</strong><small>Catálogo e máquinas usadas</small></article>
+                            <article class="admin-metric"><span>Artigos pendentes</span><strong id="adminReviewMetricArticles">0</strong><small>Conteúdo do blog</small></article>
+                        </div>
+
+                        <div class="admin-product-toolbar admin-workflow-toolbar">
+                            <label class="admin-search-field" for="adminReviewSearch"><span>Buscar envio</span><input id="adminReviewSearch" type="search" placeholder="Título, modelo ou funcionário"></label>
+                            <label><span>Tipo</span><select id="adminReviewEntityFilter"><option value="all">Todos</option><option value="product">Produtos</option><option value="article">Artigos</option></select></label>
+                            <button class="admin-button admin-button-secondary" id="adminClearReviewFilters" type="button">Limpar filtros</button>
+                        </div>
+
+                        <section class="admin-section admin-catalog-section" aria-label="Publicações aguardando análise">
+                            <div class="admin-list-summary"><p><strong id="adminReviewCount">0 envios</strong> encontrados</p><span>Mais antigos primeiro</span></div>
+                            <div class="admin-table-wrap">
+                                <table class="admin-table admin-review-table">
+                                    <thead><tr><th>Conteúdo</th><th>Tipo</th><th>Enviado por</th><th>Recebido em</th><th>Status</th><th>Ações</th></tr></thead>
+                                    <tbody id="adminReviewRows"></tbody>
+                                </table>
+                            </div>
+                            <div class="admin-empty-state" id="adminReviewEmpty" hidden><strong>Fila de análise vazia</strong><p>Novos envios da equipe aparecerão aqui.</p></div>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="admin-view admin-workflow-view" id="view-team" data-view-panel="team" aria-labelledby="teamTitle" hidden>
+                    <div class="admin-page-heading">
+                        <div>
+                            <span class="admin-eyebrow">Administração de acessos</span>
+                            <h1 id="teamTitle">Equipe e acessos</h1>
+                            <p>Convide funcionários para preparar conteúdo sem conceder permissão de publicação.</p>
+                        </div>
+                        <button class="admin-button admin-button-secondary" id="adminRefreshTeam" type="button">Atualizar equipe</button>
+                    </div>
+
+                    <div class="admin-local-notice admin-workflow-local" id="adminTeamLocalNotice" role="status" hidden>
+                        <span class="admin-notice-mark" aria-hidden="true">i</span>
+                        <div><strong>Gestão de acessos indisponível na prévia local</strong><p>Conecte a API ao banco para criar contas, enviar convites e controlar acessos com segurança.</p></div>
+                    </div>
+
+                    <div id="adminTeamRemoteContent">
+                        <div class="admin-metrics admin-workflow-metrics" aria-label="Resumo da equipe">
+                            <article class="admin-metric"><span>Contas cadastradas</span><strong id="adminTeamMetricTotal">0</strong><small>Proprietário e funcionários</small></article>
+                            <article class="admin-metric admin-metric-positive"><span>Acessos ativos</span><strong id="adminTeamMetricActive">0</strong><small>Podem entrar no painel</small></article>
+                            <article class="admin-metric admin-metric-warning"><span>Convites pendentes</span><strong id="adminTeamMetricPending">0</strong><small>Aguardando criação de senha</small></article>
+                        </div>
+
+                        <div class="admin-workflow-grid">
+                            <section class="admin-section admin-team-invite" aria-labelledby="adminInviteTitle">
+                                <div class="admin-section-head"><div><span>Novo acesso</span><h2 id="adminInviteTitle">Convidar funcionário</h2></div><small>Perfil editorial</small></div>
+                                <form class="admin-security-form admin-team-invite-form" id="adminInviteForm" novalidate>
+                                    <div class="admin-form-message" id="adminInviteMessage" role="status" hidden></div>
+                                    <label><span>Nome do funcionário</span><input type="text" name="name" maxlength="120" autocomplete="name" required></label>
+                                    <label><span>E-mail</span><input type="email" name="email" maxlength="190" autocomplete="email" required></label>
+                                    <p>O funcionário receberá um convite para criar a própria senha e poderá enviar produtos e artigos para sua análise.</p>
+                                    <button class="admin-button admin-button-primary" type="submit">Enviar convite</button>
+                                </form>
+                                <div class="admin-setup-link" id="adminTeamSetupLink" role="status" hidden>
+                                    <strong>Link de ativação criado</strong>
+                                    <p>O envio por e-mail não está disponível. Compartilhe este link com segurança; ele será exibido somente agora.</p>
+                                    <div><input id="adminTeamSetupUrl" type="text" readonly aria-label="Link de ativação"><button class="admin-button admin-button-secondary" id="adminCopySetupUrl" type="button">Copiar link</button></div>
+                                </div>
+                            </section>
+
+                            <section class="admin-section admin-team-list" aria-labelledby="adminTeamListTitle">
+                                <div class="admin-section-head"><div><span>Contas administrativas</span><h2 id="adminTeamListTitle">Pessoas com acesso</h2></div><small id="adminTeamSummary">0 contas</small></div>
+                                <div class="admin-table-wrap">
+                                    <table class="admin-table admin-team-table">
+                                        <thead><tr><th>Pessoa</th><th>Perfil</th><th>Status</th><th>Último acesso</th><th>Ações</th></tr></thead>
+                                        <tbody id="adminTeamRows"></tbody>
+                                    </table>
+                                </div>
+                                <div class="admin-empty-state" id="adminTeamEmpty" hidden><strong>Nenhuma conta encontrada</strong><p>Convide o primeiro funcionário editorial.</p></div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+                <section class="admin-view admin-security-view" id="view-security" data-view-panel="security" aria-labelledby="securityTitle" hidden>
+                    <div class="admin-page-heading">
+                        <div>
+                            <span class="admin-eyebrow">Proteção administrativa</span>
+                            <h1 id="securityTitle">Segurança da conta</h1>
+                            <p>Controle autenticação em dois fatores, senha, dispositivos conectados e eventos recentes.</p>
+                        </div>
+                        <button class="admin-button admin-button-secondary" id="adminRefreshSecurity" type="button">Atualizar</button>
+                    </div>
+
+                    <div class="admin-security-alert" id="adminSecurityAlert" role="status" hidden></div>
+
+                    <div class="admin-security-summary" aria-label="Resumo de segurança">
+                        <article><span>Autenticação em dois fatores</span><strong id="adminMfaStatus">Verificando</strong><small id="adminMfaStatusDetail">Consulte o estado da conta</small></article>
+                        <article><span>Sessões ativas</span><strong id="adminSessionCount">0</strong><small>Dispositivos autenticados</small></article>
+                        <article><span>Códigos de recuperação</span><strong id="adminRecoveryCount">0</strong><small>Disponíveis para emergência</small></article>
+                    </div>
+
+                    <div class="admin-security-grid">
+                        <section class="admin-section admin-security-section" aria-labelledby="adminMfaTitle">
+                            <div class="admin-section-head"><div><span>Camada adicional</span><h2 id="adminMfaTitle">Autenticador</h2></div><span class="admin-status is-draft" id="adminMfaBadge">Inativo</span></div>
+                            <p>Use Google Authenticator, Microsoft Authenticator, Authy ou outro aplicativo compatível com TOTP.</p>
+
+                            <form class="admin-security-form" id="adminMfaSetupForm" novalidate>
+                                <label><span>Confirme sua senha atual</span><input type="password" name="password" autocomplete="current-password" maxlength="200" required></label>
+                                <button class="admin-button admin-button-primary" type="submit">Configurar autenticador</button>
+                            </form>
+
+                            <div class="admin-mfa-setup" id="adminMfaSetupResult" hidden>
+                                <img id="adminMfaQrCode" alt="QR Code para configurar o aplicativo autenticador">
+                                <div><span>Chave para configuração manual</span><code id="adminMfaSecret"></code></div>
+                                <form class="admin-security-form" id="adminMfaEnableForm" novalidate>
+                                    <label><span>Código exibido no aplicativo</span><input type="text" name="code" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required></label>
+                                    <button class="admin-button admin-button-primary" type="submit">Ativar proteção</button>
+                                </form>
+                            </div>
+
+                            <div class="admin-recovery-codes" id="adminRecoveryCodes" hidden>
+                                <strong>Guarde estes códigos agora</strong>
+                                <p>Cada código funciona uma única vez. Eles não serão exibidos novamente.</p>
+                                <div id="adminRecoveryCodeList"></div>
+                                <button class="admin-button admin-button-secondary" id="adminDownloadRecoveryCodes" type="button">Salvar códigos</button>
+                            </div>
+
+                            <form class="admin-security-form" id="adminMfaDisableForm" hidden novalidate>
+                                <label><span>Senha atual</span><input type="password" name="password" autocomplete="current-password" maxlength="200" required></label>
+                                <label><span>Código do autenticador</span><input type="text" name="code" autocomplete="one-time-code" maxlength="30" required></label>
+                                <button class="admin-button admin-button-danger" type="submit">Desativar autenticação em dois fatores</button>
+                            </form>
+                        </section>
+
+                        <section class="admin-section admin-security-section" aria-labelledby="adminPasswordTitle">
+                            <div class="admin-section-head"><div><span>Credencial principal</span><h2 id="adminPasswordTitle">Alterar senha</h2></div></div>
+                            <form class="admin-security-form" id="adminPasswordChangeForm" novalidate>
+                                <label><span>Senha atual</span><input type="password" name="currentPassword" autocomplete="current-password" maxlength="200" required></label>
+                                <label><span>Nova senha</span><input type="password" name="newPassword" autocomplete="new-password" minlength="12" maxlength="72" required><small>Use pelo menos 12 caracteres variados e uma senha exclusiva.</small></label>
+                                <label><span>Confirmar nova senha</span><input type="password" name="confirmPassword" autocomplete="new-password" minlength="12" maxlength="72" required></label>
+                                <label id="adminPasswordMfaField" hidden><span>Código do autenticador</span><input type="text" name="code" autocomplete="one-time-code" maxlength="30"></label>
+                                <button class="admin-button admin-button-primary" type="submit">Alterar senha e sair</button>
+                            </form>
+                        </section>
+                    </div>
+
+                    <section class="admin-section admin-security-section" aria-labelledby="adminSessionsTitle">
+                        <div class="admin-section-head"><div><span>Dispositivos conectados</span><h2 id="adminSessionsTitle">Sessões ativas</h2></div><button class="admin-button admin-button-warning" id="adminRevokeSessions" type="button">Encerrar outras sessões</button></div>
+                        <div class="admin-session-list" id="adminSessionList"></div>
+                    </section>
+
+                    <section class="admin-section admin-security-section" aria-labelledby="adminSecurityEventsTitle">
+                        <div class="admin-section-head"><div><span>Monitoramento</span><h2 id="adminSecurityEventsTitle">Eventos recentes</h2></div><small>Últimos 30 registros</small></div>
+                        <div class="admin-table-wrap">
+                            <table class="admin-table">
+                                <thead><tr><th>Evento</th><th>Resultado</th><th>Data</th><th>Referência</th></tr></thead>
+                                <tbody id="adminSecurityEventRows"></tbody>
+                            </table>
+                        </div>
+                    </section>
                 </section>
             </main>
         </div>
     </div>
 
-    <script src="js/admin.js" defer></script>
+    <dialog class="admin-dialog" id="adminDeleteDialog" aria-labelledby="adminDeleteTitle">
+        <form method="dialog">
+            <span class="admin-dialog-mark" aria-hidden="true">!</span>
+            <h2 id="adminDeleteTitle">Excluir produto?</h2>
+            <p id="adminDeleteDescription">Esta ação removerá o item selecionado.</p>
+            <div class="admin-dialog-actions">
+                <button class="admin-button admin-button-secondary" value="cancel">Cancelar</button>
+                <button class="admin-button admin-button-danger" id="adminConfirmDelete" value="confirm">Excluir produto</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="admin-dialog admin-lead-dialog" id="adminLeadDialog" aria-labelledby="adminLeadDialogTitle">
+        <form method="dialog">
+            <div class="admin-lead-dialog-head"><span class="admin-eyebrow">Detalhes da solicitação</span><h2 id="adminLeadDialogTitle">Contato recebido</h2></div>
+            <dl class="admin-lead-details" id="adminLeadDetails"></dl>
+            <label class="admin-lead-status-field"><span>Status do atendimento</span><select id="adminLeadDialogStatus"><option value="new">Nova</option><option value="in_progress">Em atendimento</option><option value="closed">Concluída</option><option value="spam">Spam</option></select></label>
+            <div class="admin-dialog-actions">
+                <button class="admin-button admin-button-secondary" value="cancel">Fechar</button>
+                <button class="admin-button admin-button-primary" id="adminSaveLeadStatus" value="save">Salvar status</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog class="admin-dialog admin-review-dialog" id="adminReviewDialog" aria-labelledby="adminReviewDialogTitle">
+        <form method="dialog" id="adminReviewDecisionForm">
+            <div class="admin-lead-dialog-head"><span class="admin-eyebrow">Conteúdo enviado pela equipe</span><h2 id="adminReviewDialogTitle">Analisar publicação</h2></div>
+            <div class="admin-review-preview" id="adminReviewPreview"></div>
+            <label class="admin-review-note"><span>Observação para o funcionário</span><textarea id="adminReviewNote" rows="4" maxlength="1000" placeholder="Obrigatória ao solicitar ajustes; opcional na aprovação."></textarea><small>Explique objetivamente o que precisa ser corrigido.</small></label>
+            <p class="admin-form-message is-error" id="adminReviewDialogMessage" role="alert" hidden></p>
+            <div class="admin-dialog-actions admin-review-dialog-actions">
+                <button class="admin-button admin-button-secondary" value="cancel">Cancelar</button>
+                <button class="admin-button admin-button-warning" id="adminRejectReview" type="button">Solicitar ajustes</button>
+                <button class="admin-button admin-button-primary" id="adminApproveReview" type="button">Aprovar e publicar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <div class="admin-toast" id="adminToast" role="status" aria-live="polite" hidden>
+        <span id="adminToastMessage"></span>
+        <button type="button" id="adminToastAction" hidden>Desfazer</button>
+        <button type="button" class="admin-toast-close" id="adminToastClose" aria-label="Fechar aviso">×</button>
+    </div>
+
+    <script src="js/catalogo-produtos.js?v=20260717c" defer></script>
+    <script src="js/catalogo-store.js?v=20260717c" defer></script>
+    <script src="js/blog-data.js?v=20260717c" defer></script>
+    <script src="js/blog-store.js?v=20260717c" defer></script>
+    <script src="js/analytics-store.js?v=20260717d" defer></script>
+    <script src="js/admin-api.js?v=20260717f" defer></script>
+    <script src="js/admin.js?v=20260717f" defer></script>
+    <script src="js/admin-blog.js?v=20260717f" defer></script>
+    <script src="js/admin-workflow.js?v=20260717f" defer></script>
+    <script src="js/admin-analytics.js?v=20260717d" defer></script>
+    <script src="js/admin-leads.js?v=20260717c" defer></script>
+    <script src="js/admin-security.js?v=20260717f" defer></script>
 </body>
 
 </html>

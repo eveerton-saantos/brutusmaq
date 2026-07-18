@@ -1,6 +1,6 @@
 (function () {
     const HERO_STORAGE_KEY = "brutusmaq-equipamentos-hero-anterior";
-    const HERO_FALLBACK_IMAGE = "assets/main/tr-700.png";
+    const HERO_FALLBACK_IMAGE = "assets/main/tr-700.webp";
 
     const categorias = {
         trituradores: {
@@ -294,7 +294,8 @@
         secoes.forEach((secao) => observador.observe(secao));
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
+        await Promise.resolve(window.BrutusmaqCatalogReady);
         const produtos = window.brutusmaqProdutosNovos || [];
 
         renderizarHero(produtos);

@@ -130,7 +130,7 @@ a {
     background:
         linear-gradient(90deg, rgba(0, 0, 0, 0.98) 0%, rgba(0, 0, 0, 0.86) 34%, rgba(0, 0, 0, 0.45) 62%, rgba(0, 0, 0, 0.2) 100%),
         linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(5, 7, 5, 0.5) 100%),
-        url("../assets/imagens-fundo/contato-brutusmaq-background.png") center 50% / cover no-repeat,
+        url("../assets/imagens-fundo/contato-brutusmaq-background.webp") center 50% / cover no-repeat,
         #050605;
     background-position: center, center, center 50%, center;
     background-size: auto, auto, cover, auto;
@@ -784,7 +784,7 @@ a {
     overflow: hidden;
     background:
         linear-gradient(90deg, rgba(5, 8, 6, 0.96) 0%, rgba(5, 8, 6, 0.86) 58%, rgba(5, 8, 6, 0.62) 100%),
-        url("../assets/imagens-fundo/imagem-fundo-div-contato-TTSP.png") center / cover no-repeat;
+        url("../assets/imagens-fundo/imagem-fundo-div-contato-TTSP.webp") center / cover no-repeat;
 }
 
 .contact-green-card::after {
@@ -991,7 +991,7 @@ a {
     padding: 34px 0;
     background:
         linear-gradient(90deg, rgba(5, 8, 6, 0.06) 0%, rgba(5, 8, 6, 0.2) 24%, rgba(5, 8, 6, 0.82) 43%, rgba(5, 8, 6, 0.98) 100%),
-        url("../assets/imagens-fundo/imagem-de-fundo-sustentabilidade.png") left 46% / cover no-repeat,
+        url("../assets/imagens-fundo/imagem-de-fundo-sustentabilidade.webp") left 46% / cover no-repeat,
         #080a08;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -1279,7 +1279,7 @@ a {
     background-color: #050605;
     background-image:
         linear-gradient(90deg, rgba(4, 5, 5, 0.97) 0%, rgba(4, 5, 5, 0.8) 44%, rgba(4, 5, 5, 0.18) 72%, rgba(4, 5, 5, 0.24) 100%),
-        url("../assets/imagens-fundo/contato-brutusmaq-background.png");
+        url("../assets/imagens-fundo/contato-brutusmaq-background.webp");
     background-position: center, right center;
     background-repeat: no-repeat;
     background-size: cover, auto 100%;
