@@ -4,7 +4,7 @@ Este projeto agora é uma aplicação Express com frontend estático, API e MySQ
 
 ## 1. Plano necessário
 
-A Hostinger informa que aplicações Node.js/Express são aceitas em Business Web Hosting, planos Cloud e VPS. Nos planos gerenciados, use **Adicionar site > Node.js Web App**. Em VPS, o processo, proxy e SSL precisam ser administrados manualmente.
+A Hostinger informa que aplicações Node.js/Express são aceitas em Business Web Hosting, planos Cloud e VPS. Nos planos gerenciados, use **Websites > Adicionar site > Deploy Web App** e escolha **Importar repositório Git**. Em VPS, o processo, proxy e SSL precisam ser administrados manualmente.
 
 Referências oficiais:
 
@@ -67,6 +67,7 @@ SESSION_HOURS=8
 ADMIN_NAME=Administrador Brutusmaq
 ADMIN_EMAIL=SEU_EMAIL_ADMINISTRATIVO
 ADMIN_PASSWORD=SENHA_ADMINISTRATIVA_COM_12_OU_MAIS_CARACTERES
+ADMIN_ROLE=owner
 
 SMTP_HOST=SERVIDOR_SMTP
 SMTP_PORT=465
@@ -93,6 +94,18 @@ Use estas configurações na aplicação Node.js:
 - Instalação: `npm install`
 - Build inicial: `npm run db:setup`
 - Start: `npm start`
+- Entry file, caso seja solicitado: `server/index.js`
+- Output directory: deixe vazio para a aplicação Express
+
+Em hospedagem gerenciada, a Hostinger mantém os arquivos de aplicações Express em `/home/USUARIO/domains/DOMINIO/nodejs` e cria o encaminhamento em `public_html/.htaccess`. Se um redeploy retornar HTTP 403, faça um novo deploy para regenerar esse arquivo antes de alterá-lo manualmente.
+
+### Perfis do painel
+
+- `owner`: administrador principal; gerencia equipe, pedidos de acesso, métricas e aprova publicações. Crie este perfil apenas pelo seed ou pelo comando administrativo.
+- `editor`: funcionário editorial; cadastra e altera produtos e artigos, mas tudo segue para aprovação do `owner`.
+- `viewer`: acesso somente para consulta, sem permissão para alterar conteúdo ou administrar pessoas.
+
+Na tela de login, uma pessoa pode solicitar acesso, mas a conta só é criada depois que o `owner` aprova o pedido em **Equipe e acessos**. O convite é enviado por e-mail quando o SMTP está configurado; caso contrário, o painel exibe um link de ativação de uso único.
 
 O build inicial cria as tabelas, o primeiro administrador e carrega o catálogo e os artigos-base somente se as tabelas estiverem vazias.
 

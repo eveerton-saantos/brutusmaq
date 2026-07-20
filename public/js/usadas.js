@@ -1,4 +1,4 @@
-const maquinasUsadasCatalogo = (window.brutusmaqMaquinasUsadas || []).filter(Boolean);
+let maquinasUsadasCatalogo = [];
 
 function escaparHtml(valor) {
     return String(valor).replace(/[&<>"']/g, (caractere) => ({
@@ -336,6 +336,7 @@ function configurarCatalogoUsadas() {
 
 document.addEventListener("DOMContentLoaded", async () => {
     await Promise.resolve(window.BrutusmaqCatalogReady);
+    maquinasUsadasCatalogo = (window.brutusmaqMaquinasUsadas || []).filter(Boolean);
     configurarCatalogoUsadas();
 });
 document.addEventListener("DOMContentLoaded", configurarRolagemParaEstoque);

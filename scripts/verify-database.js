@@ -15,6 +15,7 @@ const requiredTables = [
     "password_reset_tokens",
     "security_events",
     "admin_invitations",
+    "admin_access_requests",
     "editorial_submissions",
     "schema_migrations"
 ];
@@ -33,8 +34,10 @@ async function main() {
         const [adminRows] = await connection.query("SELECT COUNT(*) AS total FROM admins WHERE active = 1");
         const [migrationRows] = await connection.query("SELECT filename, applied_at FROM schema_migrations ORDER BY filename");
         const migrations = new Set(migrationRows.map((row) => row.filename));
-        if (!migrations.has("004_staff_approval_workflow.sql") || !migrations.has("005_editorial_restore_operation.sql")) {
-            throw new Error("Migrações editoriais 004/005 ainda não foram aplicadas.");
+        if (!migrations.has("004_staff_approval_workflow.sql")
+            || !migrations.has("005_editorial_restore_operation.sql")
+            || !migrations.has("006_admin_access_requests.sql")) {
+            throw new Error("Migrações administrativas 004/005/006 ainda não foram aplicadas.");
         }
         const [operationColumns] = await connection.query("SHOW COLUMNS FROM editorial_submissions LIKE 'operation'");
         if (!String(operationColumns[0]?.Type || "").includes("'restore'")) {

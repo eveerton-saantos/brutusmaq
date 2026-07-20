@@ -8,9 +8,9 @@
     <meta name="referrer" content="same-origin">
     <title>Desempenho | Brutusmaq</title>
     <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
-    <link rel="stylesheet" href="css/admin.css?v=20260717f">
-    <link rel="stylesheet" href="css/admin-analytics.css?v=20260717d">
-    <link rel="stylesheet" href="css/admin-security.css?v=20260717c">
+    <link rel="stylesheet" href="css/admin.css?v=20260719e">
+    <link rel="stylesheet" href="css/admin-analytics.css?v=20260719e">
+    <link rel="stylesheet" href="css/admin-security.css?v=20260719e">
 </head>
 
 <body class="admin-locked">
@@ -27,6 +27,7 @@
                 <p class="admin-auth-message" id="adminAuthMessage" role="alert" hidden></p>
                 <button class="admin-button admin-button-primary" type="submit">Entrar no painel</button>
                 <button class="admin-auth-link" id="adminForgotPasswordOpen" type="button">Esqueci minha senha</button>
+                <button class="admin-auth-link" id="adminAccessRequestOpen" type="button">Solicitar acesso ao painel</button>
             </form>
             <form id="adminMfaLoginForm" data-auth-form="mfa" hidden novalidate>
                 <label><span>Código de verificação</span><input type="text" name="code" autocomplete="one-time-code" inputmode="numeric" maxlength="30" placeholder="000000 ou código de recuperação" required></label>
@@ -38,6 +39,15 @@
                 <label><span>E-mail administrativo</span><input type="email" name="email" autocomplete="username" maxlength="190" required></label>
                 <p class="admin-auth-message" id="adminForgotMessage" role="status" hidden></p>
                 <button class="admin-button admin-button-primary" type="submit">Enviar instruções</button>
+                <button class="admin-auth-link" type="button" data-auth-back>Voltar ao login</button>
+            </form>
+            <form id="adminAccessRequestForm" data-auth-form="access" hidden novalidate>
+                <label><span>Seu nome</span><input type="text" name="name" autocomplete="name" minlength="2" maxlength="120" required></label>
+                <label><span>E-mail de trabalho</span><input type="email" name="email" autocomplete="email" maxlength="190" required></label>
+                <label><span>Perfil necessário</span><select name="requestedRole" required><option value="editor">Funcionário editorial</option><option value="viewer">Somente leitura</option></select></label>
+                <label><span>Por que precisa do acesso?</span><textarea name="reason" maxlength="1000" rows="3" placeholder="Ex.: cadastrar produtos e preparar artigos para aprovação"></textarea></label>
+                <p class="admin-auth-message" id="adminAccessRequestMessage" role="status" hidden></p>
+                <button class="admin-button admin-button-primary" type="submit">Enviar solicitação</button>
                 <button class="admin-auth-link" type="button" data-auth-back>Voltar ao login</button>
             </form>
             <form id="adminResetPasswordForm" data-auth-form="reset" hidden novalidate>
@@ -468,8 +478,11 @@
                             <a href="#productIdentity" class="is-current"><span>01</span><strong>Identificação</strong></a>
                             <a href="#productMedia"><span>02</span><strong>Imagens</strong></a>
                             <a href="#productContent"><span>03</span><strong>Conteúdo</strong></a>
-                            <a href="#productSpecs"><span>04</span><strong>Ficha técnica</strong></a>
-                            <a href="#productPublication"><span>05</span><strong>Publicação</strong></a>
+                            <a href="#productPresentation" data-new-product-only><span>04</span><strong>Página do produto</strong></a>
+                            <a href="#productUsedDetails" data-used-product-only hidden><span>04</span><strong>Detalhes do usado</strong></a>
+                            <a href="#productSpecs"><span>05</span><strong>Ficha técnica</strong></a>
+                            <a href="#productDocuments"><span>06</span><strong>Vídeo e arquivos</strong></a>
+                            <a href="#productPublication"><span>07</span><strong>Publicação</strong></a>
                         </aside>
 
                         <form class="admin-product-form" id="adminProductForm" novalidate>
@@ -483,20 +496,37 @@
                                         <label><input type="radio" name="productType" value="novo" checked><span>Equipamento novo</span></label>
                                         <label><input type="radio" name="productType" value="usado"><span>Máquina usada</span></label>
                                     </div>
+                                    <small id="adminProductTypeHelp">O tipo não poderá ser alterado depois do primeiro salvamento.</small>
                                 </fieldset>
                                 <div class="admin-form-grid admin-form-grid-2">
                                     <label><span>Nome ou modelo <b>Obrigatório</b></span><input type="text" name="model" placeholder="Ex.: TR-700" required></label>
-                                    <label><span>Código interno / SKU</span><input type="text" name="sku" placeholder="Ex.: BM-TR700"></label>
-                                    <label><span>Categoria <b>Obrigatório</b></span><select name="category" required><option value="">Selecione</option><option>Trituradores</option><option>Moinhos</option><option>Esteiras transportadoras</option><option>Máquinas usadas</option></select><button class="admin-inline-action" type="button">+ Criar categoria</button></label>
+                                    <label><span>Código interno / SKU</span><input type="text" name="sku" placeholder="Ex.: BM-TR700"><small>Somente para organização no painel; não aparece na página pública.</small></label>
+                                    <label data-new-product-only><span>Linha do equipamento <b>Obrigatório</b></span><select name="line" required><option value="">Selecione a linha</option><option value="Trituradores">Trituradores</option><option value="Moinhos">Moinhos</option><option value="Esteiras transportadoras">Esteiras transportadoras</option><option value="Outros equipamentos">Outros equipamentos</option></select><small>Define em qual seção do catálogo o equipamento novo será exibido.</small></label>
+                                    <label><span>Categoria específica <b>Obrigatório</b></span><input type="text" name="category" list="adminProductCategories" placeholder="Ex.: Coletor de pó" required><small>Informe o tipo do produto, como triturador de duplo eixo, silo ou acessório.</small></label>
                                     <label><span>Slug da página</span><span class="admin-input-prefix"><small>produto/</small><input type="text" name="slug" placeholder="tr-700"></span></label>
                                 </div>
+                                <datalist id="adminProductCategories"><option value="Triturador de duplo eixo"></option><option value="Moinho granulador"></option><option value="Esteira transportadora"></option><option value="Coletor de pó"></option><option value="Silo"></option><option value="Acessório industrial"></option><option value="Máquinas usadas"></option></datalist>
                                 <div class="admin-used-fields" id="adminUsedFields" hidden>
-                                    <div class="admin-subsection-title"><strong>Dados da máquina usada</strong><span>Exibidos somente para produtos usados.</span></div>
+                                    <div class="admin-subsection-title"><strong>Resumo da máquina usada</strong><span>Estes dados aparecem em destaque no topo da página.</span></div>
                                     <div class="admin-form-grid admin-form-grid-3">
-                                        <label><span>Condição</span><select name="condition"><option>Revisado e testado</option><option>Em avaliação</option><option>Vendido no estado</option></select></label>
-                                        <label><span>Localização</span><input type="text" name="location" value="Contenda - PR"></label>
-                                        <label><span>Garantia</span><input type="text" name="usedWarranty" placeholder="Ex.: 90 dias ou sob consulta"></label>
+                                        <label><span>Ano</span><input type="text" name="usedYear" inputmode="numeric" maxlength="20" placeholder="Ex.: 2021 ou 2021/2022"></label>
+                                        <label><span>Condição</span><input type="text" name="condition" list="adminUsedConditions" maxlength="240" placeholder="Ex.: Revisado e testado"></label>
+                                        <label><span>Disponibilidade</span><select name="usedAvailability"><option>Sob consulta</option><option>Disponível</option><option>Em revisão</option><option>Reservado</option><option>Vendido / indisponível</option></select></label>
+                                        <label><span>Localização</span><input type="text" name="location" maxlength="240" value="Contenda - PR"></label>
+                                        <label><span>Garantia</span><input type="text" name="usedWarranty" maxlength="240" placeholder="Ex.: 90 dias ou sob consulta"></label>
                                     </div>
+                                    <datalist id="adminUsedConditions"><option value="Revisado e testado"></option><option value="Em avaliação técnica"></option><option value="Vendido no estado"></option><option value="Necessita revisão"></option></datalist>
+                                    <fieldset class="admin-used-card-field" aria-describedby="adminUsedCardHelp adminUsedCardCounter">
+                                        <legend>Cards em destaque</legend>
+                                        <p id="adminUsedCardHelp">Escolha e ordene até quatro informações para aparecerem no topo da página. Os valores são buscados automaticamente no cadastro.</p>
+                                        <div class="admin-used-card-slots">
+                                            <label><span>Card 1</span><select name="usedInfoCard1" data-used-info-card><option value="">Não exibir</option><option value="ano">Ano</option><option value="condicao">Condição</option><option value="garantia">Garantia</option><option value="localizacao">Localização</option><option value="disponibilidade">Disponibilidade</option><option value="preco">Preço</option><option value="entrega">Prazo de entrega</option><option value="pagamento">Condições de pagamento</option><option value="transporte">Transporte</option><option value="horas-uso">Horas de uso</option><option value="potencia">Potência</option><option value="boca-alimentacao">Boca de alimentação</option></select></label>
+                                            <label><span>Card 2</span><select name="usedInfoCard2" data-used-info-card><option value="">Não exibir</option><option value="ano">Ano</option><option value="condicao">Condição</option><option value="garantia">Garantia</option><option value="localizacao">Localização</option><option value="disponibilidade">Disponibilidade</option><option value="preco">Preço</option><option value="entrega">Prazo de entrega</option><option value="pagamento">Condições de pagamento</option><option value="transporte">Transporte</option><option value="horas-uso">Horas de uso</option><option value="potencia">Potência</option><option value="boca-alimentacao">Boca de alimentação</option></select></label>
+                                            <label><span>Card 3</span><select name="usedInfoCard3" data-used-info-card><option value="">Não exibir</option><option value="ano">Ano</option><option value="condicao">Condição</option><option value="garantia">Garantia</option><option value="localizacao">Localização</option><option value="disponibilidade">Disponibilidade</option><option value="preco">Preço</option><option value="entrega">Prazo de entrega</option><option value="pagamento">Condições de pagamento</option><option value="transporte">Transporte</option><option value="horas-uso">Horas de uso</option><option value="potencia">Potência</option><option value="boca-alimentacao">Boca de alimentação</option></select></label>
+                                            <label><span>Card 4</span><select name="usedInfoCard4" data-used-info-card><option value="">Não exibir</option><option value="ano">Ano</option><option value="condicao">Condição</option><option value="garantia">Garantia</option><option value="localizacao">Localização</option><option value="disponibilidade">Disponibilidade</option><option value="preco">Preço</option><option value="entrega">Prazo de entrega</option><option value="pagamento">Condições de pagamento</option><option value="transporte">Transporte</option><option value="horas-uso">Horas de uso</option><option value="potencia">Potência</option><option value="boca-alimentacao">Boca de alimentação</option></select></label>
+                                        </div>
+                                        <div class="admin-used-card-summary" id="adminUsedCardCounter" role="status" aria-live="polite" aria-atomic="true"><strong>4 de 4 selecionados</strong><small>A ordem dos seletores é a ordem exibida na página.</small></div>
+                                    </fieldset>
                                 </div>
                             </section>
 
@@ -517,36 +547,113 @@
                                 <div class="admin-form-grid admin-media-path">
                                     <label><span>Caminho ou URL da imagem</span><input type="text" name="imagePath" placeholder="assets/main/nome-do-produto.webp"><small>Use um arquivo da pasta assets ou uma URL HTTPS.</small></label>
                                 </div>
+                                <div class="admin-form-grid admin-form-grid-2">
+                                    <label><span>Texto alternativo da imagem</span><input type="text" name="imageAlt" maxlength="180" placeholder="Ex.: Triturador TR-700 usado Brutusmaq"><small>Descreva a imagem para acessibilidade e buscadores.</small></label>
+                                    <label data-new-product-only><span>Tipo das imagens</span><select name="imageType"><option value="ilustrativa">Ilustrativas</option><option value="real">Reais</option><option value="mista">Reais e ilustrativas</option></select></label>
+                                    <label><span>Observação abaixo da galeria</span><input type="text" name="imageNote" maxlength="300" placeholder="Ex.: Fotos reais e atualizadas desta unidade."><small>Use para informar se as fotos são reais, ilustrativas ou quando foram atualizadas.</small></label>
+                                </div>
                             </section>
 
                             <section class="admin-form-section" id="productContent" aria-labelledby="contentTitle">
                                 <div class="admin-form-section-head"><span>03</span><div><h2 id="contentTitle">Conteúdo comercial</h2><p>Texto objetivo para ajudar o cliente a entender aplicação e diferencial.</p></div></div>
                                 <div class="admin-form-grid">
-                                    <label><span>Resumo curto <b>Obrigatório</b></span><input type="text" name="summary" maxlength="120" placeholder="Frase exibida nos cards e no início da página" required><small>Até 120 caracteres.</small></label>
+                                    <label><span>Descrição curta <b>Obrigatório</b></span><input type="text" name="summary" maxlength="120" placeholder="Frase objetiva exibida no topo da página" aria-describedby="adminSummaryHelp adminSummaryCounter" required><small id="adminSummaryHelp">Ideal: de 70 a 110 caracteres. Máximo de 120.</small><small class="admin-character-counter" id="adminSummaryCounter" role="status" aria-live="polite">0 de 120 caracteres</small></label>
                                     <label><span>Descrição completa</span><textarea name="description" rows="5" placeholder="Apresente o equipamento, sua aplicação e os principais ganhos para a operação."></textarea></label>
                                 </div>
                                 <div class="admin-form-grid admin-form-grid-2">
-                                    <label><span>Aplicações</span><textarea name="applications" rows="4" placeholder="Uma aplicação por linha"></textarea></label>
-                                    <label><span>Materiais processados</span><textarea name="materials" rows="4" placeholder="Um material por linha"></textarea></label>
+                                    <label><span>Aplicações</span><textarea name="applications" rows="4" placeholder="Uma aplicação por linha"></textarea><small>Aparecem nos cartões da seção Aplicações indicadas.</small></label>
+                                    <label><span>Materiais processados</span><textarea name="materials" rows="4" placeholder="Um material por linha"></textarea><small>Alimentam as opções do pedido de proposta.</small></label>
                                 </div>
                             </section>
 
+                            <section class="admin-form-section" id="productPresentation" aria-labelledby="presentationTitle" data-new-product-only>
+                                <div class="admin-form-section-head"><span>04</span><div><h2 id="presentationTitle">Informações da página do produto</h2><p>Complete os blocos exibidos no topo e nas seções comerciais do equipamento.</p></div></div>
+                                <div class="admin-form-grid admin-form-grid-2">
+                                    <label><span>Diferenciais no topo</span><textarea name="resources" rows="5" placeholder="Um diferencial por linha&#10;Ex.: Alto fluxo de ar&#10;Baixo nível de vibração"></textarea><small>Aparecem abaixo do resumo curto. Recomendado: de três a seis itens.</small></label>
+                                    <label><span>Pontos de destaque</span><textarea name="highlights" rows="5" placeholder="Um ponto por linha&#10;Ex.: Rotor balanceado dinamicamente&#10;Manutenção simplificada"></textarea><small>Até seis itens aparecem ao lado do vídeo.</small></label>
+                                </div>
+                                <div class="admin-form-grid admin-form-grid-2">
+                                    <label><span>Título da seção técnica</span><input type="text" name="aboutTitle" maxlength="180" placeholder="Ex.: Engenharia para uma operação mais limpa"></label>
+                                    <label><span>Introdução das aplicações</span><input type="text" name="applicationsIntro" maxlength="300" placeholder="Explique como as aplicações devem ser validadas."></label>
+                                </div>
+                                <div class="admin-form-grid">
+                                    <label><span>Parágrafos técnicos adicionais</span><textarea name="aboutParagraphs" rows="5" placeholder="Um parágrafo por linha. A descrição completa continuará aparecendo primeiro."></textarea></label>
+                                    <fieldset class="admin-benefit-field" aria-describedby="adminBenefitHelp adminBenefitCounter">
+                                        <legend>Benefícios comerciais</legend>
+                                        <p class="admin-benefit-help" id="adminBenefitHelp">Marque os diferenciais que realmente combinam com este produto. Você pode escolher até quatro no total.</p>
+                                        <div class="admin-benefit-options">
+                                            <label class="admin-benefit-option"><input type="checkbox" name="benefitOptions" value="Projeto sob medida | Dimensionamento conforme o material, a capacidade e o processo."><span><strong>Projeto sob medida</strong><small>Dimensionamento conforme o material, a capacidade e o processo.</small></span></label>
+                                            <label class="admin-benefit-option"><input type="checkbox" name="benefitOptions" value="Construção industrial | Componentes selecionados para a rotina e as condições da operação."><span><strong>Construção industrial</strong><small>Componentes selecionados para a rotina e as condições da operação.</small></span></label>
+                                            <label class="admin-benefit-option"><input type="checkbox" name="benefitOptions" value="Alta produtividade | Configuração orientada ao fluxo e à capacidade definidos no projeto."><span><strong>Alta produtividade</strong><small>Configuração orientada ao fluxo e à capacidade definidos no projeto.</small></span></label>
+                                            <label class="admin-benefit-option"><input type="checkbox" name="benefitOptions" value="Baixa manutenção | Acesso facilitado aos pontos previstos para inspeção e intervenção."><span><strong>Baixa manutenção</strong><small>Acesso facilitado aos pontos previstos para inspeção e intervenção.</small></span></label>
+                                            <label class="admin-benefit-option"><input type="checkbox" name="benefitOptions" value="Segurança operacional | Proteções e recursos definidos conforme a aplicação do equipamento."><span><strong>Segurança operacional</strong><small>Proteções e recursos definidos conforme a aplicação do equipamento.</small></span></label>
+                                            <label class="admin-benefit-option"><input type="checkbox" name="benefitOptions" value="Eficiência energética | Motorização e acionamentos dimensionados para a necessidade da operação."><span><strong>Eficiência energética</strong><small>Motorização e acionamentos dimensionados para a necessidade da operação.</small></span></label>
+                                            <label class="admin-benefit-option"><input type="checkbox" name="benefitOptions" value="Integração de linha | Adaptação às etapas de alimentação, processamento e descarga."><span><strong>Integração de linha</strong><small>Adaptação às etapas de alimentação, processamento e descarga.</small></span></label>
+                                            <label class="admin-benefit-option"><input type="checkbox" name="benefitOptions" value="Suporte técnico | Acompanhamento na especificação, implantação e pós-venda."><span><strong>Suporte técnico</strong><small>Acompanhamento na especificação, implantação e pós-venda.</small></span></label>
+                                        </div>
+                                        <div class="admin-benefit-summary" id="adminBenefitCounter" role="status" aria-live="polite" aria-atomic="true"><strong>0 de 4 selecionados</strong><small>As opções marcadas aparecem como cartões na página do produto.</small></div>
+                                        <label class="admin-benefit-custom"><span>Benefício personalizado</span><textarea name="benefitsCustom" rows="3" maxlength="2400" placeholder="Um por linha no formato: Título | Explicação"></textarea><small>Use este campo somente quando nenhuma opção acima representar o diferencial. Cada linha também conta no limite de quatro.</small></label>
+                                    </fieldset>
+                                </div>
+                                <div class="admin-form-grid admin-form-grid-3">
+                                    <label><span>Aplicação principal</span><input type="text" name="mainApplication" maxlength="300" placeholder="Ex.: Captação de partículas leves"></label>
+                                    <label><span>Garantia</span><input type="text" name="newWarranty" maxlength="160" placeholder="Ex.: 12 meses"></label>
+                                    <label><span>Fabricação</span><input type="text" name="manufacturing" maxlength="160" placeholder="Ex.: 100% nacional"></label>
+                                </div>
+                                <div class="admin-form-grid admin-form-grid-2">
+                                    <label><span>Etiqueta sobre a imagem</span><input type="text" name="publicStatus" maxlength="100" placeholder="Ex.: Lançamento"></label>
+                                    <label><span>Nota da ficha técnica</span><input type="text" name="technicalNote" maxlength="500" placeholder="Ex.: Capacidades variam conforme o material."></label>
+                                </div>
+                            </section>
+
+                            <section class="admin-form-section" id="productUsedDetails" aria-labelledby="usedDetailsTitle" data-used-product-only hidden>
+                                <div class="admin-form-section-head"><span>04</span><div><h2 id="usedDetailsTitle">Detalhes da máquina usada</h2><p>Preencha as listas e condições que o cliente verá na página deste equipamento.</p></div></div>
+                                <div class="admin-form-grid admin-form-grid-2">
+                                    <label><span>O que acompanha</span><textarea name="includedItems" rows="5" maxlength="9000" placeholder="Um item por linha&#10;Ex.: Painel elétrico&#10;Conjunto de facas instalado"></textarea><small>Informe acessórios, componentes e serviços incluídos na negociação.</small></label>
+                                    <label><span>Avaliação técnica</span><textarea name="technicalAssessment" rows="5" maxlength="9000" placeholder="Uma verificação por linha&#10;Ex.: Motores e redutores testados&#10;Estrutura avaliada"></textarea><small>Registre somente verificações já realizadas nesta unidade.</small></label>
+                                </div>
+                                <div class="admin-subsection-title admin-commercial-title"><strong>Informações comerciais</strong><span>Edite os valores sugeridos ou adicione novas linhas. A disponibilidade usa o campo preenchido no resumo.</span></div>
+                                <div class="admin-spec-list" id="adminCommercialList">
+                                    <div class="admin-spec-row admin-commercial-row"><input type="text" aria-label="Nome da informação comercial" value="Preço"><input type="text" aria-label="Valor da informação comercial" value="Consultar valor"><button type="button" data-remove-commercial aria-label="Remover informação comercial">×</button></div>
+                                    <div class="admin-spec-row admin-commercial-row"><input type="text" aria-label="Nome da informação comercial" value="Prazo de entrega"><input type="text" aria-label="Valor da informação comercial" value="A combinar"><button type="button" data-remove-commercial aria-label="Remover informação comercial">×</button></div>
+                                    <div class="admin-spec-row admin-commercial-row"><input type="text" aria-label="Nome da informação comercial" value="Condições de pagamento"><input type="text" aria-label="Valor da informação comercial" value="Conforme proposta"><button type="button" data-remove-commercial aria-label="Remover informação comercial">×</button></div>
+                                    <div class="admin-spec-row admin-commercial-row"><input type="text" aria-label="Nome da informação comercial" value="Transporte"><input type="text" aria-label="Valor da informação comercial" value="A combinar"><button type="button" data-remove-commercial aria-label="Remover informação comercial">×</button></div>
+                                </div>
+                                <button class="admin-button admin-button-secondary" id="adminAddCommercial" type="button">+ Adicionar informação comercial</button>
+                            </section>
+
                             <section class="admin-form-section" id="productSpecs" aria-labelledby="specsTitle">
-                                <div class="admin-form-section-head"><span>04</span><div><h2 id="specsTitle">Ficha técnica</h2><p>Use pares de informação para manter a tabela técnica organizada.</p></div></div>
+                                <div class="admin-form-section-head"><span>05</span><div><h2 id="specsTitle">Ficha técnica</h2><p>Use pares de informação para manter a tabela técnica organizada.</p></div></div>
                                 <div class="admin-spec-list" id="adminSpecList">
                                     <div class="admin-spec-row"><input type="text" aria-label="Nome da especificação" placeholder="Ex.: Potência instalada"><input type="text" aria-label="Valor da especificação" placeholder="Ex.: 2 x 30 CV"><button type="button" data-remove-spec aria-label="Remover especificação">×</button></div>
                                     <div class="admin-spec-row"><input type="text" aria-label="Nome da especificação" placeholder="Ex.: Produção aproximada"><input type="text" aria-label="Valor da especificação" placeholder="Ex.: 1 a 3 t/h"><button type="button" data-remove-spec aria-label="Remover especificação">×</button></div>
                                 </div>
                                 <button class="admin-button admin-button-secondary" id="adminAddSpec" type="button">+ Adicionar especificação</button>
+                                <div class="admin-form-grid admin-spec-note-field" data-used-product-only hidden>
+                                    <label><span>Observação da ficha técnica</span><input type="text" name="usedTechnicalNote" maxlength="500" placeholder="Ex.: A produção varia conforme o material e as condições de operação."><small>Aparece logo abaixo da tabela técnica.</small></label>
+                                </div>
+                            </section>
+
+                            <section class="admin-form-section" id="productDocuments" aria-labelledby="documentsTitle">
+                                <div class="admin-form-section-head"><span>06</span><div><h2 id="documentsTitle">Vídeo e arquivos técnicos</h2><p>Campos opcionais exibidos somente quando houver um conteúdo válido cadastrado.</p></div></div>
+                                <div class="admin-form-grid">
+                                    <label><span>Vídeo do YouTube</span><input type="text" name="youtubeVideo" placeholder="Cole a URL do vídeo ou informe o ID do YouTube"><small>O player será exibido diretamente na página do equipamento.</small></label>
+                                </div>
+                                <div class="admin-form-grid admin-form-grid-2" data-new-product-only>
+                                    <label><span>Catálogo técnico</span><input type="text" name="downloadCatalog" placeholder="assets/downloads/catalogo.pdf ou URL HTTPS"></label>
+                                    <label><span>Manual de operação</span><input type="text" name="downloadManual" placeholder="assets/downloads/manual.pdf ou URL HTTPS"></label>
+                                    <label><span>Desenho técnico</span><input type="text" name="downloadDrawing" placeholder="assets/downloads/desenho.pdf ou URL HTTPS"></label>
+                                    <label><span>Certificado NR12</span><input type="text" name="downloadNr12" placeholder="assets/downloads/nr12.pdf ou URL HTTPS"></label>
+                                </div>
                             </section>
 
                             <section class="admin-form-section" id="productPublication" aria-labelledby="publicationTitle">
-                                <div class="admin-form-section-head"><span>05</span><div><h2 id="publicationTitle">Publicação e comercial</h2><p>Defina a disponibilidade e o que será apresentado ao cliente.</p></div></div>
+                                <div class="admin-form-section-head"><span>07</span><div><h2 id="publicationTitle">Publicação e comercial</h2><p>Defina a disponibilidade e o que será apresentado ao cliente.</p></div></div>
                                 <div class="admin-form-grid admin-form-grid-2">
                                     <label><span>Status inicial</span><select name="status"><option value="draft">Salvar como rascunho</option><option value="review">Enviar para revisão</option><option value="published" data-owner-publish-option>Publicar imediatamente</option></select></label>
-                                    <label><span>Disponibilidade</span><select name="availability"><option>Sob consulta</option><option>Disponível</option><option>Em fabricação</option><option>Vendido / indisponível</option></select></label>
-                                    <label><span>Preço</span><select name="priceVisibility"><option>Consultar proposta</option><option>Exibir preço</option><option>Preço sob consulta</option></select></label>
-                                    <label><span>Produto em destaque</span><select name="featured"><option value="no">Não</option><option value="yes">Sim, usar nos destaques</option></select></label>
+                                    <label data-new-product-only><span>Disponibilidade</span><select name="availability"><option>Sob consulta</option><option>Disponível</option><option>Em fabricação</option><option>Vendido / indisponível</option></select></label>
+                                    <label data-new-product-only><span>Preço</span><select name="priceVisibility"><option>Consultar proposta</option><option>Exibir preço</option><option>Preço sob consulta</option></select></label>
+                                    <label><span>Destacar nas vitrines</span><select name="featured"><option value="no">Não</option><option value="yes">Sim, usar nas vitrines do site</option></select><small>Esta opção não altera os pontos de destaque escritos acima.</small></label>
                                 </div>
                                 <div class="admin-publish-checks">
                                     <label><input type="checkbox" name="catalogVisible" checked><span><strong>Exibir no catálogo</strong><small>O item poderá ser encontrado nas listagens públicas quando publicado.</small></span></label>
@@ -745,6 +852,7 @@
                             <article class="admin-metric"><span>Contas cadastradas</span><strong id="adminTeamMetricTotal">0</strong><small>Proprietário e funcionários</small></article>
                             <article class="admin-metric admin-metric-positive"><span>Acessos ativos</span><strong id="adminTeamMetricActive">0</strong><small>Podem entrar no painel</small></article>
                             <article class="admin-metric admin-metric-warning"><span>Convites pendentes</span><strong id="adminTeamMetricPending">0</strong><small>Aguardando criação de senha</small></article>
+                            <article class="admin-metric admin-metric-warning"><span>Pedidos de acesso</span><strong id="adminAccessRequestMetricPending">0</strong><small>Aguardando sua análise</small></article>
                         </div>
 
                         <div class="admin-workflow-grid">
@@ -754,7 +862,8 @@
                                     <div class="admin-form-message" id="adminInviteMessage" role="status" hidden></div>
                                     <label><span>Nome do funcionário</span><input type="text" name="name" maxlength="120" autocomplete="name" required></label>
                                     <label><span>E-mail</span><input type="email" name="email" maxlength="190" autocomplete="email" required></label>
-                                    <p>O funcionário receberá um convite para criar a própria senha e poderá enviar produtos e artigos para sua análise.</p>
+                                    <label><span>Perfil de acesso</span><select name="role" required><option value="editor">Funcionário editorial</option><option value="viewer">Somente leitura</option></select></label>
+                                    <p>O funcionário receberá um convite para criar a própria senha. O perfil editorial envia alterações para sua aprovação; o perfil de leitura não altera conteúdo.</p>
                                     <button class="admin-button admin-button-primary" type="submit">Enviar convite</button>
                                 </form>
                                 <div class="admin-setup-link" id="adminTeamSetupLink" role="status" hidden>
@@ -773,6 +882,17 @@
                                     </table>
                                 </div>
                                 <div class="admin-empty-state" id="adminTeamEmpty" hidden><strong>Nenhuma conta encontrada</strong><p>Convide o primeiro funcionário editorial.</p></div>
+                            </section>
+
+                            <section class="admin-section admin-access-requests" aria-labelledby="adminAccessRequestListTitle">
+                                <div class="admin-section-head"><div><span>Entrada controlada</span><h2 id="adminAccessRequestListTitle">Solicitações de acesso</h2></div><small id="adminAccessRequestSummary">0 pedidos</small></div>
+                                <div class="admin-table-wrap">
+                                    <table class="admin-table admin-access-request-table">
+                                        <thead><tr><th>Pessoa</th><th>Perfil solicitado</th><th>Motivo</th><th>Recebido em</th><th>Ações</th></tr></thead>
+                                        <tbody id="adminAccessRequestRows"></tbody>
+                                    </table>
+                                </div>
+                                <div class="admin-empty-state" id="adminAccessRequestEmpty" hidden><strong>Nenhuma solicitação pendente</strong><p>Novos pedidos feitos na tela de login aparecerão aqui.</p></div>
                             </section>
                         </div>
                     </div>
@@ -798,45 +918,49 @@
                     <div class="admin-security-grid">
                         <section class="admin-section admin-security-section" aria-labelledby="adminMfaTitle">
                             <div class="admin-section-head"><div><span>Camada adicional</span><h2 id="adminMfaTitle">Autenticador</h2></div><span class="admin-status is-draft" id="adminMfaBadge">Inativo</span></div>
-                            <p>Use Google Authenticator, Microsoft Authenticator, Authy ou outro aplicativo compatível com TOTP.</p>
+                            <div class="admin-security-section-body">
+                                <p>Use Google Authenticator, Microsoft Authenticator, Authy ou outro aplicativo compatível com TOTP.</p>
 
-                            <form class="admin-security-form" id="adminMfaSetupForm" novalidate>
-                                <label><span>Confirme sua senha atual</span><input type="password" name="password" autocomplete="current-password" maxlength="200" required></label>
-                                <button class="admin-button admin-button-primary" type="submit">Configurar autenticador</button>
-                            </form>
+                                <form class="admin-security-form" id="adminMfaSetupForm" novalidate>
+                                    <label><span>Confirme sua senha atual</span><input type="password" name="password" autocomplete="current-password" maxlength="200" required></label>
+                                    <button class="admin-button admin-button-primary" type="submit">Configurar autenticador</button>
+                                </form>
 
-                            <div class="admin-mfa-setup" id="adminMfaSetupResult" hidden>
-                                <img id="adminMfaQrCode" alt="QR Code para configurar o aplicativo autenticador">
-                                <div><span>Chave para configuração manual</span><code id="adminMfaSecret"></code></div>
-                                <form class="admin-security-form" id="adminMfaEnableForm" novalidate>
-                                    <label><span>Código exibido no aplicativo</span><input type="text" name="code" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required></label>
-                                    <button class="admin-button admin-button-primary" type="submit">Ativar proteção</button>
+                                <div class="admin-mfa-setup" id="adminMfaSetupResult" hidden>
+                                    <img id="adminMfaQrCode" alt="QR Code para configurar o aplicativo autenticador">
+                                    <div><span>Chave para configuração manual</span><code id="adminMfaSecret"></code></div>
+                                    <form class="admin-security-form" id="adminMfaEnableForm" novalidate>
+                                        <label><span>Código exibido no aplicativo</span><input type="text" name="code" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required></label>
+                                        <button class="admin-button admin-button-primary" type="submit">Ativar proteção</button>
+                                    </form>
+                                </div>
+
+                                <div class="admin-recovery-codes" id="adminRecoveryCodes" hidden>
+                                    <strong>Guarde estes códigos agora</strong>
+                                    <p>Cada código funciona uma única vez. Eles não serão exibidos novamente.</p>
+                                    <div id="adminRecoveryCodeList"></div>
+                                    <button class="admin-button admin-button-secondary" id="adminDownloadRecoveryCodes" type="button">Salvar códigos</button>
+                                </div>
+
+                                <form class="admin-security-form" id="adminMfaDisableForm" hidden novalidate>
+                                    <label><span>Senha atual</span><input type="password" name="password" autocomplete="current-password" maxlength="200" required></label>
+                                    <label><span>Código do autenticador</span><input type="text" name="code" autocomplete="one-time-code" maxlength="30" required></label>
+                                    <button class="admin-button admin-button-danger" type="submit">Desativar autenticação em dois fatores</button>
                                 </form>
                             </div>
-
-                            <div class="admin-recovery-codes" id="adminRecoveryCodes" hidden>
-                                <strong>Guarde estes códigos agora</strong>
-                                <p>Cada código funciona uma única vez. Eles não serão exibidos novamente.</p>
-                                <div id="adminRecoveryCodeList"></div>
-                                <button class="admin-button admin-button-secondary" id="adminDownloadRecoveryCodes" type="button">Salvar códigos</button>
-                            </div>
-
-                            <form class="admin-security-form" id="adminMfaDisableForm" hidden novalidate>
-                                <label><span>Senha atual</span><input type="password" name="password" autocomplete="current-password" maxlength="200" required></label>
-                                <label><span>Código do autenticador</span><input type="text" name="code" autocomplete="one-time-code" maxlength="30" required></label>
-                                <button class="admin-button admin-button-danger" type="submit">Desativar autenticação em dois fatores</button>
-                            </form>
                         </section>
 
                         <section class="admin-section admin-security-section" aria-labelledby="adminPasswordTitle">
                             <div class="admin-section-head"><div><span>Credencial principal</span><h2 id="adminPasswordTitle">Alterar senha</h2></div></div>
-                            <form class="admin-security-form" id="adminPasswordChangeForm" novalidate>
-                                <label><span>Senha atual</span><input type="password" name="currentPassword" autocomplete="current-password" maxlength="200" required></label>
-                                <label><span>Nova senha</span><input type="password" name="newPassword" autocomplete="new-password" minlength="12" maxlength="72" required><small>Use pelo menos 12 caracteres variados e uma senha exclusiva.</small></label>
-                                <label><span>Confirmar nova senha</span><input type="password" name="confirmPassword" autocomplete="new-password" minlength="12" maxlength="72" required></label>
-                                <label id="adminPasswordMfaField" hidden><span>Código do autenticador</span><input type="text" name="code" autocomplete="one-time-code" maxlength="30"></label>
-                                <button class="admin-button admin-button-primary" type="submit">Alterar senha e sair</button>
-                            </form>
+                            <div class="admin-security-section-body">
+                                <form class="admin-security-form" id="adminPasswordChangeForm" novalidate>
+                                    <label><span>Senha atual</span><input type="password" name="currentPassword" autocomplete="current-password" maxlength="200" required></label>
+                                    <label><span>Nova senha</span><input type="password" name="newPassword" autocomplete="new-password" minlength="12" maxlength="72" required><small>Use pelo menos 12 caracteres variados e uma senha exclusiva.</small></label>
+                                    <label><span>Confirmar nova senha</span><input type="password" name="confirmPassword" autocomplete="new-password" minlength="12" maxlength="72" required></label>
+                                    <label id="adminPasswordMfaField" hidden><span>Código do autenticador</span><input type="text" name="code" autocomplete="one-time-code" maxlength="30"></label>
+                                    <button class="admin-button admin-button-primary" type="submit">Alterar senha e sair</button>
+                                </form>
+                            </div>
                         </section>
                     </div>
 
@@ -903,18 +1027,18 @@
         <button type="button" class="admin-toast-close" id="adminToastClose" aria-label="Fechar aviso">×</button>
     </div>
 
-    <script src="js/catalogo-produtos.js?v=20260717c" defer></script>
-    <script src="js/catalogo-store.js?v=20260717c" defer></script>
-    <script src="js/blog-data.js?v=20260717c" defer></script>
-    <script src="js/blog-store.js?v=20260717c" defer></script>
-    <script src="js/analytics-store.js?v=20260717d" defer></script>
-    <script src="js/admin-api.js?v=20260717f" defer></script>
-    <script src="js/admin.js?v=20260717f" defer></script>
-    <script src="js/admin-blog.js?v=20260717f" defer></script>
-    <script src="js/admin-workflow.js?v=20260717f" defer></script>
-    <script src="js/admin-analytics.js?v=20260717d" defer></script>
-    <script src="js/admin-leads.js?v=20260717c" defer></script>
-    <script src="js/admin-security.js?v=20260717f" defer></script>
+    <script src="js/catalogo-produtos.js?v=20260719e" defer></script>
+    <script src="js/catalogo-store.js?v=20260719e" defer></script>
+    <script src="js/blog-data.js?v=20260719e" defer></script>
+    <script src="js/blog-store.js?v=20260719e" defer></script>
+    <script src="js/analytics-store.js?v=20260719e" defer></script>
+    <script src="js/admin-api.js?v=20260719e" defer></script>
+    <script src="js/admin.js?v=20260719e" defer></script>
+    <script src="js/admin-blog.js?v=20260719e" defer></script>
+    <script src="js/admin-workflow.js?v=20260719e" defer></script>
+    <script src="js/admin-analytics.js?v=20260719e" defer></script>
+    <script src="js/admin-leads.js?v=20260719e" defer></script>
+    <script src="js/admin-security.js?v=20260719e" defer></script>
 </body>
 
 </html>

@@ -21,6 +21,14 @@ const headerCategoryConfig = {
         description: 'Transporte contínuo',
         icon: 'assets/icones-brancos/icone-esteira-branco.svg',
         mediaHref: 'equipamentos.html#esteiras',
+        aliases: ['esteiras-transportadoras'],
+    },
+    'outros-equipamentos': {
+        title: 'Outros equipamentos',
+        description: 'Coletores, silos e acessórios',
+        icon: 'assets/icones-brancos/icone-outros-branco.svg',
+        mediaHref: 'equipamentos.html#outros-equipamentos',
+        aliases: ['outros'],
     }
 };
 
@@ -71,8 +79,9 @@ const getUniqueSortedHeaderProducts = (products) => {
 
 const renderCompactEquipmentMegaMenu = (equipmentDropdownGrid, products) => {
     const categoryColumns = Object.entries(headerCategoryConfig).map(([slug, config]) => {
+        const categorySlugs = new Set([slug, ...(config.aliases || [])]);
         const categoryProducts = getUniqueSortedHeaderProducts(
-            products.filter((product) => product.categoriaSlug === slug)
+            products.filter((product) => categorySlugs.has(product.categoriaSlug))
         );
         const productLinks = categoryProducts.slice(0, HOME_MEGA_PRODUCT_LIMIT).map((product) => {
             const label = product.modelo || product.nome || product.id || 'Equipamento';

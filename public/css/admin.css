@@ -159,7 +159,10 @@ textarea:focus-visible {
 }
 
 .admin-auth-panel input[type="email"],
-.admin-auth-panel input[type="password"] {
+.admin-auth-panel input[type="password"],
+.admin-auth-panel input[type="text"],
+.admin-auth-panel select,
+.admin-auth-panel textarea {
     min-height: 48px;
     width: 100%;
     border: 1px solid var(--admin-line-dark);
@@ -167,6 +170,12 @@ textarea:focus-visible {
     padding: 0 13px;
     color: var(--admin-ink);
     background: #fff;
+}
+
+.admin-auth-panel textarea {
+    min-height: 86px;
+    padding-block: 11px;
+    resize: vertical;
 }
 
 .admin-auth-remember {
@@ -1395,6 +1404,13 @@ textarea:focus-visible {
     margin-bottom: 7px;
 }
 
+.admin-segmented-field > small {
+    display: block;
+    margin-top: 7px;
+    color: #858d87;
+    font-size: 9px;
+}
+
 .admin-segmented {
     width: min(100%, 480px);
     padding: 3px;
@@ -1436,6 +1452,11 @@ textarea:focus-visible {
     background: var(--admin-ink);
 }
 
+.admin-segmented input:disabled + span {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
 .admin-form-grid {
     display: grid;
     gap: 14px;
@@ -1464,6 +1485,115 @@ textarea:focus-visible {
 .admin-product-form label > small {
     color: #858d87;
     font-size: 9px;
+}
+
+.admin-benefit-field {
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.admin-benefit-field legend {
+    width: 100%;
+    padding: 0;
+    color: #4f5751;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.admin-benefit-help {
+    margin: 5px 0 10px;
+    color: #858d87;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.admin-benefit-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.admin-product-form .admin-benefit-option {
+    min-height: 72px;
+    padding: 11px 12px;
+    border: 1px solid var(--admin-line);
+    border-radius: 3px;
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.admin-benefit-option:hover {
+    border-color: var(--admin-line-dark);
+    background: #fafbf9;
+}
+
+.admin-product-form .admin-benefit-option input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    min-height: 17px;
+    margin: 2px 0 0;
+    padding: 0;
+    accent-color: var(--admin-orange);
+}
+
+.admin-product-form .admin-benefit-option > span {
+    min-width: 0;
+    display: grid;
+    gap: 3px;
+}
+
+.admin-benefit-option strong {
+    color: var(--admin-ink);
+    font-size: 10px;
+}
+
+.admin-benefit-option small {
+    color: var(--admin-muted);
+    font-size: 9px;
+    line-height: 1.45;
+}
+
+.admin-benefit-option:has(input:checked) {
+    border-color: var(--admin-orange);
+    background: #fff5ef;
+}
+
+.admin-benefit-option:has(input:checked) strong {
+    color: var(--admin-orange-dark);
+}
+
+.admin-benefit-summary {
+    margin-top: 10px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--admin-muted);
+    font-size: 9px;
+}
+
+.admin-benefit-summary strong {
+    color: inherit;
+    font-size: 9px;
+}
+
+.admin-benefit-summary.is-limit {
+    color: var(--admin-orange-dark);
+}
+
+.admin-benefit-summary.is-error {
+    color: var(--admin-danger);
+}
+
+.admin-product-form .admin-benefit-custom {
+    margin-top: 14px;
 }
 
 .admin-inline-action {
@@ -1497,6 +1627,81 @@ textarea:focus-visible {
     background: #f3f8f5;
 }
 
+.admin-used-card-field {
+    min-inline-size: 0;
+    margin: 18px 0 0;
+    padding: 16px;
+    border: 1px solid rgba(25, 96, 58, 0.18);
+    border-radius: 4px;
+    background: #ffffff;
+}
+
+.admin-used-card-field legend {
+    padding: 0 5px;
+    color: var(--admin-ink);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.admin-used-card-field > p {
+    margin: 0 0 12px;
+    color: var(--admin-muted);
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.admin-used-card-slots {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.admin-used-card-slots label {
+    min-width: 0;
+}
+
+.admin-used-card-slots label > span {
+    color: var(--admin-green);
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.admin-used-card-slots select.is-duplicate {
+    border-color: var(--admin-danger);
+    background: #fff6f5;
+}
+
+.admin-used-card-summary {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 10px;
+    color: var(--admin-muted);
+    font-size: 9px;
+}
+
+.admin-used-card-summary strong,
+.admin-used-card-summary small {
+    color: inherit;
+    font-size: inherit;
+}
+
+.admin-used-card-summary.is-error {
+    color: var(--admin-danger);
+}
+
+.admin-character-counter {
+    justify-self: end;
+    color: var(--admin-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.admin-character-counter.is-near-limit {
+    color: var(--admin-orange-dark);
+}
+
 .admin-subsection-title {
     margin-bottom: 12px;
     display: flex;
@@ -1511,6 +1716,16 @@ textarea:focus-visible {
 .admin-subsection-title span {
     color: var(--admin-muted);
     font-size: 9px;
+}
+
+.admin-commercial-title {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--admin-line);
+}
+
+.admin-spec-note-field {
+    margin-top: 16px;
 }
 
 .admin-media-grid {
@@ -1810,6 +2025,36 @@ textarea:focus-visible {
 .admin-team-table td:last-child {
     min-width: 170px;
     text-align: right;
+}
+
+.admin-access-requests {
+    grid-column: 1 / -1;
+}
+
+.admin-access-request-table th:last-child,
+.admin-access-request-table td:last-child {
+    min-width: 140px;
+    text-align: right;
+}
+
+.admin-access-request-table select,
+.admin-row-role select {
+    min-height: 32px;
+    max-width: 190px;
+    border: 1px solid var(--admin-line-dark);
+    border-radius: 3px;
+    padding: 5px 8px;
+    color: var(--admin-ink);
+    background: #fff;
+    font-size: 10px;
+}
+
+.admin-access-request-reason {
+    display: block;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .admin-setup-link {
@@ -2337,6 +2582,26 @@ textarea:focus-visible {
         grid-template-columns: 1fr;
     }
 
+    .admin-benefit-options {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-product-form .admin-benefit-option {
+        min-height: 0;
+    }
+
+    .admin-benefit-summary {
+        display: grid;
+    }
+
+    .admin-used-card-slots {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-used-card-summary {
+        display: grid;
+    }
+
     .admin-upload-main {
         grid-template-columns: 1fr;
     }
@@ -2386,6 +2651,10 @@ textarea:focus-visible {
 }
 
 @media (max-width: 430px) {
+    .admin-used-card-slots {
+        grid-template-columns: 1fr;
+    }
+
     .admin-auth-shell {
         padding: 20px 14px 20px 22px;
     }

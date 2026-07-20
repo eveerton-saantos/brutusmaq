@@ -20,6 +20,11 @@ function iso(value) {
     return Number.isNaN(date.getTime()) ? null : date.toISOString();
 }
 
+function isProductFeatured(product) {
+    if (typeof product?._admin?.featured === "boolean") return product._admin.featured;
+    return product?.destaque === true || product?.featured === true;
+}
+
 function productFromRow(row) {
     const data = parseJson(row.data_json, {});
     data.id = row.slug;
@@ -30,6 +35,7 @@ function productFromRow(row) {
         uid: row.uid,
         status: row.publication_status,
         visible: Boolean(row.visible),
+        featured: Boolean(row.featured) || data._admin?.featured === true,
         version: Number(row.version || 1),
         createdAt: iso(row.created_at),
         updatedAt: iso(row.updated_at)
@@ -83,6 +89,21 @@ function adminFromRow(row) {
         createdAt: iso(row.created_at),
         needsInvitation: !Boolean(row.active) && !row.password_changed_at,
         invitation: invitationState(row)
+    };
+}
+
+function accessRequestFromRow(row) {
+    return {
+        id: row.public_id,
+        name: row.name,
+        email: row.email,
+        requestedRole: row.requested_role,
+        reason: row.reason || "",
+        status: row.status,
+        reviewNote: row.review_note || "",
+        reviewedAt: iso(row.reviewed_at),
+        createdAt: iso(row.created_at),
+        updatedAt: iso(row.updated_at)
     };
 }
 
@@ -263,6 +284,80 @@ class MySqlRepository {
         return rows.map(adminFromRow);
     }
 
+    async createAccessRequest(input) {
+        return this.transaction(async (connection) => {
+            const [adminRows] = await connection.execute(
+                "SELECT id, active FROM admins WHERE email = ? LIMIT 1 FOR UPDATE",
+                [input.email]
+            );
+            if (adminRows[0]?.active) return { stored: false, activeAccount: true };
+
+            const [pendingRows] = await connection.execute(
+                `SELECT public_id FROM admin_access_requests
+                 WHERE email = ? AND status = 'pending' ORDER BY created_at DESC LIMIT 1 FOR UPDATE`,
+                [input.email]
+            );
+            let publicId = pendingRows[0]?.public_id;
+            if (publicId) {
+                await connection.execute(
+                    `UPDATE admin_access_requests
+                     SET name = ?, requested_role = ?, reason = ?, updated_at = UTC_TIMESTAMP(3)
+                     WHERE public_id = ?`,
+                    [input.name, input.requestedRole, input.reason || null, publicId]
+                );
+            } else {
+                publicId = crypto.randomUUID();
+                await connection.execute(
+                    `INSERT INTO admin_access_requests (public_id, name, email, requested_role, reason)
+                     VALUES (?, ?, ?, ?, ?)`,
+                    [publicId, input.name, input.email, input.requestedRole, input.reason || null]
+                );
+            }
+            return { stored: true, request: await this.getAccessRequestByPublicId(publicId, connection) };
+        });
+    }
+
+    async getAccessRequestByPublicId(publicId, executor) {
+        const connection = executor || this.pool;
+        const [rows] = await connection.execute(
+            `SELECT public_id, name, email, requested_role, reason, status, review_note,
+                    reviewed_at, created_at, updated_at
+             FROM admin_access_requests WHERE public_id = ? LIMIT 1`,
+            [publicId]
+        );
+        return rows[0] ? accessRequestFromRow(rows[0]) : null;
+    }
+
+    async listAccessRequests(status) {
+        const requestedStatus = ["pending", "approved", "rejected"].includes(status) ? status : "pending";
+        const [rows] = await this.pool.execute(
+            `SELECT public_id, name, email, requested_role, reason, status, review_note,
+                    reviewed_at, created_at, updated_at
+             FROM admin_access_requests WHERE status = ?
+             ORDER BY created_at ASC LIMIT 500`,
+            [requestedStatus]
+        );
+        return rows.map(accessRequestFromRow);
+    }
+
+    async reviewAccessRequest(publicId, status, note, reviewerId) {
+        return this.transaction(async (connection) => {
+            const [result] = await connection.execute(
+                `UPDATE admin_access_requests
+                 SET status = ?, review_note = ?, reviewed_by = ?, reviewed_at = UTC_TIMESTAMP(3)
+                 WHERE public_id = ? AND status = 'pending'`,
+                [status, note || null, reviewerId, publicId]
+            );
+            if (result.affectedRows !== 1) {
+                const existing = await this.getAccessRequestByPublicId(publicId, connection);
+                if (!existing) throw new AppError(404, "access_request_not_found", "Solicitação de acesso não encontrada.");
+                throw new AppError(409, "access_request_already_reviewed", "Esta solicitação de acesso já foi analisada.");
+            }
+            await this.audit(reviewerId, `access_request_${status}`, "admin_access_request", publicId, { note: note || "" }, connection);
+            return this.getAccessRequestByPublicId(publicId, connection);
+        });
+    }
+
     async createInvitation(input, invitedBy) {
         return this.transaction(async (connection) => {
             const [existingRows] = await connection.execute(
@@ -279,19 +374,20 @@ class MySqlRepository {
 
             let adminId = existing?.id;
             let publicId = existing?.public_id;
+            const role = input.role === "viewer" ? "viewer" : "editor";
             if (existing) {
                 await connection.execute(
-                    `UPDATE admins SET name = ?, role = 'editor', active = 0, password_hash = ?,
+                    `UPDATE admins SET name = ?, role = ?, active = 0, password_hash = ?,
                      password_changed_at = NULL, mfa_secret_encrypted = NULL, mfa_enabled = 0,
                      mfa_recovery_codes_json = NULL WHERE id = ?`,
-                    [input.name, input.passwordHash, adminId]
+                    [input.name, role, input.passwordHash, adminId]
                 );
             } else {
                 publicId = crypto.randomUUID();
                 const [result] = await connection.execute(
                     `INSERT INTO admins (public_id, name, email, password_hash, role, active)
-                     VALUES (?, ?, ?, ?, 'editor', 0)`,
-                    [publicId, input.name, input.email, input.passwordHash]
+                     VALUES (?, ?, ?, ?, ?, 0)`,
+                    [publicId, input.name, input.email, input.passwordHash, role]
                 );
                 adminId = result.insertId;
             }
@@ -309,7 +405,18 @@ class MySqlRepository {
                  VALUES (?, ?, ?, ?, ?)`,
                 [invitationId, adminId, input.tokenHash, invitedBy, input.expiresAt]
             );
-            await this.audit(invitedBy, "invite", "admin", publicId, { email: input.email, role: "editor" }, connection);
+            if (input.accessRequestId) {
+                const [reviewResult] = await connection.execute(
+                    `UPDATE admin_access_requests
+                     SET status = 'approved', reviewed_by = ?, reviewed_at = UTC_TIMESTAMP(3)
+                     WHERE public_id = ? AND status = 'pending'`,
+                    [invitedBy, input.accessRequestId]
+                );
+                if (reviewResult.affectedRows !== 1) {
+                    throw new AppError(409, "access_request_already_reviewed", "Esta solicitação de acesso já foi analisada.");
+                }
+            }
+            await this.audit(invitedBy, "invite", "admin", publicId, { email: input.email, role }, connection);
             return {
                 member: await this.getAdminByPublicId(publicId, connection),
                 invitation: { id: invitationId, expiresAt: new Date(input.expiresAt).toISOString() }
@@ -433,26 +540,31 @@ class MySqlRepository {
             if (!admin || admin.role === "owner") {
                 throw new AppError(404, "staff_not_found", "Funcionário não encontrado.");
             }
-            if (changes.active && !admin.password_changed_at) {
+            const nextActive = typeof changes.active === "boolean" ? changes.active : Boolean(admin.active);
+            const nextRole = ["editor", "viewer"].includes(changes.role) ? changes.role : admin.role;
+            if (nextActive && !admin.password_changed_at) {
                 throw new AppError(409, "staff_invitation_pending", "Reenvie o convite para o funcionário criar a senha antes de ativar a conta.");
             }
-            await connection.execute("UPDATE admins SET active = ? WHERE id = ?", [changes.active ? 1 : 0, admin.id]);
+            await connection.execute("UPDATE admins SET active = ?, role = ? WHERE id = ?", [nextActive ? 1 : 0, nextRole, admin.id]);
             await connection.execute("DELETE FROM admin_sessions WHERE admin_id = ?", [admin.id]);
             await connection.execute("DELETE FROM admin_mfa_challenges WHERE admin_id = ?", [admin.id]);
             await connection.execute("DELETE FROM password_reset_tokens WHERE admin_id = ?", [admin.id]);
-            if (!changes.active) {
+            if (changes.active === false) {
                 await connection.execute(
                     "UPDATE admin_invitations SET revoked_at = COALESCE(revoked_at, UTC_TIMESTAMP(3)) WHERE admin_id = ? AND accepted_at IS NULL",
                     [admin.id]
                 );
-            } else {
+            } else if (changes.active === true) {
                 await connection.execute(
                     `UPDATE admin_invitations SET revoked_at = COALESCE(revoked_at, UTC_TIMESTAMP(3))
                      WHERE admin_id = ? AND accepted_at IS NULL`,
                     [admin.id]
                 );
             }
-            await this.audit(actorId, changes.active ? "activate" : "deactivate", "admin", publicId, { email: admin.email }, connection);
+            const action = nextRole !== admin.role
+                ? "role_change"
+                : (nextActive ? "activate" : "deactivate");
+            await this.audit(actorId, action, "admin", publicId, { email: admin.email, role: nextRole, active: nextActive }, connection);
             return this.getAdminByPublicId(publicId, connection);
         });
     }
@@ -1010,7 +1122,7 @@ class MySqlRepository {
                         payload.categoria || "",
                         "published",
                         adminMetadata.visible ? 1 : 0,
-                        payload.destaque || payload.featured ? 1 : 0,
+                        isProductFeatured(payload) ? 1 : 0,
                         JSON.stringify(payload),
                         reviewerId
                     ];
@@ -1176,7 +1288,7 @@ class MySqlRepository {
                     product.categoria || "",
                     status,
                     visible ? 1 : 0,
-                    product.destaque || product.featured ? 1 : 0,
+                    isProductFeatured(product) ? 1 : 0,
                     JSON.stringify(stored),
                     adminId
                 ];
@@ -1266,7 +1378,7 @@ class MySqlRepository {
                          published_at = CASE WHEN VALUES(publication_status) = 'published' THEN COALESCE(published_at, UTC_TIMESTAMP(3)) ELSE published_at END`,
                         [
                             uid, item.data.id, item.type, item.data.modelo, item.data.categoria || "", status,
-                            visible ? 1 : 0, item.data.destaque || item.data.featured ? 1 : 0,
+                            visible ? 1 : 0, isProductFeatured(item.data) ? 1 : 0,
                             JSON.stringify(stored), adminId, adminId, status
                         ]
                     );

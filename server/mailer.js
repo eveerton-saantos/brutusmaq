@@ -21,7 +21,8 @@ function createMailer(config) {
             enabled: false,
             sendLead: async () => ({ delivered: false, reason: "smtp_not_configured" }),
             sendPasswordReset: async () => ({ delivered: false, reason: "smtp_not_configured" }),
-            sendInvitation: async () => ({ delivered: false, reason: "smtp_not_configured" })
+            sendInvitation: async () => ({ delivered: false, reason: "smtp_not_configured" }),
+            sendAccessRequest: async () => ({ delivered: false, reason: "smtp_not_configured" })
         });
     }
 
@@ -116,6 +117,36 @@ function createMailer(config) {
                     <p>Você foi convidado para colaborar no cadastro de produtos e artigos.</p>
                     <p><a href="${escapeHtml(setupUrl)}" style="display:inline-block;padding:12px 18px;background:#e85d04;color:#fff;text-decoration:none">Criar minha senha</a></p>
                     <p>Este link pessoal é válido até ${escapeHtml(expiration)} e expira após o uso.</p>`,
+                disableFileAccess: true,
+                disableUrlAccess: true
+            });
+            return { delivered: true };
+        },
+        async sendAccessRequest(accessRequest) {
+            const role = accessRequest.requestedRole === "viewer" ? "Somente leitura" : "Funcionário editorial";
+            const rows = [
+                ["Nome", accessRequest.name],
+                ["E-mail", accessRequest.email],
+                ["Perfil solicitado", role],
+                ["Motivo", accessRequest.reason || "Não informado"]
+            ];
+            await transporter.sendMail({
+                from: config.smtp.from,
+                to: config.smtp.contactTo,
+                replyTo: accessRequest.email,
+                subject: safeHeader(`Pedido de acesso ao painel: ${accessRequest.name}`).slice(0, 180),
+                text: [
+                    "Uma pessoa solicitou acesso ao painel Brutusmaq.",
+                    "",
+                    ...rows.map(([label, value]) => `${label}: ${value}`),
+                    "",
+                    "Entre no painel administrativo para aprovar ou recusar o pedido."
+                ].join("\n"),
+                html: `<h1>Novo pedido de acesso ao painel</h1>
+                    <table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse">${rows
+                        .map(([label, value]) => `<tr><th align="left">${escapeHtml(label)}</th><td>${escapeHtml(value)}</td></tr>`)
+                        .join("")}</table>
+                    <p>Entre no painel administrativo para aprovar ou recusar o pedido.</p>`,
                 disableFileAccess: true,
                 disableUrlAccess: true
             });

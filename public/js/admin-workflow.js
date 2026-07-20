@@ -33,17 +33,22 @@
     const teamRows = document.getElementById("adminTeamRows");
     const teamEmpty = document.getElementById("adminTeamEmpty");
     const teamSummary = document.getElementById("adminTeamSummary");
+    const accessRequestRows = document.getElementById("adminAccessRequestRows");
+    const accessRequestEmpty = document.getElementById("adminAccessRequestEmpty");
+    const accessRequestSummary = document.getElementById("adminAccessRequestSummary");
     const setupLink = document.getElementById("adminTeamSetupLink");
     const setupUrlInput = document.getElementById("adminTeamSetupUrl");
     const copySetupUrlButton = document.getElementById("adminCopySetupUrl");
 
     let reviews = [];
     let team = [];
+    let accessRequests = [];
     let selectedReviewId = "";
     let accessMode = "checking";
     let accessRole = "viewer";
     let reviewLoading = false;
     let teamLoading = false;
+    let accessRequestsLoading = false;
 
     function escapeHtml(value) {
         if (ui?.escapeHtml) return ui.escapeHtml(value);
@@ -277,6 +282,13 @@
         return { owner: "Proprietário", editor: "Funcionário editorial", viewer: "Somente leitura" }[role] || "Funcionário editorial";
     }
 
+    function roleOptions(selectedRole) {
+        return [
+            ["editor", "Funcionário editorial"],
+            ["viewer", "Somente leitura"]
+        ].map(([value, label]) => `<option value="${value}"${selectedRole === value ? " selected" : ""}>${label}</option>`).join("");
+    }
+
     function renderTeam() {
         const active = team.filter(memberActive).length;
         const pending = team.filter(memberPending).length;
@@ -315,14 +327,35 @@
             const toggle = isCurrent || member.role === "owner" || incompleteInvitation
                 ? ""
                 : `<button class="admin-row-action ${activeMember ? "is-danger" : "is-success"}" type="button" data-toggle-member="${escapeHtml(id)}" data-member-active="${activeMember}">${activeMember ? "Desativar" : "Reativar"}</button>`;
+            const roleControl = isCurrent || member.role === "owner" || incompleteInvitation
+                ? ""
+                : `<label class="admin-row-role"><span class="sr-only">Perfil de ${escapeHtml(member.name || "funcionário")}</span><select data-member-role="${escapeHtml(id)}">${roleOptions(member.role)}</select></label><button class="admin-row-action" type="button" data-save-member-role="${escapeHtml(id)}">Salvar perfil</button>`;
             return `<tr>
                 <td><div class="admin-review-author"><strong>${escapeHtml(member.name || "Funcionário")}${isCurrent ? " (você)" : ""}</strong><small>${escapeHtml(member.email || "")}</small></div></td>
                 <td>${escapeHtml(teamRoleLabel(member.role))}</td>
                 <td>${status}</td>
                 <td>${escapeHtml(formatDate(member.lastLoginAt, pendingInvitation ? "Ainda não acessou" : "Sem registro"))}</td>
-                <td><span class="admin-row-actions">${resend}${toggle || (!resend ? '<span class="admin-readonly-label">Conta principal</span>' : "")}</span></td>
+                <td><span class="admin-row-actions">${resend}${roleControl}${toggle || (!resend && !roleControl ? '<span class="admin-readonly-label">Conta principal</span>' : "")}</span></td>
             </tr>`;
         }).join("");
+    }
+
+    function renderAccessRequests() {
+        setText("adminAccessRequestMetricPending", accessRequests.length);
+        if (accessRequestSummary) accessRequestSummary.textContent = `${accessRequests.length} pedido${accessRequests.length === 1 ? "" : "s"}`;
+        if (accessRequestEmpty) accessRequestEmpty.hidden = accessRequests.length > 0 || accessRequestsLoading;
+        if (!accessRequestRows) return;
+        if (accessRequestsLoading) {
+            accessRequestRows.innerHTML = '<tr><td colspan="5" class="admin-table-message">Carregando solicitações de acesso...</td></tr>';
+            return;
+        }
+        accessRequestRows.innerHTML = accessRequests.map((item) => `<tr data-access-request-row="${escapeHtml(item.id)}">
+            <td><div class="admin-review-author"><strong>${escapeHtml(item.name || "Solicitante")}</strong><small>${escapeHtml(item.email || "")}</small></div></td>
+            <td><select data-access-request-role aria-label="Perfil para ${escapeHtml(item.name || "solicitante")}">${roleOptions(item.requestedRole)}</select></td>
+            <td><span class="admin-access-request-reason" title="${escapeHtml(item.reason || "Não informado")}">${escapeHtml(item.reason || "Não informado")}</span></td>
+            <td>${escapeHtml(formatDate(item.createdAt))}</td>
+            <td><span class="admin-row-actions"><button class="admin-row-action is-success" type="button" data-approve-access-request="${escapeHtml(item.id)}">Aprovar</button><button class="admin-row-action is-danger" type="button" data-reject-access-request="${escapeHtml(item.id)}">Recusar</button></span></td>
+        </tr>`).join("");
     }
 
     function revealSetupUrl(result) {
@@ -351,6 +384,22 @@
         }
     }
 
+    async function loadAccessRequests() {
+        if (!ownerConnected() || accessRequestsLoading) return;
+        accessRequestsLoading = true;
+        renderAccessRequests();
+        try {
+            const payload = await api.getAccessRequests("pending");
+            accessRequests = Array.isArray(payload) ? payload : (payload.requests || payload.items || []);
+        } catch (error) {
+            accessRequests = [];
+            ui?.showToast?.(error.message || "Não foi possível carregar as solicitações de acesso.");
+        } finally {
+            accessRequestsLoading = false;
+            renderAccessRequests();
+        }
+    }
+
     async function inviteMember(event) {
         event.preventDefault();
         if (!ownerConnected() || !inviteForm) return;
@@ -366,7 +415,8 @@
         try {
             const result = await api.inviteTeamMember({
                 name: String(data.get("name") || "").trim(),
-                email: String(data.get("email") || "").trim()
+                email: String(data.get("email") || "").trim(),
+                role: String(data.get("role") || "editor")
             });
             inviteForm.reset();
             revealSetupUrl(result);
@@ -400,11 +450,61 @@
         if (currentlyActive && !window.confirm("Desativar este acesso? As sessões atuais deixarão de funcionar.")) return;
         setButtonBusy(button, true, currentlyActive ? "Desativando..." : "Reativando...");
         try {
-            await api.updateTeamMember(id, !currentlyActive);
+            await api.updateTeamMember(id, { active: !currentlyActive });
             ui?.showToast?.(currentlyActive ? "Acesso desativado." : "Acesso reativado.");
             await loadTeam();
         } catch (error) {
             ui?.showToast?.(error.message || "Não foi possível alterar este acesso.");
+        } finally {
+            setButtonBusy(button, false, "");
+        }
+    }
+
+    async function saveMemberRole(id, button) {
+        if (!ownerConnected() || !id) return;
+        const roleSelect = button.closest("tr")?.querySelector("[data-member-role]");
+        const role = String(roleSelect?.value || "");
+        if (!["editor", "viewer"].includes(role)) return;
+        setButtonBusy(button, true, "Salvando...");
+        try {
+            await api.updateTeamMember(id, { role });
+            ui?.showToast?.("Perfil de acesso atualizado. A pessoa deverá entrar novamente.");
+            await loadTeam();
+        } catch (error) {
+            ui?.showToast?.(error.message || "Não foi possível alterar o perfil.");
+        } finally {
+            setButtonBusy(button, false, "");
+        }
+    }
+
+    async function approveAccessRequest(id, button) {
+        if (!ownerConnected() || !id) return;
+        const row = button.closest("[data-access-request-row]");
+        const role = String(row?.querySelector("[data-access-request-role]")?.value || "editor");
+        setButtonBusy(button, true, "Aprovando...");
+        try {
+            const result = await api.approveAccessRequest(id, role);
+            revealSetupUrl(result);
+            ui?.showToast?.(result.message || "Solicitação aprovada e convite enviado.");
+            await Promise.all([loadAccessRequests(), loadTeam()]);
+        } catch (error) {
+            ui?.showToast?.(error.message || "Não foi possível aprovar a solicitação.");
+        } finally {
+            setButtonBusy(button, false, "");
+        }
+    }
+
+    async function rejectAccessRequest(id, button) {
+        if (!ownerConnected() || !id) return;
+        const note = window.prompt("Motivo da recusa (opcional):", "");
+        if (note === null) return;
+        setButtonBusy(button, true, "Recusando...");
+        try {
+            const result = await api.rejectAccessRequest(id, String(note).trim());
+            ui?.showToast?.(result.message || "Solicitação recusada.");
+            await loadAccessRequests();
+        } catch (error) {
+            ui?.showToast?.(error.message || "Não foi possível recusar a solicitação.");
         } finally {
             setButtonBusy(button, false, "");
         }
@@ -449,11 +549,14 @@
         if (connected) {
             loadReviews();
             loadTeam();
+            loadAccessRequests();
         } else {
             reviews = [];
             team = [];
+            accessRequests = [];
             renderReviews();
             renderTeam();
+            renderAccessRequests();
         }
     }
 
@@ -472,15 +575,26 @@
     teamRows?.addEventListener("click", (event) => {
         const resend = event.target.closest("[data-resend-invitation]");
         const toggle = event.target.closest("[data-toggle-member]");
+        const saveRole = event.target.closest("[data-save-member-role]");
         if (resend) resendInvitation(resend.dataset.resendInvitation, resend);
         else if (toggle) toggleMember(toggle.dataset.toggleMember, toggle.dataset.memberActive === "true", toggle);
+        else if (saveRole) saveMemberRole(saveRole.dataset.saveMemberRole, saveRole);
+    });
+    accessRequestRows?.addEventListener("click", (event) => {
+        const approve = event.target.closest("[data-approve-access-request]");
+        const reject = event.target.closest("[data-reject-access-request]");
+        if (approve) approveAccessRequest(approve.dataset.approveAccessRequest, approve);
+        else if (reject) rejectAccessRequest(reject.dataset.rejectAccessRequest, reject);
     });
     reviewDialog?.addEventListener("close", () => {
         selectedReviewId = "";
         showMessage(reviewDialogMessage, "");
     });
     refreshReviewsButton?.addEventListener("click", loadReviews);
-    refreshTeamButton?.addEventListener("click", loadTeam);
+    refreshTeamButton?.addEventListener("click", () => {
+        loadTeam();
+        loadAccessRequests();
+    });
     approveReviewButton?.addEventListener("click", () => decideReview("approve"));
     rejectReviewButton?.addEventListener("click", () => decideReview("reject"));
     inviteForm?.addEventListener("submit", inviteMember);
@@ -492,5 +606,6 @@
 
     renderReviews();
     renderTeam();
+    renderAccessRequests();
     if (api?.ready?.then) api.ready.then(() => applyWorkflowAccess()).catch(() => applyWorkflowAccess());
 }());

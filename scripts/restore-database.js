@@ -7,6 +7,7 @@ const { decryptBackup } = require("./backup-crypto");
 
 const tableOrder = [
     "admins",
+    "admin_access_requests",
     "editorial_submissions",
     "products",
     "articles",

@@ -10,10 +10,12 @@
     const loginForm = document.getElementById("adminLoginForm");
     const mfaLoginForm = document.getElementById("adminMfaLoginForm");
     const forgotPasswordForm = document.getElementById("adminForgotPasswordForm");
+    const accessRequestForm = document.getElementById("adminAccessRequestForm");
     const resetPasswordForm = document.getElementById("adminResetPasswordForm");
     const authMessage = document.getElementById("adminAuthMessage");
     const mfaMessage = document.getElementById("adminMfaMessage");
     const forgotMessage = document.getElementById("adminForgotMessage");
+    const accessRequestMessage = document.getElementById("adminAccessRequestMessage");
     const resetMessage = document.getElementById("adminResetMessage");
     const queryParams = new URLSearchParams(window.location.search);
     const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
@@ -75,6 +77,7 @@
             login: "Acessar o painel",
             mfa: "Confirmar acesso",
             forgot: "Recuperar senha",
+            access: "Solicitar acesso",
             reset: invitationToken ? "Ativar acesso" : "Criar nova senha"
         };
         document.querySelectorAll("[data-auth-form]").forEach((form) => {
@@ -84,6 +87,7 @@
         if (mode === "login") showAuthMessage(message || "");
         if (mode === "mfa") setFormMessage(mfaMessage, message || "Use o código do seu aplicativo autenticador.");
         if (mode === "forgot") setFormMessage(forgotMessage, message || "");
+        if (mode === "access") setFormMessage(accessRequestMessage, message || "");
         if (mode === "reset") {
             const submit = document.getElementById("adminResetSubmit");
             if (submit) submit.textContent = invitationToken ? "Ativar minha conta" : "Criar nova senha";
@@ -316,6 +320,7 @@
                 "/api/auth/mfa",
                 "/api/auth/password/forgot",
                 "/api/auth/password/reset",
+                "/api/auth/access-requests",
                 "/api/auth/invitations/accept"
             ].includes(path);
             if (response.status === 401 && !publicAuthRequest) {
@@ -446,6 +451,14 @@
         });
     }
 
+    function requestAccess(body) {
+        return request("/api/auth/access-requests", {
+            method: "POST",
+            csrf: false,
+            body
+        });
+    }
+
     function resetPassword(token, newPassword) {
         return request("/api/auth/password/reset", {
             method: "POST",
@@ -534,6 +547,7 @@
         login,
         verifyMfa,
         forgotPassword,
+        requestAccess,
         resetPassword,
         acceptInvitation,
         logout,
@@ -556,7 +570,10 @@
         getTeam: () => request("/api/admin/team"),
         inviteTeamMember: (body) => request("/api/admin/team/invitations", { method: "POST", body }),
         resendTeamInvitation: (id) => request(`/api/admin/team/${encodeURIComponent(id)}/resend-invitation`, { method: "POST" }),
-        updateTeamMember: (id, active) => request(`/api/admin/team/${encodeURIComponent(id)}`, { method: "PATCH", body: { active: Boolean(active) } }),
+        updateTeamMember: (id, changes) => request(`/api/admin/team/${encodeURIComponent(id)}`, { method: "PATCH", body: changes }),
+        getAccessRequests: (status) => request(`/api/admin/access-requests?status=${encodeURIComponent(status || "pending")}`),
+        approveAccessRequest: (id, role) => request(`/api/admin/access-requests/${encodeURIComponent(id)}/approve`, { method: "POST", body: { role } }),
+        rejectAccessRequest: (id, note) => request(`/api/admin/access-requests/${encodeURIComponent(id)}/reject`, { method: "POST", body: { note: note || "" } }),
         getLeads: (params) => state.user?.role === "owner"
             ? request(`/api/admin/leads?${new URLSearchParams(params || {}).toString()}`)
             : Promise.resolve({ items: [], total: 0, statusCounts: {} }),
@@ -654,6 +671,39 @@
         }
     });
 
+    accessRequestForm?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!accessRequestForm.checkValidity()) {
+            accessRequestForm.reportValidity();
+            return;
+        }
+        const data = new FormData(accessRequestForm);
+        const submit = accessRequestForm.querySelector('button[type="submit"]');
+        if (submit) {
+            submit.disabled = true;
+            submit.textContent = "Enviando solicitação...";
+        }
+        setFormMessage(accessRequestMessage, "");
+        try {
+            const result = await requestAccess({
+                name: String(data.get("name") || "").trim(),
+                email: String(data.get("email") || "").trim(),
+                requestedRole: String(data.get("requestedRole") || "editor"),
+                reason: String(data.get("reason") || "").trim()
+            });
+            accessRequestForm.reset();
+            setFormMessage(accessRequestMessage, result.message || "Solicitação enviada para análise.");
+        } catch (error) {
+            const validationMessage = Array.isArray(error.details) ? error.details[0]?.message : "";
+            setFormMessage(accessRequestMessage, validationMessage || error.message || "Não foi possível enviar a solicitação.");
+        } finally {
+            if (submit) {
+                submit.disabled = false;
+                submit.textContent = "Enviar solicitação";
+            }
+        }
+    });
+
     resetPasswordForm?.addEventListener("submit", async (event) => {
         event.preventDefault();
         const data = new FormData(resetPasswordForm);
@@ -690,6 +740,7 @@
     });
 
     document.getElementById("adminForgotPasswordOpen")?.addEventListener("click", () => showAuthMode("forgot"));
+    document.getElementById("adminAccessRequestOpen")?.addEventListener("click", () => showAuthMode("access"));
     document.querySelectorAll("[data-auth-back]").forEach((button) => {
         button.addEventListener("click", () => {
             state.challengeToken = "";

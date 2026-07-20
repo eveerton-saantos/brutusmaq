@@ -18,7 +18,7 @@
     "assets:optimize": "node scripts/optimize-images.js",
     "assets:version": "node scripts/version-static-assets.js",
     "check": "node scripts/check-project.js",
-    "test": "node --test tests/api.test.js"
+    "test": "node --test tests/api.test.js tests/catalog-store.test.js tests/product-ui.test.js"
   },
   "engines": {
     "node": ">=20 <25"

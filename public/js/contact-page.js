@@ -59,7 +59,7 @@ if (contactForm) {
             title: 'Conte-nos sobre sua operação',
             text: 'Informe o material processado, produção desejada e condições de operação para indicarmos o equipamento ideal.',
             tips: ['Tipo e volume do material', 'Capacidade esperada por hora', 'Objetivo: triturar, moer ou transportar'],
-            options: ['Trituradores', 'Moinhos', 'Esteiras transportadoras', 'Linha completa de reciclagem', 'Ainda não sei qual equipamento'],
+            options: ['Trituradores', 'Moinhos', 'Esteiras transportadoras', 'Outros equipamentos', 'Linha completa de reciclagem', 'Ainda não sei qual equipamento'],
             placeholder: 'Exemplo: preciso triturar bombonas plásticas, cerca de 500 kg/h, com alimentação manual e saída para esteira.',
             submit: 'Enviar pedido de proposta',
             fields: [
@@ -355,11 +355,18 @@ if (contactForm) {
     };
 
     const selectInterestFromCategory = (category) => {
-        const normalized = String(category || '').toLowerCase();
+        const normalized = String(category || '')
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase();
         const categoryNames = {
             triturad: 'Trituradores',
             moinho: 'Moinhos',
-            esteira: 'Esteiras transportadoras'
+            esteira: 'Esteiras transportadoras',
+            outros: 'Outros equipamentos',
+            coletor: 'Outros equipamentos',
+            silo: 'Outros equipamentos',
+            acessor: 'Outros equipamentos'
         };
         const targetValue = Object.entries(categoryNames).find(([fragment]) => normalized.includes(fragment))?.[1];
         const option = [...interestSelect.options].find((item) => item.value === targetValue);

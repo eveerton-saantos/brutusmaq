@@ -80,7 +80,11 @@
     margin-bottom: 16px;
 }
 
-.admin-security-section > p {
+.admin-security-section-body {
+    padding: 18px;
+}
+
+.admin-security-section-body > p {
     margin: 0 0 18px;
     color: #69716d;
     font-size: 0.82rem;
@@ -244,6 +248,10 @@
 
     .admin-security-summary article {
         min-height: 108px;
+    }
+
+    .admin-security-section-body {
+        padding: 15px;
     }
 
     .admin-mfa-setup {

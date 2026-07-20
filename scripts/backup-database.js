@@ -7,6 +7,7 @@ const { encryptBackup } = require("./backup-crypto");
 
 const tables = [
     "admins",
+    "admin_access_requests",
     "products",
     "articles",
     "leads",

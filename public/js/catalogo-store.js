@@ -6,6 +6,10 @@
     const MAX_PRODUCTS_PER_TYPE = 250;
     const MAX_DATA_IMAGE_LENGTH = 1400000;
     const STATUS_VALUES = new Set(["draft", "review", "published"]);
+    const USED_INFO_CARD_IDS = new Set([
+        "ano", "condicao", "garantia", "localizacao", "disponibilidade", "preco",
+        "entrega", "pagamento", "transporte", "horas-uso", "potencia", "boca-alimentacao"
+    ]);
     const TYPE_KEYS = {
         novo: "novos",
         usado: "usados"
@@ -32,6 +36,42 @@
         return normalizeText(value)
             .replace(/[^a-z0-9]+/g, "-")
             .replace(/^-+|-+$/g, "") || fallback;
+    }
+
+    function canonicalNewProductLine(line, categorySlug, category) {
+        const identify = (source) => {
+            if (source.includes("outro")) return "Outros equipamentos";
+            if (source.includes("tritur")) return "Trituradores";
+            if (source.includes("moinho")) return "Moinhos";
+            if (source.includes("esteira")) return "Esteiras transportadoras";
+            return "";
+        };
+        const explicitLine = normalizeText(line);
+        const explicitMatch = identify(explicitLine);
+        if (explicitMatch) return explicitMatch;
+        const storedSlug = normalizeText(categorySlug);
+        const storedMatch = identify(storedSlug);
+        if (storedMatch) return storedMatch;
+        if (explicitLine || storedSlug) return "Outros equipamentos";
+        const specificCategory = normalizeText(category);
+        if (specificCategory) return identify(specificCategory) || "Outros equipamentos";
+        return "Outros equipamentos";
+    }
+
+    function canonicalNewProductSlug(line) {
+        if (line === "Trituradores") return "trituradores";
+        if (line === "Moinhos") return "moinhos";
+        if (line === "Esteiras transportadoras") return "esteiras";
+        return "outros-equipamentos";
+    }
+
+    function usedStatusSlug(value) {
+        const normalized = normalizeText(value);
+        if (normalized.includes("vendid") || normalized.includes("indisponivel")) return "vendido";
+        if (normalized.includes("revisao")) return "revisao";
+        if (normalized.includes("reservad")) return "reservado";
+        if (normalized.includes("disponivel")) return "disponivel";
+        return createSlug(value, "a-consultar");
     }
 
     function safeString(value, maxLength) {
@@ -81,6 +121,28 @@
             .filter(Boolean);
     }
 
+    function safeUsedInfoCards(value) {
+        if (!Array.isArray(value)) return [];
+        const cards = [];
+        value.forEach((item) => {
+            const id = String(item || "").trim();
+            if (USED_INFO_CARD_IDS.has(id) && !cards.includes(id) && cards.length < 4) cards.push(id);
+        });
+        return cards;
+    }
+
+    function safeBenefits(value, maxItems) {
+        if (!Array.isArray(value)) return [];
+        return value.slice(0, maxItems || 20).map((item) => {
+            if (typeof item === "string") return safeString(item, 600);
+            if (!item || typeof item !== "object") return "";
+            const title = safeString(item.titulo || item.nome, 180);
+            const description = safeString(item.texto || item.descricao, 500);
+            if (!title && !description) return "";
+            return { titulo: title || "Diferencial", texto: description };
+        }).filter(Boolean);
+    }
+
     function safeSpecs(value, maxItems) {
         if (!Array.isArray(value)) return [];
         return value
@@ -103,12 +165,28 @@
         }).filter((item) => item.src);
     }
 
+    function safeDownloadEntry(value) {
+        const source = value && typeof value === "object" ? value : {};
+        const url = String(typeof value === "string" ? value : source.url || "").trim();
+        if (!/^(?:https:\/\/|assets\/)[^<>\s]+$/i.test(url) || url.includes("..")) return undefined;
+        if (typeof value === "string") return url.slice(0, 600);
+        const entry = { url: url.slice(0, 600) };
+        assignOptional(entry, "titulo", safeString(source.titulo || source.label, 180));
+        assignOptional(entry, "tipo", safeString(source.tipo || source.formato, 40));
+        assignOptional(entry, "icone", safeString(source.icone, 20));
+        return entry;
+    }
+
     function safeDownloads(value) {
-        if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+        if (Array.isArray(value)) {
+            const entries = value.slice(0, 8).map(safeDownloadEntry).filter(Boolean);
+            return entries.length ? entries : undefined;
+        }
+        if (!value || typeof value !== "object") return undefined;
         const downloads = {};
         ["catalogoTecnico", "manualOperacao", "desenhoTecnico", "certificadoNr12"].forEach((key) => {
-            const url = String(value[key] || "").trim();
-            if (/^(?:https:\/\/|assets\/)[^<>\s]+$/i.test(url)) downloads[key] = url.slice(0, 600);
+            const entry = safeDownloadEntry(value[key]);
+            if (entry) downloads[key] = entry;
         });
         return Object.keys(downloads).length ? downloads : undefined;
     }
@@ -172,10 +250,15 @@
         const image = safeImage(source.imagemPrincipal || source.imagem, fallbackImage);
         const category = safeString(source.categoria, 120);
         const line = safeString(source.linha, 120);
+        const canonicalLine = type === "novo"
+            ? canonicalNewProductLine(line, source.categoriaSlug, category)
+            : "";
         const product = {
             id,
             modelo: model,
-            categoriaSlug: createSlug(source.categoriaSlug || line || category, "outros"),
+            categoriaSlug: type === "novo"
+                ? canonicalNewProductSlug(canonicalLine)
+                : createSlug(source.categoriaSlug || category, "outros"),
             categoria: category || line || (type === "usado" ? "Máquina usada" : "Equipamento industrial"),
             descricao: safeMultiline(source.descricao, 5000),
             imagemPrincipal: image,
@@ -183,15 +266,17 @@
             alt: safeString(source.alt || `${model} Brutusmaq`, 180),
             specs: safeSpecs(source.specs, 40)
         };
+        assignOptional(product, "resumo", safeString(source.resumo, 180));
 
         if (type === "novo") {
-            product.linha = line || category || "Outros equipamentos";
-            assignOptional(product, "resumo", safeString(source.resumo, 180));
+            product.linha = canonicalLine;
+            assignOptional(product, "status", safeString(source.status, 100));
             assignOptional(product, "aplicacao", safeString(source.aplicacao, 300));
+            assignOptional(product, "aplicacoesTexto", safeString(source.aplicacoesTexto, 300));
             assignOptional(product, "garantia", safeString(source.garantia, 160));
             assignOptional(product, "fabricacao", safeString(source.fabricacao, 160));
             assignOptional(product, "recursos", safeStringList(source.recursos, 30, 240));
-            assignOptional(product, "beneficios", safeStringList(source.beneficios, 20, 240));
+            assignOptional(product, "beneficios", safeBenefits(source.beneficios, 20));
             assignOptional(product, "aplicacoes", safeStringList(source.aplicacoes, 30, 240));
             assignOptional(product, "materiais", safeStringList(source.materiais, 30, 240));
             assignOptional(product, "destaques", safeStringList(source.destaques, 20, 240));
@@ -202,17 +287,23 @@
             assignOptional(product, "disponibilidade", safeString(source.disponibilidade, 100));
             assignOptional(product, "precoVisibilidade", safeString(source.precoVisibilidade, 100));
         } else {
+            const publicStatus = safeString(source.status, 100) || "A consultar";
+            const publicStatusSlug = usedStatusSlug(source.statusSlug || publicStatus);
             assignOptional(product, "ano", safeString(source.ano, 20));
             assignOptional(product, "condicao", safeString(source.condicao, 240));
             assignOptional(product, "garantia", safeString(source.garantia, 240));
             assignOptional(product, "localizacao", safeString(source.localizacao, 240));
-            assignOptional(product, "statusSlug", createSlug(source.statusSlug || source.status, "a-consultar"));
-            assignOptional(product, "status", safeString(source.status, 100) || "A consultar");
-            assignOptional(product, "statusClasse", safeString(source.statusClasse, 100));
+            product.statusSlug = publicStatusSlug;
+            product.status = publicStatus;
+            product.statusClasse = `status-${publicStatusSlug}`;
+            assignOptional(product, "aplicacoes", safeStringList(source.aplicacoes, 30, 240));
+            assignOptional(product, "materiais", safeStringList(source.materiais, 30, 240));
+            assignOptional(product, "notaTecnica", safeMultiline(source.notaTecnica, 1500));
             assignOptional(product, "especificacoes", safeStringList(source.especificacoes, 20, 300));
             assignOptional(product, "oQueAcompanha", safeStringList(source.oQueAcompanha, 30, 300));
             assignOptional(product, "avaliacaoTecnica", safeStringList(source.avaliacaoTecnica, 30, 300));
             assignOptional(product, "informacoesComerciais", safeSpecs(source.informacoesComerciais, 30));
+            assignOptional(product, "cardsInformativos", safeUsedInfoCards(source.cardsInformativos));
             assignOptional(product, "cta", safeString(source.cta, 80));
             product.url = safePageUrl(source.url, `maquina-usada.html?id=${id}`);
         }

@@ -33,10 +33,17 @@ function publicCache(res) {
     res.set("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
 }
 
-function groupedCatalog(items) {
+function publicProductData(data) {
+    if (!data || typeof data !== "object" || Array.isArray(data)) return data;
+    const { _admin, ...publicData } = data;
+    return publicData;
+}
+
+function groupedCatalog(items, options = {}) {
+    const mapData = options.publicOnly ? (item) => publicProductData(item.data) : (item) => item.data;
     return {
-        novos: items.filter((item) => item.type === "new").map((item) => item.data),
-        usados: items.filter((item) => item.type === "used").map((item) => item.data)
+        novos: items.filter((item) => item.type === "new").map(mapData),
+        usados: items.filter((item) => item.type === "used").map(mapData)
     };
 }
 
@@ -226,6 +233,13 @@ function createApp(options) {
         standardHeaders: "draft-8",
         legacyHeaders: false,
         message: { error: { code: "invitation_rate_limit", message: "Muitas tentativas de ativação. Aguarde alguns minutos." } }
+    });
+    const accessRequestLimiter = rateLimit({
+        windowMs: 60 * 60 * 1000,
+        limit: 5,
+        standardHeaders: "draft-8",
+        legacyHeaders: false,
+        message: { error: { code: "access_request_rate_limit", message: "Aguarde antes de enviar uma nova solicitação de acesso." } }
     });
     const leadLimiter = rateLimit({
         windowMs: 60 * 60 * 1000,
@@ -490,6 +504,28 @@ function createApp(options) {
         res.json({ reset: true, message: "Senha alterada. Entre novamente com a nova senha." });
     }));
 
+    app.post("/api/auth/access-requests", noStore, accessRequestLimiter, asyncRoute(async (req, res) => {
+        const input = parse(schemas.accessRequest, req.body);
+        const result = await repository.createAccessRequest(input);
+        if (result.stored && mailer.enabled && typeof mailer.sendAccessRequest === "function") {
+            try {
+                await mailer.sendAccessRequest(result.request);
+            } catch (error) {
+                logger.error("access_request_email_failed", { requestId: req.id, accessRequestId: result.request?.id });
+            }
+        }
+        await recordSecurity(req, {
+            type: "admin_access_request",
+            outcome: "success",
+            subject: input.email,
+            details: { requestedRole: input.requestedRole, stored: Boolean(result.stored) }
+        });
+        res.status(202).json({
+            accepted: true,
+            message: "Solicitação enviada. O administrador analisará o pedido antes de liberar o acesso."
+        });
+    }));
+
     app.post("/api/auth/invitations/accept", noStore, invitationLimiter, asyncRoute(async (req, res) => {
         const input = parse(schemas.invitationAccept, req.body);
         const invitation = await repository.findInvitation(sha256(input.token));
@@ -538,7 +574,7 @@ function createApp(options) {
     app.get("/api/products", asyncRoute(async (req, res) => {
         publicCache(res);
         const items = await repository.listProducts({ publicOnly: true });
-        res.json({ catalog: groupedCatalog(items), mode: "database", updatedAt: new Date().toISOString() });
+        res.json({ catalog: groupedCatalog(items, { publicOnly: true }), mode: "database", updatedAt: new Date().toISOString() });
     }));
 
     app.get("/api/products/:slug", asyncRoute(async (req, res) => {
@@ -546,7 +582,7 @@ function createApp(options) {
         const item = await repository.getPublicProduct(slug);
         if (!item) throw new AppError(404, "product_not_found", "Equipamento não encontrado.");
         publicCache(res);
-        res.json({ type: item.type, product: item.data });
+        res.json({ type: item.type, product: publicProductData(item.data) });
     }));
 
     app.get("/api/articles", asyncRoute(async (req, res) => {
@@ -782,6 +818,38 @@ function createApp(options) {
         res.status(201).json(result);
     }));
 
+    adminRouter.get("/access-requests", auth.requireRole("owner"), asyncRoute(async (req, res) => {
+        const status = ["pending", "approved", "rejected"].includes(String(req.query.status || "pending"))
+            ? String(req.query.status || "pending")
+            : "pending";
+        const requests = await repository.listAccessRequests(status);
+        res.json({ requests, total: requests.length });
+    }));
+
+    adminRouter.post("/access-requests/:id/approve", auth.requireRole("owner"), auth.requireCsrf, asyncRoute(async (req, res) => {
+        const id = parse(schemas.uid, req.params.id);
+        const input = parse(schemas.accessRequestApproval, req.body);
+        const accessRequest = await repository.getAccessRequestByPublicId(id);
+        if (!accessRequest) throw new AppError(404, "access_request_not_found", "Solicitação de acesso não encontrada.");
+        if (accessRequest.status !== "pending") {
+            throw new AppError(409, "access_request_already_reviewed", "Esta solicitação de acesso já foi analisada.");
+        }
+        const result = await createStaffInvitation({
+            name: accessRequest.name,
+            email: accessRequest.email,
+            role: input.role,
+            accessRequestId: id
+        }, req.auth.admin.id);
+        res.status(201).json({ ...result, message: "Solicitação aprovada e convite criado." });
+    }));
+
+    adminRouter.post("/access-requests/:id/reject", auth.requireRole("owner"), auth.requireCsrf, asyncRoute(async (req, res) => {
+        const id = parse(schemas.uid, req.params.id);
+        const input = parse(schemas.accessRequestRejection, req.body);
+        const reviewed = await repository.reviewAccessRequest(id, "rejected", input.note, req.auth.admin.id);
+        res.json({ request: reviewed, message: "Solicitação de acesso recusada." });
+    }));
+
     adminRouter.post("/team/:id/resend-invitation", auth.requireRole("owner"), auth.requireCsrf, asyncRoute(async (req, res) => {
         const id = parse(schemas.uid, req.params.id);
         res.json(await createStaffInvitation({}, req.auth.admin.id, id));
@@ -847,6 +915,9 @@ function createApp(options) {
             res.status(201).json({ product: proposedContent(review), submission: review, requiresApproval: true });
             return;
         }
+        if (input.product._admin?.status === "published") {
+            input.product = parse(schemas.publishableProduct, input.product);
+        }
         const product = await repository.saveProduct(input.type, input.product, req.auth.admin.id);
         res.status(201).json({ product });
     }));
@@ -868,6 +939,9 @@ function createApp(options) {
             }, req.auth.admin.id);
             res.json({ product: proposedContent(review), submission: review, requiresApproval: true });
             return;
+        }
+        if (input.product._admin?.status === "published") {
+            input.product = parse(schemas.publishableProduct, input.product);
         }
         const product = await repository.saveProduct(input.type, input.product, req.auth.admin.id, uid);
         res.json({ product });

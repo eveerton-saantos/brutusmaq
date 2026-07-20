@@ -1,6 +1,8 @@
 "use strict";
 
 const crypto = require("node:crypto");
+const fs = require("node:fs");
+const path = require("node:path");
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const bcrypt = require("bcryptjs");
@@ -29,6 +31,14 @@ test("backup criptografado preserva os dados e rejeita chave incorreta", () => {
     assert.throws(() => decryptBackup(encrypted, "chave-incorreta"));
 });
 
+test("backup e restauração incluem as solicitações de acesso administrativo", () => {
+    const backupSource = fs.readFileSync(path.join(__dirname, "..", "scripts", "backup-database.js"), "utf8");
+    const restoreSource = fs.readFileSync(path.join(__dirname, "..", "scripts", "restore-database.js"), "utf8");
+
+    assert.match(backupSource, /"admin_access_requests"/);
+    assert.match(restoreSource, /"admin_access_requests"/);
+});
+
 class MemoryRepository {
     constructor(passwordHash) {
         this.admin = {
@@ -48,6 +58,7 @@ class MemoryRepository {
         this.mfaChallenges = new Map();
         this.passwordResets = new Map();
         this.invitations = new Map();
+        this.accessRequests = [];
         this.submissions = [];
         this.securityEvents = [];
         this.products = [{
@@ -234,6 +245,52 @@ class MemoryRepository {
     async getAdminByPublicId(publicId) {
         return this.publicAdmin(this.adminByPublicId(publicId));
     }
+    async createAccessRequest(input) {
+        if (this.admins.some((admin) => admin.email === input.email && admin.active)) {
+            return { stored: false, activeAccount: true };
+        }
+        let accessRequest = this.accessRequests.find((item) => item.email === input.email && item.status === "pending");
+        if (accessRequest) {
+            Object.assign(accessRequest, {
+                name: input.name,
+                requestedRole: input.requestedRole,
+                reason: input.reason,
+                updatedAt: new Date().toISOString()
+            });
+        } else {
+            accessRequest = {
+                id: crypto.randomUUID(),
+                name: input.name,
+                email: input.email,
+                requestedRole: input.requestedRole,
+                reason: input.reason,
+                status: "pending",
+                reviewNote: "",
+                reviewedAt: null,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            this.accessRequests.push(accessRequest);
+        }
+        return { stored: true, request: clone(accessRequest) };
+    }
+    async getAccessRequestByPublicId(publicId) {
+        const accessRequest = this.accessRequests.find((item) => item.id === publicId);
+        return accessRequest ? clone(accessRequest) : null;
+    }
+    async listAccessRequests(status) {
+        return clone(this.accessRequests.filter((item) => item.status === (status || "pending")));
+    }
+    async reviewAccessRequest(publicId, status, note) {
+        const accessRequest = this.accessRequests.find((item) => item.id === publicId);
+        if (!accessRequest) throw new AppError(404, "access_request_not_found", "Solicitação de acesso não encontrada.");
+        if (accessRequest.status !== "pending") throw new AppError(409, "access_request_already_reviewed", "Esta solicitação de acesso já foi analisada.");
+        accessRequest.status = status;
+        accessRequest.reviewNote = note || "";
+        accessRequest.reviewedAt = new Date().toISOString();
+        accessRequest.updatedAt = accessRequest.reviewedAt;
+        return clone(accessRequest);
+    }
     async createInvitation(input, invitedBy) {
         const email = String(input.email || "").trim().toLowerCase();
         if (this.admins.some((admin) => admin.email === email)) {
@@ -265,6 +322,15 @@ class MemoryRepository {
             createdAt: new Date()
         };
         this.invitations.set(input.tokenHash, invitation);
+        if (input.accessRequestId) {
+            const accessRequest = this.accessRequests.find((item) => item.id === input.accessRequestId);
+            if (!accessRequest || accessRequest.status !== "pending") {
+                throw new AppError(409, "access_request_already_reviewed", "Esta solicitação de acesso já foi analisada.");
+            }
+            accessRequest.status = "approved";
+            accessRequest.reviewedAt = new Date().toISOString();
+            accessRequest.updatedAt = accessRequest.reviewedAt;
+        }
         return {
             member: this.publicAdmin(admin),
             invitation: { id: invitation.publicId, expiresAt: invitation.expiresAt.toISOString() }
@@ -351,9 +417,10 @@ class MemoryRepository {
     async updateAdmin(publicId, changes) {
         const admin = this.adminByPublicId(publicId);
         if (!admin) throw new AppError(404, "admin_not_found", "Conta não encontrada.");
+        const previousRole = admin.role;
         if (typeof changes.active === "boolean") admin.active = changes.active;
         if (["editor", "viewer"].includes(changes.role)) admin.role = changes.role;
-        if (!admin.active) {
+        if (!admin.active || admin.role !== previousRole) {
             for (const [tokenHash, session] of this.sessions) {
                 if (session.adminId === admin.id) this.sessions.delete(tokenHash);
             }
@@ -716,7 +783,8 @@ async function setup(options) {
             enabled: false,
             sendLead: async () => ({ delivered: true }),
             sendPasswordReset: async () => ({ delivered: false }),
-            sendInvitation: async () => ({ delivered: false })
+            sendInvitation: async () => ({ delivered: false }),
+            sendAccessRequest: async () => ({ delivered: false })
         },
         mediaService: {
             saveImage: async (file, alt) => ({
@@ -797,6 +865,7 @@ test("API pública, 404 e cabeçalhos de segurança", async () => {
     assert.doesNotMatch(products.headers["content-security-policy"], /script-src[^;]*'unsafe-inline'/);
     assert.doesNotMatch(products.headers["content-security-policy"], /style-src[^;]*'unsafe-inline'/);
     assert.match(products.headers["content-security-policy"], /style-src-attr 'none'/);
+    assert.match(products.headers["content-security-policy"], /frame-src[^;]*https:\/\/www\.youtube-nocookie\.com/);
     assert.doesNotMatch(products.headers["content-security-policy"], /fonts\.googleapis|fonts\.gstatic/);
     assert.equal(products.headers["x-content-type-options"], "nosniff");
     const health = await request(app).get("/api/health").expect(200);
@@ -855,6 +924,141 @@ test("login usa cookie, exige CSRF e permite CRUD de produto", async () => {
     await agent.post(`/api/admin/products/${encodeURIComponent(uid)}/restore`)
         .set("Origin", "http://localhost")
         .set("X-CSRF-Token", csrf)
+        .expect(200);
+});
+
+test("máquina usada completa sobrevive ao cadastro e chega íntegra à API pública", async () => {
+    const { app } = await setup();
+    const agent = request.agent(app);
+    const csrf = await login(agent);
+    const product = {
+        id: "tr-900-usada-qa",
+        modelo: "TR-900 Usada QA",
+        categoria: "Triturador industrial de duplo eixo",
+        resumo: "Resumo sentinela da máquina usada.",
+        descricao: "Descrição técnica completa e exclusiva da máquina usada.",
+        aplicacoes: ["Reciclagem de plástico rígido", "Redução de volume industrial"],
+        materiais: ["PEAD", "PP"],
+        ano: "2022",
+        condicao: "Revisada e testada",
+        garantia: "90 dias",
+        localizacao: "Contenda - PR, pátio QA",
+        status: "Disponível",
+        statusSlug: "disponivel",
+        statusClasse: "status-disponivel",
+        imagemPrincipal: "assets/main/tr-700.webp",
+        imagem: "assets/main/tr-700.webp",
+        alt: "TR-900 usada fotografada no pátio QA",
+        observacaoImagens: "Fotos reais realizadas para a validação.",
+        galeria: [{ src: "assets/main/tr-800-disp-mobile.webp", alt: "Vista lateral" }],
+        specs: [["Potência instalada", "2 x 30 cv"]],
+        notaTecnica: "A produção varia conforme o material.",
+        oQueAcompanha: ["Painel elétrico", "Jogo de facas reserva"],
+        avaliacaoTecnica: ["Rolamentos inspecionados", "Teste sem carga aprovado"],
+        informacoesComerciais: [["Preço", "R$ 321.987,00"], ["Transporte", "FOB Contenda"]],
+        cardsInformativos: ["pagamento", "potencia", "ano", "localizacao"],
+        youtubeId: "abcdefghijk",
+        url: "maquina-usada.html?id=tr-900-usada-qa",
+        _admin: {
+            status: "published",
+            visible: true,
+            sku: "US-TR900-QA",
+            priority: true
+        }
+    };
+
+    await agent.post("/api/admin/products")
+        .set("Origin", "http://localhost")
+        .set("X-CSRF-Token", csrf)
+        .send({ type: "used", product })
+        .expect(201);
+
+    const detail = await request(app).get("/api/products/tr-900-usada-qa").expect(200);
+    assert.equal(detail.body.type, "used");
+    assert.equal(detail.body.product.resumo, product.resumo);
+    assert.equal(detail.body.product.descricao, product.descricao);
+    assert.deepEqual(detail.body.product.aplicacoes, product.aplicacoes);
+    assert.deepEqual(detail.body.product.materiais, product.materiais);
+    assert.equal(detail.body.product.ano, product.ano);
+    assert.deepEqual(detail.body.product.oQueAcompanha, product.oQueAcompanha);
+    assert.deepEqual(detail.body.product.avaliacaoTecnica, product.avaliacaoTecnica);
+    assert.deepEqual(detail.body.product.informacoesComerciais, product.informacoesComerciais);
+    assert.deepEqual(detail.body.product.cardsInformativos, product.cardsInformativos);
+    assert.equal(detail.body.product.observacaoImagens, product.observacaoImagens);
+    assert.equal(detail.body.product.youtubeId, product.youtubeId);
+    assert.equal(detail.body.product._admin, undefined);
+
+    const catalog = await request(app).get("/api/products").expect(200);
+    const listed = catalog.body.catalog.usados.find((item) => item.id === product.id);
+    assert.ok(listed);
+    assert.equal(listed.resumo, product.resumo);
+    assert.deepEqual(listed.cardsInformativos, product.cardsInformativos);
+    assert.equal(listed._admin, undefined);
+});
+
+test("pedido de acesso depende de aprovação e respeita o perfil escolhido pelo owner", async () => {
+    const { app } = await setup();
+    await request(app).post("/api/auth/access-requests")
+        .set("Origin", "https://site-malicioso.example")
+        .send({ name: "Origem Externa", email: "externo@brutusmaq.test", requestedRole: "editor", reason: "Teste" })
+        .expect(403);
+    const publicRequest = await request(app).post("/api/auth/access-requests")
+        .set("Origin", "http://localhost")
+        .send({
+            name: "Pessoa Solicitante",
+            email: "acesso@brutusmaq.test",
+            requestedRole: "editor",
+            reason: "Preciso cadastrar produtos."
+        })
+        .expect(202);
+    assert.equal(publicRequest.body.accepted, true);
+
+    const owner = request.agent(app);
+    const ownerCsrf = await login(owner);
+    const pending = await owner.get("/api/admin/access-requests?status=pending").expect(200);
+    assert.equal(pending.body.total, 1);
+    const accessRequest = pending.body.requests[0];
+    assert.equal(accessRequest.email, "acesso@brutusmaq.test");
+
+    const approved = await owner.post(`/api/admin/access-requests/${encodeURIComponent(accessRequest.id)}/approve`)
+        .set("Origin", "http://localhost")
+        .set("X-CSRF-Token", ownerCsrf)
+        .send({ role: "viewer" })
+        .expect(201);
+    assert.equal(approved.body.member.role, "viewer");
+    const token = invitationToken(approved.body.setupUrl);
+    assert.ok(token);
+
+    await request(app).post("/api/auth/invitations/accept")
+        .set("Origin", "http://localhost")
+        .send({ token, password: "SenhaDoLeitor!2026" })
+        .expect(200);
+
+    const viewer = request.agent(app);
+    await loginAs(viewer, "acesso@brutusmaq.test", "SenhaDoLeitor!2026");
+    const viewerSession = await viewer.get("/api/auth/session").expect(200);
+    assert.equal(viewerSession.body.user.role, "viewer");
+    await viewer.get("/api/admin/access-requests").expect(403);
+    const roleChanged = await owner.patch(`/api/admin/team/${encodeURIComponent(approved.body.member.id)}`)
+        .set("Origin", "http://localhost")
+        .set("X-CSRF-Token", ownerCsrf)
+        .send({ role: "editor" })
+        .expect(200);
+    assert.equal(roleChanged.body.member.role, "editor");
+    await viewer.get("/api/auth/session").expect(401);
+    await owner.get("/api/admin/access-requests?status=pending").expect(200)
+        .expect((response) => assert.equal(response.body.total, 0));
+
+    await request(app).post("/api/auth/access-requests")
+        .set("Origin", "http://localhost")
+        .send({ name: "Outro Pedido", email: "recusar@brutusmaq.test", requestedRole: "viewer", reason: "Consulta." })
+        .expect(202);
+    const secondQueue = await owner.get("/api/admin/access-requests?status=pending").expect(200);
+    const rejectedId = secondQueue.body.requests[0].id;
+    await owner.post(`/api/admin/access-requests/${encodeURIComponent(rejectedId)}/reject`)
+        .set("Origin", "http://localhost")
+        .set("X-CSRF-Token", ownerCsrf)
+        .send({ note: "Acesso ainda não necessário." })
         .expect(200);
 });
 
@@ -980,7 +1184,10 @@ test("owner convida editor e controla publicação por análise sem retirar a ve
 
     const published = await request(app).get("/api/products/tr-editor").expect(200);
     assert.equal(published.body.product.modelo, "TR Editor");
-    const productUid = published.body.product._admin.uid;
+    assert.equal(published.body.product._admin, undefined);
+    const editorBootstrap = await editor.get("/api/admin/bootstrap").expect(200);
+    const editableProduct = editorBootstrap.body.catalog.novos.find((item) => item.id === "tr-editor");
+    const productUid = editableProduct._admin.uid;
     assert.ok(productUid);
 
     const edited = await editor.put(`/api/admin/products/${encodeURIComponent(productUid)}`)
@@ -989,11 +1196,11 @@ test("owner convida editor e controla publicação por análise sem retirar a ve
         .send({
             type: "new",
             product: {
-                ...published.body.product,
+                ...editableProduct,
                 id: "tr-editor-revisada",
                 modelo: "TR Editor Revisada",
                 descricao: "Alteração que ainda depende de aprovação.",
-                _admin: { ...published.body.product._admin, status: "published", visible: true }
+                _admin: { ...editableProduct._admin, status: "published", visible: true }
             }
         });
     assert.ok([200, 202].includes(edited.status), `edição para análise retornou HTTP ${edited.status}`);
