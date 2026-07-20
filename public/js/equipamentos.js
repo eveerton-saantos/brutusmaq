@@ -1,6 +1,6 @@
 (function () {
     const HERO_STORAGE_KEY = "brutusmaq-equipamentos-hero-anterior";
-    const HERO_FALLBACK_IMAGE = "assets/main/tr-700.png";
+    const HERO_FALLBACK_IMAGE = "assets/main/tr-700.webp";
 
     const categorias = {
         trituradores: {
@@ -19,7 +19,15 @@
             titulo: "Esteiras",
             rowSelector: "#esteiras .equipamentos-products-row",
             emptyText: "Nenhuma esteira cadastrada no momento.",
-            maisTexto: "Ver mais esteiras"
+            maisTexto: "Ver mais esteiras",
+            aliases: ["esteiras-transportadoras"]
+        },
+        "outros-equipamentos": {
+            titulo: "Outros equipamentos",
+            rowSelector: "#outros-equipamentos .equipamentos-products-row",
+            emptyText: "Nenhum equipamento complementar cadastrado no momento.",
+            maisTexto: "Ver mais equipamentos",
+            aliases: ["outros"]
         }
     };
     const LIMITE_PRODUTOS_DESKTOP = 4;
@@ -193,7 +201,8 @@
             return;
         }
 
-        const produtosDaCategoria = ordenarProdutos(produtos.filter((produto) => produto.categoriaSlug === slug));
+        const categorySlugs = new Set([slug, ...(config.aliases || [])]);
+        const produtosDaCategoria = ordenarProdutos(produtos.filter((produto) => categorySlugs.has(produto.categoriaSlug)));
         const limite = limiteProdutosVisiveis();
 
         row.id = `${slug}-produtos`;
@@ -238,7 +247,12 @@
             return null;
         }
 
-        return document.querySelector(`.equipamentos-tabs a[href="${hash}"]`);
+        const canonicalHash = {
+            "#esteiras-transportadoras": "#esteiras",
+            "#outros": "#outros-equipamentos"
+        }[hash] || hash;
+
+        return document.querySelector(`.equipamentos-tabs a[href="${canonicalHash}"]`);
     }
 
     function configurarTabsCategorias() {
@@ -250,6 +264,7 @@
         tabs.forEach((tab) => {
             tab.addEventListener("click", () => {
                 ativarTabCategoria(tab);
+                tab.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
             });
         });
 
@@ -257,6 +272,13 @@
 
         if (tabInicial) {
             ativarTabCategoria(tabInicial);
+            if (window.location.hash) {
+                const secaoInicial = document.querySelector(tabInicial.getAttribute("href"));
+                window.requestAnimationFrame(() => {
+                    secaoInicial?.scrollIntoView({ block: "start" });
+                    tabInicial.scrollIntoView({ block: "nearest", inline: "center" });
+                });
+            }
         }
 
         window.addEventListener("hashchange", () => {
@@ -264,6 +286,7 @@
 
             if (tabPorHash) {
                 ativarTabCategoria(tabPorHash);
+                tabPorHash.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
             }
         });
 
@@ -294,7 +317,8 @@
         secoes.forEach((secao) => observador.observe(secao));
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
+        await Promise.resolve(window.BrutusmaqCatalogReady);
         const produtos = window.brutusmaqProdutosNovos || [];
 
         renderizarHero(produtos);

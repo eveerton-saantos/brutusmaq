@@ -14,24 +14,20 @@
     <meta property="og:site_name" content="Brutusmaq">
     <meta property="og:title" content="Equipamento industrial usado | Brutusmaq">
     <meta property="og:description" content="Confira condição, informações técnicas e formas de atendimento para equipamentos usados Brutusmaq.">
-    <meta property="og:image" content="https://www.brutusmaq.com.br/assets/main/tr-700.png">
-
+    <meta property="og:image" content="https://www.brutusmaq.com.br/assets/main/tr-700.webp">
     <script type="application/ld+json" id="produtoUsadoJsonLd">{}</script>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Teko:wght@400;500;600;700&display=swap');
-    </style>
-
     <link rel="shortcut icon" href="assets/main/favicon-brutusmaq.svg" type="image/x-icon">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/maquina-usada.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/style.css?v=20260719e">
+    <link rel="stylesheet" href="css/product-page.css?v=20260719e">
+    <link rel="stylesheet" href="css/maquina-usada.css?v=20260719e">
+    <link rel="stylesheet" href="css/header.css?v=20260719e">
+    <link rel="stylesheet" href="css/footer.css?v=20260719e">
+    <link rel="stylesheet" href="css/layout.css?v=20260719e">
 </head>
 
-<body>
-            <header class="header flex">
+<body class="used-product-body">
+    <header class="header flex">
         <a href="index.html" class="header-brand" aria-label="Página inicial da Brutusmaq">
             <img src="assets/logo/logo-brutusmaq.svg" alt="Logo Brutusmaq" class="header-logo">
         </a>
@@ -51,7 +47,7 @@
                         <div class="product-dropdown-grid home-mega-grid">
                             <section class="home-mega-column" aria-labelledby="mega-trituradores">
                                 <a class="home-mega-media" href="equipamentos.html#trituradores" aria-label="Ver trituradores">
-                                    <img src="assets/main/tr-700.png" alt="Triturador industrial TR-700 Brutusmaq">
+                                    <img src="assets/main/tr-700.webp" alt="Triturador industrial TR-700 Brutusmaq">
                                 </a>
                                 <div>
                                     <h2 id="mega-trituradores">Trituradores</h2>
@@ -63,7 +59,7 @@
 
                             <section class="home-mega-column" aria-labelledby="mega-moinhos">
                                 <a class="home-mega-media" href="equipamentos.html#moinhos" aria-label="Ver moinhos">
-                                    <img src="assets/main/tr-700.png" alt="Moinho industrial M-600 Brutusmaq">
+                                    <img src="assets/main/tr-700.webp" alt="Moinho industrial M-600 Brutusmaq">
                                 </a>
                                 <div>
                                     <h2 id="mega-moinhos">Moinhos</h2>
@@ -73,7 +69,7 @@
 
                             <section class="home-mega-column home-mega-highlight" aria-labelledby="mega-usados">
                                 <a class="home-mega-media" href="usadas.html" aria-label="Ver equipamentos usados">
-                                    <img src="assets/main/tr-800-disp-mobile.png" alt="">
+                                    <img src="assets/main/tr-800-disp-mobile.webp" alt="">
                                 </a>
                                 <div>
                                     <h2 id="mega-usados">Equipamentos usados</h2>
@@ -95,195 +91,173 @@
         </nav>
 
         <div class="home-header-actions" aria-label="Atendimento Brutusmaq">
-            <a href="contato.html?tipo=proposta-tecnica#proposta-tecnica" class="header-cta">Solicitar proposta</a>
+            <a href="contato.html?tipo=equipamento-usado" class="header-cta">Solicitar proposta</a>
         </div>
     </header>
 
-    <main class="maquina-usada-page" id="conteudo-principal">
-        <section class="produto-usado-hero" aria-labelledby="produtoTitulo">
-            <div class="produto-usado-hero-overlay" aria-hidden="true"></div>
+    <main class="product-page product-page--used" id="conteudo-principal">
+        <section class="product-hero" aria-labelledby="produtoTitulo">
+            <div class="product-container">
+                <nav class="product-breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Início</a>
+                    <span aria-hidden="true">/</span>
+                    <a href="equipamentos.html">Equipamentos</a>
+                    <span aria-hidden="true">/</span>
+                    <a href="usadas.html">Usadas</a>
+                    <span aria-hidden="true">/</span>
+                    <strong id="produtoBreadcrumb" aria-current="page">Equipamento usado</strong>
+                </nav>
 
-            <div class="produto-usado-container produto-usado-hero-inner">
-                <div class="produto-usado-copy">
-                    <nav class="produto-usado-breadcrumb" aria-label="Breadcrumb">
-                        <a href="index.html">Início</a>
-                        <span aria-hidden="true">›</span>
-                        <a href="usadas.html">Usadas</a>
-                        <span aria-hidden="true">/</span>
-                        <strong id="produtoBreadcrumb" aria-current="page">TR-1000 usado</strong>
-                    </nav>
+                <div class="product-top-grid">
+                    <article class="product-gallery-card" aria-label="Galeria do equipamento">
+                        <span class="product-badge status-sob-consulta" id="produtoStatus">Sob consulta</span>
 
-                    <span class="produto-status status-disponivel" id="produtoStatus">Disponível para venda</span>
-
-                    <h1 id="produtoTitulo">TR-1000 <strong>usado</strong></h1>
-                    <h2 id="produtoCategoria">Triturador industrial</h2>
-                    <p id="produtoDescricao">
-                        Consulte a condição atual, a ficha técnica e as informações comerciais deste equipamento usado.
-                    </p>
-
-                    <div class="produto-usado-hero-actions produto-usado-hero-actions-desktop">
-                        <a href="contato.html?tipo=equipamento-usado" class="produto-btn-primary" data-produto-proposta>Solicitar proposta</a>
-                        <button type="button" class="produto-btn-outline" id="abrirSolicitacaoHero" data-open-video-modal>Pedir vídeo ou teste</button>
-                    </div>
-
-                    <div class="produto-usado-info-grid" aria-label="Resumo do equipamento">
-                        <div>
-                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-relogio-laranja.svg" alt=""></span>
-                            <strong>Ano</strong>
-                            <small id="produtoAno">2019</small>
+                        <button type="button" class="product-gallery-arrow product-gallery-prev" aria-label="Imagem anterior">&#8249;</button>
+                        <div class="product-main-photo produto-main-photo" tabindex="0" aria-label="Imagem principal do equipamento. Use as setas do teclado para navegar.">
+                            <img id="produtoImagemPrincipal" data-fallback-src="assets/main/tr-700.webp" alt="" fetchpriority="high" decoding="async">
                         </div>
-                        <div>
-                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-avaliacao-laranja.svg" alt=""></span>
-                            <strong>Condição</strong>
-                            <small id="produtoCondicao">Revisado e testado</small>
-                        </div>
-                        <div>
-                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-garantia-laranja.svg" alt=""></span>
-                            <strong>Garantia</strong>
-                            <small id="produtoGarantia">Garantia Brutusmaq</small>
-                        </div>
-                        <div>
-                            <span aria-hidden="true"><img src="assets/icones-laranjas/icone-mapa-brasil-laranja.svg" alt=""></span>
-                            <strong>Localização</strong>
-                            <small id="produtoLocalizacao">Contenda - PR</small>
-                        </div>
-                    </div>
-                </div>
+                        <button type="button" class="product-gallery-arrow product-gallery-next" aria-label="Próxima imagem">&#8250;</button>
 
-                <div class="produto-usado-hero-machine">
-                    <img id="produtoImagemPrincipal" data-fallback-src="assets/main/tr-700.png" alt="" fetchpriority="high" decoding="async">
-                    <div class="produto-usado-image-caption">
-                        <span>Condição atual</span>
-                        <strong id="produtoBadgeCondicao">Consulte a avaliação técnica</strong>
-                    </div>
-                </div>
+                        <div class="produto-galeria-thumbs product-thumbs" id="produtoGaleriaThumbs" aria-label="Miniaturas da galeria"></div>
+                        <p class="product-media-note" id="produtoMediaNote">Solicite fotos reais e atualizadas desta unidade.</p>
+                    </article>
 
-                <div class="produto-usado-hero-actions produto-usado-hero-actions-mobile" aria-label="Ações do equipamento">
-                    <a href="contato.html?tipo=equipamento-usado" class="produto-btn-primary" data-produto-proposta>Solicitar proposta</a>
-                    <button type="button" class="produto-btn-outline" data-open-video-modal>Pedir vídeo ou teste</button>
+                    <aside class="product-summary" aria-label="Resumo do equipamento usado">
+                        <span class="product-overline" id="produtoLinhaResumo">Equipamento usado Brutusmaq</span>
+                        <h1 id="produtoTitulo">Máquina <strong>usada</strong></h1>
+                        <h2 id="produtoCategoria">Equipamento industrial</h2>
+                        <p id="produtoResumo">Consulte a condição atual e as informações desta unidade.</p>
+
+                        <div class="product-actions">
+                            <a href="contato.html?tipo=equipamento-usado" class="product-btn product-btn-primary" data-produto-proposta>Solicitar proposta</a>
+                            <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="product-btn product-btn-whatsapp" data-whatsapp-produto-usado><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
+                        </div>
+
+                        <div class="product-trust-grid product-used-meta" id="produtoCardsResumo" aria-label="Dados principais da unidade"></div>
+                    </aside>
                 </div>
             </div>
         </section>
 
-        <section class="produto-overview-section" aria-label="Galeria e especificações do equipamento">
-            <div class="produto-usado-container produto-overview-grid">
-                <article class="produto-card produto-galeria-card">
-                    <h2>Galeria do equipamento</h2>
-                    <div class="produto-galeria-layout">
-                        <figure class="produto-main-photo" aria-label="Imagem principal do equipamento">
-                            <img alt="" decoding="async">
-                        </figure>
-                        <div class="produto-galeria-thumbs" aria-label="Miniaturas da galeria">
-                            <button type="button" class="active"><img alt="" loading="lazy" decoding="async"></button>
-                            <button type="button"><img alt="" loading="lazy" decoding="async"></button>
-                            <button type="button"><img alt="" loading="lazy" decoding="async"></button>
-                            <button type="button"><img alt="" loading="lazy" decoding="async"></button>
+        <section class="product-technical" id="produtoContentSection" aria-label="Descrição e informações técnicas">
+            <div class="product-container">
+                <div class="product-info-grid">
+                    <article class="product-about" id="produtoDescriptionCard">
+                        <span class="product-overline">Sobre esta unidade</span>
+                        <h2 id="produtoSobreTitulo">Condição e histórico do equipamento</h2>
+                        <div class="product-about-copy" id="produtoSobreTexto">
+                            <p id="produtoDescricao">As informações detalhadas desta unidade serão apresentadas aqui.</p>
                         </div>
-                    </div>
-                    <p class="produto-media-note" id="produtoMediaNote">Solicite fotos reais e atualizadas do equipamento.</p>
-                </article>
+                    </article>
 
-                <article class="produto-card produto-spec-card">
-                    <h2>Especificações técnicas</h2>
-                    <div class="produto-spec-table" id="produtoSpecTable">
-                        <div><strong>Modelo</strong><span>TR-1000</span></div>
-                        <div><strong>Tipo</strong><span>Triturador de duplo eixo</span></div>
-                        <div><strong>Motor elétrico</strong><span>150 CV</span></div>
-                        <div><strong>Boca de alimentação</strong><span>1000 x 800 mm</span></div>
-                        <div><strong>Caixa de moagem</strong><span>1000 mm</span></div>
-                        <div><strong>Rotor</strong><span>Ø 400 mm</span></div>
-                        <div><strong>Quantidade de facas</strong><span>40 unidades</span></div>
-                        <div><strong>Produção aproximada</strong><span>Até 2,5 ton/h*</span></div>
-                        <div><strong>Peso aproximado</strong><span>2.400 kg</span></div>
-                        <div><strong>Dimensões</strong><span>2.100 x 1.600 x 2.100 mm</span></div>
-                        <div><strong>Tensão</strong><span>220 / 380 / 440 / 660 V</span></div>
-                        <div><strong>Reversão automática</strong><span>Sim</span></div>
-                    </div>
-                    <p class="produto-spec-note">* A produção pode variar conforme o tipo de material, granulometria e condições de operação.</p>
-                </article>
+                    <article class="product-panel product-specs-card">
+                        <span class="product-panel-label">Ficha do equipamento</span>
+                        <h2>Principais especificações</h2>
+                        <div class="produto-spec-table product-spec-table" id="produtoSpecTable"></div>
+                        <p class="product-note" id="produtoSpecNote">As informações técnicas correspondem ao cadastro atual desta unidade.</p>
+                    </article>
+                </div>
+
+                <div class="product-used-uses-grid" id="produtoUseGrid">
+                    <article class="product-used-use-card" id="produtoApplicationsCard">
+                        <span class="product-panel-label">Uso recomendado</span>
+                        <h3>Aplicações indicadas</h3>
+                        <p id="produtoAplicacoesTexto">A aplicação final deve ser validada conforme o material e o processo.</p>
+                        <div class="product-used-chip-list" id="produtoAplicacoes"></div>
+                    </article>
+
+                    <article class="product-used-use-card" id="produtoMaterialsCard">
+                        <span class="product-panel-label">Processamento</span>
+                        <h3>Materiais cadastrados</h3>
+                        <p>Materiais informados para esta unidade e disponíveis na solicitação de teste.</p>
+                        <ul class="product-used-chip-list" id="produtoMateriais"></ul>
+                    </article>
+                </div>
             </div>
         </section>
 
-        <section class="produto-details-section" aria-label="Informações, funcionamento e revisões">
-            <div class="produto-usado-container produto-details-grid">
-                <article class="produto-card produto-video-card">
-                    <h2>Veja em funcionamento</h2>
-                    <p>Consulte os vídeos disponíveis ou solicite um teste com o material que você pretende processar.</p>
+        <section class="product-operation product-used-operation" aria-label="Condições comerciais e funcionamento">
+            <div class="product-container">
+                <header class="product-operation-heading">
+                    <span class="product-overline">Negociação da unidade</span>
+                    <h2>Condições e funcionamento</h2>
+                    <p>Consulte as condições comerciais desta unidade e veja o equipamento em operação.</p>
+                </header>
 
-                    <div class="produto-youtube-player">
-                        <iframe
-                            id="produtoYoutubeFrame"
-                            src="https://www.youtube.com/embed?listType=search&list=Brutusmaq%20TR-1000%20triturador"
-                            title="Vídeo do equipamento usado em funcionamento"
-                            loading="lazy"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen>
-                        </iframe>
-                    </div>
+                <div class="product-lower-grid product-used-operation-grid">
+                    <article class="product-applications product-used-conditions">
+                        <h3>Condições comerciais</h3>
+                        <p>Valores e condições atuais informados para esta unidade.</p>
+                        <div class="product-used-info-list product-used-operation-list" id="produtoInfoComercial"></div>
+                        <p class="product-note" id="produtoGuaranteeNote">Garantia e serviços conforme negociação.</p>
+                    </article>
 
-                    <div class="produto-video-actions">
-                        <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="produto-btn-primary" data-whatsapp-produto-usado><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
-                        <button type="button" class="produto-btn-outline" id="abrirSolicitacaoVideo" data-open-video-modal>Solicitar vídeo <span aria-hidden="true">↗</span></button>
-                    </div>
-                </article>
-
-                <article class="produto-card produto-inclusos-card">
-                    <h2>O que acompanha</h2>
-                    <ul class="produto-dot-list" id="produtoItensInclusos">
-                        <li>Itens confirmados na proposta comercial</li>
-                    </ul>
-                </article>
-
-                <article class="produto-card produto-revisoes-card">
-                    <h2>Avaliação técnica</h2>
-                    <ul class="produto-check-list" id="produtoRevisoes">
-                        <li>Condição detalhada sob consulta</li>
-                    </ul>
-                </article>
+                    <article class="product-highlights">
+                        <h3>Equipamento em funcionamento</h3>
+                        <div class="product-highlight-layout">
+                            <div class="product-video-frame">
+                                <iframe
+                                    id="produtoYoutubeFrame"
+                                    title="Vídeo do equipamento usado em funcionamento"
+                                    loading="lazy"
+                                    tabindex="-1"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div class="product-video-copy">
+                                <span class="product-video-label">Teste desta unidade</span>
+                                <p>Peça um vídeo atualizado ou solicite um teste com o material da sua operação.</p>
+                                <button type="button" class="product-video-request" id="abrirSolicitacaoVideo" data-open-video-modal>Solicitar vídeo ou teste</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
             </div>
         </section>
 
-        <section class="produto-commerce-section" aria-label="Informações comerciais e sustentabilidade">
-            <div class="produto-usado-container produto-commerce-grid">
-                <article class="produto-card produto-commercial-card">
-                    <h2>Informações comerciais</h2>
-                    <div class="produto-info-list" id="produtoInfoComercial">
-                        <div><strong>Preço</strong><span>Consultar valor</span></div>
-                        <div><strong>Disponibilidade</strong><span>Imediata</span></div>
-                        <div><strong>Prazo de entrega</strong><span>A combinar</span></div>
-                        <div><strong>Condições de pagamento</strong><span>Entrada + parcelamento</span></div>
-                        <div><strong>Aceita proposta?</strong><span>Sim</span></div>
-                        <div><strong>Máquina na troca</strong><span>Aceitamos</span></div>
-                        <div><strong>Transporte</strong><span>Por conta do cliente ou a combinar</span></div>
-                    </div>
-                    <p class="produto-guarantee-note" id="produtoGuaranteeNote">Garantia e serviços conforme negociação.</p>
-                </article>
+        <section class="product-catalog-support product-used-support" aria-label="Detalhes da unidade e equipamentos relacionados">
+            <div class="product-container">
+                <div class="product-section-title product-used-section-title">
+                    <h2>Detalhes desta unidade</h2>
+                    <p>Itens incluídos e verificações já realizadas para apoiar uma decisão mais rápida e segura.</p>
+                </div>
 
-                <article class="produto-card produto-circular-card">
-                    <h2>Uma compra com mais<br><strong>contexto técnico</strong></h2>
-                    <p>Antes da decisão, nossa equipe ajuda a entender o estado atual, o que acompanha a máquina e quais serviços fazem parte da negociação.</p>
-                    <div class="produto-circular-grid">
-                        <div><img src="assets/icones-laranjas/icone-avaliacao-laranja.svg" alt="" aria-hidden="true"><strong>Condição informada</strong></div>
-                        <div><img src="assets/icones-brancos/icone-checklist-branco.svg" alt="" aria-hidden="true"><strong>Ficha técnica</strong></div>
-                        <div><img src="assets/icones-laranjas/icone-atendimento-laranja.svg" alt="" aria-hidden="true"><strong>Vídeo ou teste</strong></div>
-                        <div><img src="assets/icones-laranjas/icone-assistencia-tecnica-laranja.svg" alt="" aria-hidden="true"><strong>Suporte na escolha</strong></div>
+                <div class="product-used-details-grid">
+                    <article class="product-panel product-used-detail-card" id="produtoIncludedCard">
+                        <span class="product-panel-label">Itens da unidade</span>
+                        <h2>O que acompanha</h2>
+                        <ul class="product-used-list product-used-list--dots" id="produtoItensInclusos"></ul>
+                    </article>
+
+                    <article class="product-panel product-used-detail-card" id="produtoAssessmentCard">
+                        <span class="product-panel-label">Verificações realizadas</span>
+                        <h2>Avaliação técnica</h2>
+                        <ul class="product-used-list product-used-list--checks" id="produtoRevisoes"></ul>
+                    </article>
+
+                </div>
+
+                <section class="product-related" aria-label="Outros equipamentos usados">
+                    <div class="product-section-title">
+                        <h2>Outros equipamentos usados</h2>
                     </div>
-                </article>
+                    <div class="product-related-row" id="productRelatedRow"></div>
+                </section>
             </div>
         </section>
 
-        <section class="produto-final-bar" aria-label="Atendimento Brutusmaq">
-            <div class="produto-usado-container produto-final-bar-inner">
-                <div class="produto-whatsapp-mark" aria-hidden="true"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt=""></div>
+        <section class="product-cta-band" aria-label="Atendimento Brutusmaq">
+            <div class="product-container product-cta-inner">
                 <div>
-                    <h2>Fale com um especialista agora mesmo!</h2>
-                    <p>Nossa equipe está pronta para tirar suas dúvidas e apresentar a melhor solução para o seu negócio.</p>
+                    <span class="product-cta-label">Equipamento usado Brutusmaq</span>
+                    <h2>Quer avaliar esta unidade para <strong>a sua operação?</strong></h2>
+                    <p>Envie o material, a capacidade desejada e suas dúvidas para receber fotos, vídeo, condições comerciais e orientação técnica.</p>
                 </div>
-                <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="produto-btn-primary" data-whatsapp-produto-usado><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
-                <a href="contato.html?tipo=equipamento-usado" class="produto-btn-outline" data-produto-proposta>Solicitar proposta técnica <span aria-hidden="true">→</span></a>
-                <div class="produto-service-badge">
-                    <span aria-hidden="true">✓</span>
-                    <strong>Atendimento rápido e personalizado</strong>
+                <div class="product-cta-actions">
+                    <a href="contato.html?tipo=equipamento-usado" class="product-btn product-btn-primary" data-produto-proposta>Solicitar proposta técnica</a>
+                    <a href="https://wa.me/5541988754003" target="_blank" rel="noopener" class="product-btn product-btn-whatsapp" data-whatsapp-produto-usado><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Falar no WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -296,36 +270,25 @@
             <p>Conte para a equipe que tipo de material você quer ver em funcionamento. A solicitação será enviada pelo WhatsApp.</p>
 
             <label for="modalProduto">Equipamento</label>
-            <input id="modalProduto" name="produto" type="text" value="TR-1000 usado" readonly>
+            <input id="modalProduto" name="produto" type="text" value="Equipamento usado" readonly>
 
             <label for="modalMaterial">Material para teste</label>
             <select id="modalMaterial" name="material">
                 <option value="Ainda não sei - preciso de orientação">Ainda não sei / preciso de orientação</option>
-                <option value="Plásticos rígidos">Plásticos rígidos</option>
-                <option value="Filmes, sacarias e aparas plásticas">Filmes, sacarias e aparas plásticas</option>
-                <option value="Madeira, pallets e MDF">Madeira, pallets e MDF</option>
-                <option value="Papel e papelão">Papel e papelão</option>
-                <option value="Borracha e pneus">Borracha e pneus</option>
-                <option value="Metais e sucatas leves">Metais e sucatas leves</option>
-                <option value="Cabos e fios elétricos">Cabos e fios elétricos</option>
-                <option value="Resíduos eletrônicos">Resíduos eletrônicos</option>
-                <option value="Espumas, tecidos e fibras">Espumas, tecidos e fibras</option>
-                <option value="Biomassa e resíduos orgânicos">Biomassa e resíduos orgânicos</option>
-                <option value="Resíduos industriais mistos">Resíduos industriais mistos</option>
                 <option value="Outro material">Outro material</option>
             </select>
 
             <label for="modalDetalhes">O que você gostaria de ver?</label>
-            <textarea id="modalDetalhes" name="detalhes" rows="4" placeholder="Ex.: vídeo triturando aparas plásticas, volume aproximado por hora, condição das facas, ruído, painel elétrico..."></textarea>
+            <textarea id="modalDetalhes" name="detalhes" rows="4" placeholder="Ex.: vídeo processando o material, condição das facas, painel elétrico ou teste sem carga."></textarea>
 
             <div class="produto-modal-actions">
-                <button type="submit" class="produto-btn-primary"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Enviar pelo WhatsApp</button>
-                <a href="contato.html?tipo=equipamento-usado" class="produto-btn-outline">Ir para formulário <span aria-hidden="true">↗</span></a>
+                <button type="submit" class="product-btn product-btn-primary"><img class="whatsapp-btn-icon" src="assets/icones-brancos/icone-whatsapp-branco.svg" alt="" aria-hidden="true">Enviar pelo WhatsApp</button>
+                <a href="contato.html?tipo=equipamento-usado" class="product-btn product-btn-email" data-produto-proposta>Continuar por e-mail</a>
             </div>
         </form>
     </dialog>
 
-<footer class="footer site-footer">
+    <footer class="footer site-footer">
         <div class="site-footer-main">
             <div class="site-footer-container site-footer-grid">
                 <section class="site-footer-brand" aria-label="Brutusmaq">
@@ -383,9 +346,12 @@
         </div>
     </footer>
 
-    <script src="js/catalogo-produtos.js"></script>
-    <script src="js/header.js"></script>
-    <script src="js/maquina-usada.js"></script>
+    <script src="js/catalogo-produtos.js?v=20260719e"></script>
+    <script src="js/catalogo-store.js?v=20260719e"></script>
+    <script src="js/header.js?v=20260719e"></script>
+    <script src="js/privacy-consent.js?v=20260719e"></script>
+    <script src="js/analytics-store.js?v=20260719e"></script>
+    <script src="js/maquina-usada.js?v=20260719e"></script>
 </body>
 
 </html>

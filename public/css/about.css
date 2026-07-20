@@ -19,7 +19,7 @@ body {
     display: flex;
     background:
         linear-gradient(90deg, rgba(4, 5, 5, 0.96) 0%, rgba(4, 5, 5, 0.86) 38%, rgba(4, 5, 5, 0.28) 68%, rgba(4, 5, 5, 0.48) 100%),
-        url("../assets/fachada-empresa/fachada-empresa-backgournd.png") center / cover no-repeat;
+        url("../assets/fachada-empresa/fachada-empresa-backgournd.webp") center / cover no-repeat;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -646,7 +646,7 @@ body {
     .about-hero {
         background:
             linear-gradient(90deg, rgba(4, 5, 5, 0.96) 0%, rgba(4, 5, 5, 0.82) 56%, rgba(4, 5, 5, 0.5) 100%),
-            url("../assets/fachada-empresa/fachada-empresa-backgournd.png") 58% center / cover no-repeat;
+            url("../assets/fachada-empresa/fachada-empresa-backgournd.webp") 58% center / cover no-repeat;
     }
 
     .about-hero-inner {
@@ -781,7 +781,7 @@ body {
     .about-hero {
         background:
             linear-gradient(180deg, rgba(4, 5, 5, 0.82), rgba(4, 5, 5, 0.93)),
-            url("../assets/fachada-empresa/fachada-empresa-backgournd.png") 65% center / cover no-repeat;
+            url("../assets/fachada-empresa/fachada-empresa-backgournd.webp") 65% center / cover no-repeat;
     }
 
     .about-hero-inner {

@@ -307,7 +307,7 @@ html {
 
 .equipamentos-tabs {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 8px;
 }
 
@@ -370,6 +370,7 @@ html {
 }
 
 .equipamentos-tabs a[href="#esteiras"] strong,
+.equipamentos-tabs a[href="#outros-equipamentos"] strong,
 .equipamentos-tabs a[href="#usados"] strong {
     font-size: 19px;
 }
@@ -762,6 +763,7 @@ html {
     }
 
     .equipamentos-tabs a[href="#esteiras"] strong,
+    .equipamentos-tabs a[href="#outros-equipamentos"] strong,
     .equipamentos-tabs a[href="#usados"] strong {
         font-size: 17px;
     }
@@ -855,6 +857,7 @@ html {
 
     .equipamentos-tabs strong,
     .equipamentos-tabs a[href="#esteiras"] strong,
+    .equipamentos-tabs a[href="#outros-equipamentos"] strong,
     .equipamentos-tabs a[href="#usados"] strong {
         font-size: 19px;
     }
@@ -1028,6 +1031,7 @@ html {
 
     .equipamentos-tabs strong,
     .equipamentos-tabs a[href="#esteiras"] strong,
+    .equipamentos-tabs a[href="#outros-equipamentos"] strong,
     .equipamentos-tabs a[href="#usados"] strong {
         font-size: 17px;
     }
@@ -1048,6 +1052,7 @@ html {
 
     .equipamentos-category-copy h2,
     #titulo-esteiras,
+    #titulo-outros-equipamentos,
     .equipamentos-used-card .equipamentos-category-copy h2 {
         max-width: 100%;
         font-size: 40px;
@@ -1193,6 +1198,7 @@ html {
 
     .equipamentos-category-copy h2,
     #titulo-esteiras,
+    #titulo-outros-equipamentos,
     .equipamentos-used-card .equipamentos-category-copy h2 {
         font-size: 36px;
     }
@@ -1633,6 +1639,7 @@ html {
     .equipamentos-category-section,
     #moinhos,
     #esteiras,
+    #outros-equipamentos,
     #usados,
     .equipamentos-spec-section {
         padding: 76px 0 82px;
@@ -1697,6 +1704,7 @@ html {
 
     .equipamentos-category-copy h2,
     #titulo-esteiras,
+    #titulo-outros-equipamentos,
     .equipamentos-used-card .equipamentos-category-copy h2,
     .equipamentos-spec-heading h2,
     .equipamentos-cta-box h2 {

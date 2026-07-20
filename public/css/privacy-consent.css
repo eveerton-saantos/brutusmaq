@@ -1,0 +1,210 @@
+.privacy-consent[hidden] {
+    display: none;
+}
+
+.privacy-consent {
+    position: fixed;
+    z-index: 1200;
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 20px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-left: 4px solid #f06a18;
+    background: #101412;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.32);
+    color: #fff;
+}
+
+.privacy-consent-copy {
+    max-width: 700px;
+}
+
+.privacy-consent-copy > span,
+.privacy-preferences-head > span {
+    display: block;
+    margin-bottom: 5px;
+    color: #f58a45;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.privacy-consent-copy strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.privacy-consent-copy p,
+.privacy-preferences-head p {
+    margin: 0;
+    color: #c8ceca;
+    font-size: 0.84rem;
+    line-height: 1.55;
+}
+
+.privacy-consent-copy a {
+    display: inline-block;
+    margin-top: 7px;
+    color: #fff;
+    font-size: 0.78rem;
+    text-underline-offset: 3px;
+}
+
+.privacy-consent-actions,
+.privacy-preferences-actions {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 9px;
+}
+
+.privacy-consent button,
+.privacy-preferences button,
+.privacy-footer-button {
+    min-height: 42px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 0 15px;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.privacy-consent-primary {
+    border-color: #f06a18 !important;
+    background: #f06a18;
+    color: #fff;
+}
+
+.privacy-consent-secondary {
+    border-color: #59615d !important;
+    background: transparent;
+    color: inherit;
+}
+
+.privacy-preferences {
+    width: min(560px, calc(100% - 32px));
+    max-height: calc(100vh - 32px);
+    overflow: auto;
+    border: 1px solid #d7dcda;
+    border-radius: 6px;
+    padding: 0;
+    background: #fff;
+    color: #111512;
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.32);
+}
+
+.privacy-preferences::backdrop {
+    background: rgba(4, 8, 6, 0.7);
+}
+
+.privacy-preferences form {
+    padding: 26px;
+}
+
+.privacy-preferences-head {
+    margin-bottom: 22px;
+}
+
+.privacy-preferences-head h2 {
+    margin: 0 0 6px;
+    color: #111512;
+    font-family: "Poppins", sans-serif;
+    font-size: 1.35rem;
+    line-height: 1.25;
+    text-transform: none;
+}
+
+.privacy-preferences-head p {
+    color: #5d6761;
+}
+
+.privacy-preference-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 17px 0;
+    border-top: 1px solid #e6e9e7;
+    cursor: pointer;
+}
+
+.privacy-preference-row div {
+    display: grid;
+    gap: 3px;
+}
+
+.privacy-preference-row small {
+    color: #667069;
+    font-size: 0.78rem;
+    line-height: 1.45;
+}
+
+.privacy-preference-row input {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+    accent-color: #e85d04;
+}
+
+.privacy-preferences-actions {
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.privacy-preferences .privacy-consent-secondary {
+    color: #202622;
+}
+
+.privacy-footer-button {
+    min-height: 0;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+    .privacy-consent {
+        right: 12px;
+        bottom: 12px;
+        left: 12px;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 15px;
+        padding: 18px;
+    }
+
+    .privacy-consent-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .privacy-consent-actions button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 430px) {
+    .privacy-consent-actions,
+    .privacy-preferences-actions {
+        grid-template-columns: 1fr;
+        flex-direction: column-reverse;
+    }
+
+    .privacy-preferences-actions button {
+        width: 100%;
+    }
+}

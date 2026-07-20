@@ -194,7 +194,7 @@ body {
     background-color: #070808;
     background-image:
         linear-gradient(90deg, rgba(4, 5, 5, 0.97) 0%, rgba(4, 5, 5, 0.84) 42%, rgba(4, 5, 5, 0.22) 72%, rgba(4, 5, 5, 0.28) 100%),
-        url("../assets/imagens-fundo/brutusmaq-index-background.png");
+        url("../assets/imagens-fundo/brutusmaq-index-background.webp");
     background-position: center, right center;
     background-repeat: no-repeat;
     background-size: cover, auto 100%;
@@ -463,7 +463,6 @@ body {
 }
 
 .home-equipment-used {
-    grid-column: span 2;
     background: linear-gradient(180deg, rgba(115, 185, 66, 0.12), rgba(18, 19, 19, 1));
 }
 
@@ -596,7 +595,7 @@ body {
     padding: 104px 0 110px;
     background:
         linear-gradient(110deg, rgba(8, 9, 9, 0.98), rgba(16, 27, 16, 0.94)),
-        url("../assets/imagens-fundo/fundo-pagina-index.png") center / cover no-repeat;
+        url("../assets/imagens-fundo/fundo-pagina-index.webp") center / cover no-repeat;
 }
 
 .home-sustainability .home-section-label {
@@ -891,7 +890,7 @@ body {
         background-color: #070808;
         background-image:
             linear-gradient(90deg, rgba(4, 5, 5, 0.97) 0%, rgba(4, 5, 5, 0.88) 58%, rgba(4, 5, 5, 0.52) 100%),
-            url("../assets/imagens-fundo/brutusmaq-index-background.png");
+            url("../assets/imagens-fundo/brutusmaq-index-background.webp");
         background-position: center, 68% center;
         background-repeat: no-repeat;
         background-size: cover, auto 100%;
@@ -998,7 +997,7 @@ body {
         background-color: #070808;
         background-image:
             linear-gradient(90deg, rgba(4, 5, 5, 0.97) 0%, rgba(4, 5, 5, 0.92) 62%, rgba(4, 5, 5, 0.68) 100%),
-            url("../assets/imagens-fundo/brutusmaq-index-background.png");
+            url("../assets/imagens-fundo/brutusmaq-index-background.webp");
         background-position: center, 70% center;
         background-repeat: no-repeat;
         background-size: cover, auto 100%;

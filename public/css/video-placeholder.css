@@ -1,0 +1,47 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 24px;
+    display: grid;
+    place-items: center;
+    color: #f4f4f1;
+    background: #111212;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.video-placeholder {
+    max-width: 440px;
+}
+
+.video-placeholder-icon {
+    margin-bottom: 14px;
+    display: block;
+    color: #ff6200;
+    font-size: 34px;
+    line-height: 1;
+}
+
+.video-placeholder strong {
+    margin-bottom: 8px;
+    display: block;
+    color: #ff6200;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.video-placeholder small,
+.video-placeholder span:last-child {
+    color: #c7c9c6;
+    font-size: 14px;
+    line-height: 1.5;
+}
+

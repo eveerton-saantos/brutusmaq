@@ -6,6 +6,22 @@ Esta atualizacao moderniza a experiencia visual e funcional do site Brutusmaq em
 
 ## Principais alteracoes
 
+### Painel administrativo e catalogo local
+
+- Painel conectado a uma camada unica de dados compartilhada com as paginas publicas.
+- Cadastro, edicao, rascunho, revisao, publicacao e exclusao de produtos funcionando no navegador.
+- Exclusao protegida por confirmacao e acompanhada de uma acao persistente para desfazer.
+- Produtos em rascunho, revisao ou marcados como ocultos nao aparecem no site publico.
+- Imagens locais validadas por formato e tamanho antes do armazenamento.
+- Importacao e exportacao de backups em JSON com validacao e limpeza de conteudo inseguro.
+- Restauracao do catalogo-base disponivel no proprio painel.
+- IDs duplicados bloqueados no salvamento e na importacao.
+- Registro incorreto `SHESHE` corrigido para `TR-700` e tres copias duplicadas removidas.
+
+O armazenamento atual utiliza `localStorage`, portanto as alteracoes valem para o navegador e a origem em que foram feitas. Para administrar o catalogo globalmente depois do deploy, ainda sera necessario conectar `public/js/catalogo-store.js` a um banco/API com autenticacao no servidor. Nao deve ser adicionada uma senha diretamente ao JavaScript publico.
+
+Arquivos principais: `public/painel-admin.html`, `public/css/admin.css`, `public/js/admin.js`, `public/js/catalogo-store.js` e `public/js/catalogo-produtos.js`.
+
 ### Cabecalho e navegacao
 
 - Cabecalho ampliado e padronizado em todas as paginas do site.
@@ -99,6 +115,32 @@ Arquivos principais: `public/usadas.html`, `public/css/usadas.css` e `public/js/
 - Artigos, categorias, sidebar, newsletter e demais estruturas da pagina foram preservados.
 
 Arquivos principais: `public/blog.html` e `public/css/blog.css`.
+
+### Pagina individual de artigo
+
+- Redesign completo alinhado a pagina Sobre Nos e as demais fichas atuais do site.
+- Hero escuro passou a exibir a capa real do artigo, titulo, categoria, resumo, autoria, data e tempo de leitura.
+- Conteudo recebeu faixa clara com largura confortavel, hierarquia editorial e blocos dinamicos para beneficios, aplicacoes e pontos importantes.
+- Indice lateral e automatico permite navegar entre os topicos do artigo e destaca a secao atual durante a leitura.
+- Barra fixa indica o progresso da leitura.
+- Compartilhamento real por WhatsApp, LinkedIn e e-mail, alem de copia do link e impressao do artigo.
+- Navegacao para artigos anterior e seguinte, relacionados por categoria e CTA tecnico ao final da pagina.
+- Metadados sociais, canonical e JSON-LD Article sao atualizados conforme o artigo carregado.
+- Slugs inexistentes agora encaminham o visitante para a pagina 404 personalizada.
+- Layout foi validado em desktop e mobile sem rolagem horizontal.
+
+Arquivos principais: `public/artigo-blog.html`, `public/css/blog-article.css` e `public/js/blog-article.js`.
+
+### Pagina de erro 404
+
+- Criacao de uma pagina de recuperacao no padrao visual Brutusmaq, com hero fotografico da fabrica e contraste responsivo.
+- Acoes para voltar ao inicio, retornar a pagina anterior e pesquisar diretamente no conteudo tecnico.
+- Atalhos para equipamentos, maquinas usadas, blog e contato reduzem becos sem saida na navegacao.
+- Erros originados por um artigo exibem mensagem contextual e botao direto para voltar ao Blog.
+- Uso de `base href="/"` mantem imagens, estilos e links funcionando quando o endereco invalido esta em uma rota aninhada.
+- Pagina marcada com `noindex, follow`, preservando a navegacao sem indexar o erro.
+
+Arquivos principais: `public/404.html`, `public/css/error-page.css` e `public/js/error-page.js`.
 
 ### Solicitacao de proposta e contato
 
@@ -236,6 +278,7 @@ Arquivos principais: `public/termos-de-uso.html` e `public/css/termos.css`.
 - `public/sobre-nos.html`
 - `public/blog.html`
 - `public/artigo-blog.html`
+- `public/404.html`
 - `public/politica-de-privacidade.html`
 - `public/termos-de-uso.html`
 
@@ -260,9 +303,33 @@ Arquivos principais: `public/termos-de-uso.html` e `public/css/termos.css`.
 - Dashboard com indicadores de catalogo, pendencias de cadastro, atividade recente e checklist de publicacao.
 - Area de produtos com busca, filtros por tipo e status, listagem de equipamentos novos e usados e acesso ao fluxo de edicao.
 - Formulario de produto com identificacao, categoria, imagem principal, galeria, conteudo comercial, ficha tecnica, disponibilidade e dados especificos para maquinas usadas.
+- Area editorial do blog com busca, filtros por categoria e status, resumo no dashboard e controle dos artigos existentes.
+- Editor de artigos com titulo, slug automatico, categoria, autor, resumo, capa, texto alternativo, introducao, secoes dinamicas, beneficios, aplicacoes, destaques e tempo de leitura automatico.
+- Fluxo editorial com rascunho, revisao, publicacao, visibilidade publica, destaque entre populares e acesso direto ao artigo publicado.
+- Acoes de duplicacao, exclusao com confirmacao, desfazer exclusao, importacao, exportacao e restauracao dos artigos-base.
+- Artigos publicados e visiveis sao carregados pela listagem e pela pagina individual; rascunhos, itens em revisao e artigos ocultos permanecem fora do site publico.
+- Produtos e artigos agora possuem persistencia local compartilhada por `localStorage`, com validacao e normalizacao dos dados antes de salvar.
 - Navegacao responsiva e interacoes locais para avaliar o fluxo antes da integracao com API e banco de dados.
 - Pagina mantida fora da navegacao publica e marcada com `noindex`, `nofollow` e `noarchive`.
-- Nesta etapa nao existe autenticacao, autorizacao, persistencia ou upload real. A protecao efetiva devera ser implementada no servidor antes de publicar o painel em producao.
+- Nesta etapa nao existe autenticacao, autorizacao, banco compartilhado ou upload de midia no servidor. Os dados ficam restritos ao navegador atual; a protecao e a publicacao global deverao ser implementadas no backend antes de expor o painel em producao.
+
+Arquivos principais: `public/painel-admin.html`, `public/css/admin.css`, `public/js/admin.js`, `public/js/admin-blog.js`, `public/js/catalogo-store.js`, `public/js/blog-store.js`, `public/blog.html` e `public/artigo-blog.html`.
+
+## Dashboard de desempenho
+
+- Criacao da area `Desempenho` como primeira visao do painel, antes de `Visao geral`.
+- Indicadores para visualizacoes de equipamentos, cliques em proposta, contatos por WhatsApp atribuidos a produtos, formularios confirmados e leituras de artigos.
+- Filtros para hoje, 7 dias, 30 dias, 12 meses e todo o historico, com comparacao ao periodo anterior quando aplicavel.
+- Grafico de tendencia para procura, contatos e artigos, funil comercial e rankings de equipamentos e artigos.
+- Motivos dos formularios confirmados e saude da coleta com eventos, sessoes anonimas, acessos 404 e falhas de envio.
+- Coleta anonima adicionada aos 12 arquivos publicos e carregada tambem pelo painel interno, totalizando 13 HTML. Nenhum nome, e-mail, telefone, mensagem ou endereco IP e salvo nas metricas.
+- Eventos mantidos por ate 400 dias, com limite de 15.000 registros locais e identificador de sessao anonimo.
+- O formulario registra tentativa, sucesso somente apos confirmacao do servico e falha de envio. O fallback tradicional preserva apenas o contexto tecnico do produto por ate uma hora.
+- Exportacao em JSON e limpeza completa do historico com confirmacao.
+- Atualizacao automatica do painel quando outra aba da mesma origem registra uma interacao.
+- A coleta atual usa `localStorage` e, portanto, mostra somente as interacoes feitas nesta origem e neste navegador. Para reunir visitantes reais em producao sera necessario enviar os eventos para uma API protegida, com autenticacao do painel e armazenamento central.
+
+Arquivos principais: `public/painel-admin.html`, `public/css/admin-analytics.css`, `public/js/analytics-store.js`, `public/js/admin-analytics.js`, `public/js/admin.js` e `public/js/contact-page.js`.
 
 ## Validacoes executadas
 
@@ -272,6 +339,14 @@ Arquivos principais: `public/termos-de-uso.html` e `public/css/termos.css`.
 - Conferencia de existencia dos novos assets.
 - Verificacao de chaves CSS e JavaScript balanceadas.
 - Verificacao de codificacao UTF-8 e acentuacao.
+- Teste do fluxo editorial no navegador: cadastro, publicacao, pagina individual, retorno a rascunho, duplicacao, exclusao, desfazer e restauracao dos artigos-base.
+- Teste da busca de artigos, contadores do dashboard e ausencia de erros no console das paginas administrativa e publica.
+- Teste das metricas com equipamento novo e usado, proposta, WhatsApp, leitura e compartilhamento de artigo e acesso 404.
+- Teste da atualizacao automatica entre abas, filtros de periodo, ranking, funil, grafico e limpeza confirmada do historico.
+- Inspecao responsiva do dashboard em desktop e 375 px, incluindo menu lateral e ausencia de estouro horizontal.
+- Inspecao visual da pagina individual de artigo e da pagina 404 em desktop e mobile.
+- Teste do indice, progresso de leitura, compartilhamento, artigos relacionados, CTA final e redirecionamento de artigo inexistente.
+- Conferencia dos metadados sociais, canonical e JSON-LD Article preenchidos dinamicamente.
 
 Nao foi disparada uma proposta real durante os testes para evitar o envio de uma solicitacao falsa ao e-mail comercial. A visualizacao automatizada de arquivos locais tambem foi limitada pela politica de seguranca do navegador do ambiente.
 
